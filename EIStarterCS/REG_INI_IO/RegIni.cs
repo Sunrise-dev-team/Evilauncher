@@ -11,50 +11,151 @@ namespace EIStarterCS
     //TODO: EI .reg support, WinRegistry full support
     class RegIni
     {
+        public enum Mode : ushort
+        {
+            Win,
+            EI,
+            INI
+        }
         public RegIni(string name) { }
         public RegIni(REGedit reg) {
-            this.reg = reg;
-            isini = false;
+            this.winreg = reg;
+            isini = Mode.Win;
         }
         public RegIni(IniFile ini) {
             this.ini = ini;
-            isini = true;
+            isini = Mode.INI;
         }
-        private bool isini = true;
-        private REGedit reg;
-        private IniFile ini;
+        public RegIni(EIREGfile eireg) {
+            this.eireg = eireg;
+            isini = Mode.EI;
+        }
+        /// <summary>
+        /// Init for "Win or Ini" in Options support
+        /// </summary>
+        /// <param name="winreg"></param>
+        /// <param name="ini"></param>
+        public RegIni(REGedit winreg, IniFile ini, Mode mode = Mode.Win) {
+            this.winreg = winreg;
+            this.ini = ini;
+            isini = mode;
+        }
+        public void SetMode(Mode mode)
+        {
+            this.isini = mode;
+        }
+        private Mode isini = Mode.INI;
+        private readonly REGedit winreg;
+        private readonly EIREGfile eireg;
+        private readonly IniFile ini;
 
         public bool GetBool(string key, string section = "nil")
         {
-            if (isini)
+            if (isini == Mode.INI)
             {
                 return GetBool(ini, key, section);
             }
+            else if (isini == Mode.EI)
+            {
+                return false;
+            }
             else
             {
-                return GetBool(reg, key, section);
+                return GetBool(winreg, key, section);
+            }
+        }
+        public void SetBool(string key, bool val, string section = "nil")
+        {
+            if (isini == Mode.INI)
+            {
+                //return false;
+                //return SetBool(ini, key, section);
+            }
+            else if (isini == Mode.EI)
+            {
+                //return false;
+            }
+            else
+            {
+                SetBool(winreg, key, val, section);
             }
         }
         public int GetInt(string key, string section = "nil")
         {
-            if (isini)
+            if (isini == Mode.INI)
             {
                 return GetInt(ini, key, section);
             }
+            else if (isini == Mode.EI)
+            {
+                return -1;
+            }
             else
             {
-                return GetInt(reg, key, section);
+                return GetInt(winreg, key, section);
+            }
+        }
+        public void SetInt(string key, int val, string section = "nil")
+        {
+            if (isini == Mode.INI)
+            {
+                //return false;
+                //return SetBool(ini, key, section);
+            }
+            else if (isini == Mode.EI)
+            {
+                //return false;
+            }
+            else
+            {
+                SetInt(winreg, key, val, section);
             }
         }
         public string GetStr(string key, string section = "nil")
         {
-            if (isini)
+            if (isini == Mode.INI)
             {
                 return GetStr(ini, key, section);
             }
+            else if (isini == Mode.EI)
+            {
+                return GetStr(eireg, key, section);
+            }
             else
             {
-                return GetStr(reg, key, section);
+                return GetStr(winreg, key, section);
+            }
+        }
+        public void SetStr(string key, string val, string section = "nil")
+        {
+            if (isini == Mode.INI)
+            {
+                //return false;
+                //return SetBool(ini, key, section);
+            }
+            else if (isini == Mode.EI)
+            {
+                //return false;
+            }
+            else
+            {
+                SetStr(winreg, key, val, section);
+            }
+        }
+        public float GetFlt(string key, string section = "nil")
+        {
+            if (isini == Mode.INI)
+            {
+                return GetFlt(ini, key, section);
+            }
+            else if (isini == Mode.EI)
+            {
+                return -1.0f;
+                //return GetFlt(winreg, key, section);
+            }
+            else
+            {
+                return GetFlt(winreg, key, section);
             }
         }
 
@@ -80,6 +181,16 @@ namespace EIStarterCS
             var outp = Convert.ToString(Convert.ToInt32(val));
             ini.Write(key, outp, section);
         }
+        public void SetBool(REGedit reg, string key, bool val, string section = "nil")
+        {
+            if (section != "nil")
+                reg.SwitchSubKeyPath(section);
+            //if (!String.IsNullOrWhiteSpace(ini.Read(key, section)))
+            //    return Convert.ToBoolean(Convert.ToInt32(ini.Read(key, section)));
+            //return false;
+            //var outp = Convert.ToBoolean(Convert.ToInt32(val));
+            reg.Write(key, val, section);
+        }
         /////////////////////////////////////////////////////////////////////
         public int GetInt(IniFile ini, string key, string section)
         {
@@ -92,42 +203,75 @@ namespace EIStarterCS
             if (section != "nil")
                 reg.SwitchSubKeyPath(section);
             return Convert.ToInt32(reg.Read(key, 0));
-            //MessageBox.Show(reg.Read(key, 0)+"\r\n"+section);
+            //MessageBox.Show(winreg.Read(key, 0)+"\r\n"+section);
+        }
+        public void SetInt(REGedit reg, string key, int val, string section = "nil")
+        {
+            if (section != "nil")
+                reg.SwitchSubKeyPath(section);
+            reg.Write(key, val, section);
         }
         /////////////////////////////////////////////////////////////////////
         public float GetFlt(IniFile ini, string key, string section)
         {
             if (!String.IsNullOrWhiteSpace(ini.Read(key, section)))
             {
-                //    return Convert.ToDouble(ini.Read(key, section));
-                //return -1;
                 float number;
                 if (float.TryParse(ini.Read(key, section), NumberStyles.Float, CultureInfo.InvariantCulture, out number))
                 {
                     // Преобразование прошло успешно - переменная 'number' содержит число
                     return number;
                 }
-                //else
-                //{
                 // Не удалось преобразовать строку в число
-                //}
             }
             return -1.0f;
+        }
+        public static float BytesToSingle(byte[] bytes)
+        {
+            return BitConverter.ToSingle(bytes, 0);
+        }
+        public float GetFlt(REGedit reg, string key, string section = "nil")
+        {
+            if (section != "nil")
+                reg.SwitchSubKeyPath(section);
+
+            var temp = reg.ReadB(key, null);
+            if (temp == null || !(temp is byte[]) )
+            {
+                return -1.0f;
+                //ERR: Не удалось преобразовать строку в число
+            }
+            return BytesToSingle(temp);
         }
         /////////////////////////////////////////////////////////////////////
         public string GetStr(IniFile ini, string key, string section)
         {
-            if (!String.IsNullOrWhiteSpace(ini.Read(key, section)))
-                return ini.Read(key, section);
+            var temp = ini.Read(key, section);
+            if (!string.IsNullOrWhiteSpace(temp))
+                return temp;
             return "";
         }
         public string GetStr(REGedit reg, string key, string section = "nil")
         {
             if (section != "nil")
                 reg.SwitchSubKeyPath(section);
-            if (!String.IsNullOrWhiteSpace(reg.Read(key,null)))
-                return reg.Read(key, null);
+            var temp = reg.Read(key, null);
+            if (!string.IsNullOrWhiteSpace(temp))
+                return temp;
             return "";
+        }
+        public string GetStr(EIREGfile ini, string key, string section = "nil")
+        {
+            var temp = ini.Read(key, section);
+            if (!string.IsNullOrWhiteSpace(temp))
+                return temp;
+            return "";
+        }
+        public void SetStr(REGedit reg, string key, string val, string section = "nil")
+        {
+            if (section != "nil")
+                reg.SwitchSubKeyPath(section);
+            reg.Write(key, val, section);
         }
     }
 }

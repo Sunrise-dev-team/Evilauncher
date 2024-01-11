@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -120,153 +121,159 @@ namespace EIStarterCS
         }
         private void initSettings()
         {
-            //TODO: registry support
-            bool isini = false;
-            if (isini == true)
+            //TODO: registry/ini switch support
+
+            RegIni.Mode DataSource = RegIni.Mode.Win;
+
+            IniFile gameini = new IniFile("Engine/config/game.ini");
+            IniFile addonini = new IniFile("Engine/addon.ini");
+
+            REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
+            REGedit game = new REGedit("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
+
+            RegIni ri = new RegIni(game, gameini, DataSource);
+            RegIni ri2 = new RegIni(addon, addonini, DataSource);
+
+            //ri.SetMode(DataSource);
+            //ri2.SetMode(DataSource);
+
+
+            checkBox1.Checked = ri.GetBool("fullscreen", "general settings");
+            checkBox2.Checked = ri.GetBool("mipmapping", "general settings");
+            checkBox3.Checked = ri.GetBool("antialiasing", "general settings");
+            checkBox4.Checked = ri.GetBool("dithering", "general settings");
+            checkBox6.Checked = ri.GetBool("FPSIndependentCursor", "general settings");
+            //checkBox7.Checked = GetBool(game, "safesound", "general settings");
+
+            numericUpDown1.Value = ri2.GetInt("LandscapeDrawRadius", "settings");
+            numericUpDown2.Value = ri2.GetInt("ObjectsDrawRadius", "settings");
+
+            comboBox2.SelectedIndex = ri.GetInt("TextureQuality", "general settings");
+            comboBox3.SelectedIndex = ri.GetInt("filtering", "general settings");
+            comboBox8.SelectedIndex = ri.GetInt("audio", "general settings");
+            comboBox7.SelectedIndex = ri.GetInt("video", "general settings");
+            comboBox4.SelectedIndex = ri.GetInt("shadowquality", "shadow settings");
+
+            AdapterBox.SelectedIndex = ri.GetInt("drawingtarget", "general settings");
+            ResolutionsBox.SelectedIndex = ResolutionsBox.Items.IndexOf(ri.GetStr("videoresolution", "general settings"));
+
+            int terrainQuality;
+            if (ri.GetBool("EnableWaterWaves", "terrain settings"))
+                terrainQuality = 0;
+            else if (ri.GetFlt("LOD1", "terrain settings") == 90.0f && ri.GetFlt("LOD2", "terrain settings") == 130.0f)
+                terrainQuality = 1;
+            else
+                terrainQuality = 2;
+            comboBox5.SelectedIndex = terrainQuality;
+
+            int lightingFreq;
+            if (ri.GetInt("LIGHTINGFREQ", "terrain settings") == 1000)
+                lightingFreq = 0;
+            else if (ri.GetInt("LIGHTINGFREQ", "terrain settings") == 10000)
+                lightingFreq = 1;
+            else
+                lightingFreq = 2;
+            comboBox6.SelectedIndex = lightingFreq;
+
+            int shadowingFreq;
+            if (ri.GetInt("SHADOWINGFREQ", "terrain settings") == 1000)
+                shadowingFreq = 0;
+            else if (ri.GetInt("SHADOWINGFREQ", "terrain settings") == 10000)
+                shadowingFreq = 1;
+            else
+                shadowingFreq = 2;
+            comboBox1.SelectedIndex = shadowingFreq;
+
+            return;
+        }
+
+        private void ApplySettings()
+        {
+            //TODO: registry/ini switch support
+
+            RegIni.Mode DataSource = RegIni.Mode.Win;
+
+            IniFile gameini = new IniFile("Engine/config/game.ini");
+            IniFile addonini = new IniFile("Engine/addon.ini");
+
+            REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
+            REGedit game = new REGedit("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
+
+            RegIni ri = new RegIni(game, gameini, DataSource);
+            RegIni ri2 = new RegIni(addon, addonini, DataSource);
+
+
+            ri.SetBool("fullscreen", checkBox1.Checked, "general settings");
+            ri.SetBool("mipmapping", checkBox2.Checked, "general settings");
+            ri.SetBool("antialiasing", checkBox3.Checked, "general settings");
+            ri.SetBool("dithering", checkBox4.Checked, "general settings");
+            ri.SetBool("FPSIndependentCursor", checkBox6.Checked, "general settings");
+
+            numericUpDown1.Value = ri2.GetInt("LandscapeDrawRadius", "settings");
+            numericUpDown2.Value = ri2.GetInt("ObjectsDrawRadius", "settings");
+
+            ri.SetInt("TextureQuality", comboBox2.SelectedIndex, "general settings");
+            ri.SetInt("filtering", comboBox3.SelectedIndex, "general settings");
+            ri.SetInt("audio", comboBox8.SelectedIndex, "general settings");
+            ri.SetInt("video", comboBox7.SelectedIndex, "general settings");
+            ri.SetInt("shadowquality", comboBox4.SelectedIndex, "shadow settings");
+
+
+            ri.SetInt("drawingtarget", AdapterBox.SelectedIndex, "general settings");
+            ri.SetStr("videoresolution", ResolutionsBox.SelectedItem.ToString(), "general settings"); //TODO: add resolution validation
+            
+
+            int terrainQuality = comboBox5.SelectedIndex;
+            if (terrainQuality < 2)
             {
-                /*
-                IniFile game = new IniFile("Engine/config/game.ini");
-                IniFile addon = new IniFile("Engine/addon.ini");
-                checkBox1.Checked = GetBool(game, "fullscreen", "general settings");
-                checkBox2.Checked = GetBool(game, "mipmapping", "general settings");
-                checkBox3.Checked = GetBool(game, "antialiasing", "general settings");
-                checkBox4.Checked = GetBool(game, "dithering", "general settings");
-                checkBox6.Checked = GetBool(game, "FPSIndependentCursor", "general settings");
-                //checkBox7.Checked = GetBool(game, "safesound", "general settings");
-
-                numericUpDown1.Text = GetStr(addon, "LandscapeDrawRadius", "settings");
-                numericUpDown2.Text = GetStr(addon, "ObjectsDrawRadius", "settings");
-
-                comboBox2.SelectedIndex = GetInt(game, "TextureQuality", "general settings");
-                comboBox3.SelectedIndex = GetInt(game, "filtering", "general settings");
-                comboBox8.SelectedIndex = GetInt(game, "audio", "general settings");
-                comboBox7.SelectedIndex = GetInt(game, "video", "general settings");
-                comboBox4.SelectedIndex = GetInt(game, "shadowquality", "shadow settings");
-                AdapterBox.SelectedIndex = GetInt(game, "drawingtarget", "general settings");
-                ResolutionsBox.SelectedIndex = ResolutionsBox.Items.IndexOf(GetStr(game, "videoresolution", "general settings"));
-
-                int terrainQuality;
-                if (GetBool(game, "EnableWaterWaves", "terrain settings"))
-                {
-                    terrainQuality = 0;
-                }
-                else if (GetFlt(game, "LOD1", "terrain settings") == 90.0f && GetFlt(game, "LOD2", "terrain settings") == 130.0f)
-                {
-                    terrainQuality = 1;
-                }
+                //ri.SetFlt("LOD1", 90.0f, "terrain settings");
+                //ri.SetFlt("LOD2", 130.0f, "terrain settings");
+                if (terrainQuality == 0)
+                    ri.SetBool("EnableWaterWaves", true, "terrain settings");
                 else
-                {
-                    terrainQuality = 2;
-                }
-                comboBox5.SelectedIndex = terrainQuality;//m_cbTerrainQuality.SetCurSel(terrainQuality);
-
-                int lightingFreq;
-                if (GetInt(game, "LIGHTINGFREQ", "terrain settings") == 1000)
-                {
-                    lightingFreq = 0;
-                }
-                else if (GetInt(game, "LIGHTINGFREQ", "terrain settings") == 10000)
-                {
-                    lightingFreq = 1;
-                }
-                else
-                {
-                    lightingFreq = 2;
-                }
-                comboBox6.SelectedIndex = lightingFreq;
-
-                int shadowingFreq;
-                if (GetInt(game, "SHADOWINGFREQ", "terrain settings") == 1000)
-                {
-                    shadowingFreq = 0;
-                }
-                else if (GetInt(game, "SHADOWINGFREQ", "terrain settings") == 10000)
-                {
-                    shadowingFreq = 1;
-                }
-                else
-                {
-                    shadowingFreq = 2;
-                }
-                comboBox1.SelectedIndex = shadowingFreq;
-                */
+                    ri.SetBool("EnableWaterWaves", false, "terrain settings");
             }
             else
             {
-                //var defsec = "Software\\Gipat.ru\\EI_Starter\\EvilIslands\\";
-                REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
-                REGedit game = new REGedit("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
-                RegIni ri = new RegIni(game);
-                checkBox1.Checked = ri.GetBool("fullscreen", "general settings");
-                checkBox2.Checked = ri.GetBool("mipmapping", "general settings");
-                checkBox3.Checked = ri.GetBool("antialiasing", "general settings");
-                checkBox4.Checked = ri.GetBool("dithering", "general settings");
-                checkBox6.Checked = ri.GetBool("FPSIndependentCursor", "general settings");
-                //checkBox7.Checked = GetBool(game, "safesound", "general settings");
-/*
-                numericUpDown1.Text = GetStr(addon, "LandscapeDrawRadius", "settings");
-                numericUpDown2.Text = GetStr(addon, "ObjectsDrawRadius", "settings");
-                */
+                //ri.SetFlt("LOD1", /*FIXME: ??? - 90.0f - ???, "terrain settings");
+                //ri.SetFlt("LOD2", ??? - 130.0f - ???, "terrain settings");
+                ri.SetBool("EnableWaterWaves", false, "terrain settings");
+            }
 
-                comboBox2.SelectedIndex = ri.GetInt("TextureQuality", "general settings");
-                comboBox3.SelectedIndex = ri.GetInt("filtering", "general settings");
-                comboBox8.SelectedIndex = ri.GetInt("audio", "general settings");
-                comboBox7.SelectedIndex = ri.GetInt("video", "general settings");
-                comboBox4.SelectedIndex = ri.GetInt("shadowquality", "shadow settings");
-                AdapterBox.SelectedIndex = ri.GetInt("drawingtarget", "general settings");
-                ResolutionsBox.SelectedIndex = ResolutionsBox.Items.IndexOf(ri.GetStr("videoresolution", "general settings"));
-
-                int terrainQuality;
-                if (ri.GetBool("EnableWaterWaves", "terrain settings"))
-                {
-                    terrainQuality = 0;
-                }
-                //else if (GetFlt(game, "LOD1", "terrain settings") == 90.0f && GetFlt(game, "LOD2", "terrain settings") == 130.0f)
-                //{
-                //    terrainQuality = 1;
-                //}
-                else
-                {
-                    terrainQuality = 2;
-                }
-                comboBox5.SelectedIndex = terrainQuality;//m_cbTerrainQuality.SetCurSel(terrainQuality);
-
-                int lightingFreq;
-                if (ri.GetInt("LIGHTINGFREQ", "terrain settings") == 1000)
-                {
-                    lightingFreq = 0;
-                }
-                else if (ri.GetInt("LIGHTINGFREQ", "terrain settings") == 10000)
-                {
-                    lightingFreq = 1;
-                }
-                else
-                {
-                    lightingFreq = 2;
-                }
-                comboBox6.SelectedIndex = lightingFreq;
-
-                int shadowingFreq;
-                if (ri.GetInt("SHADOWINGFREQ", "terrain settings") == 1000)
-                {
-                    shadowingFreq = 0;
-                }
-                else if (ri.GetInt("SHADOWINGFREQ", "terrain settings") == 10000)
-                {
-                    shadowingFreq = 1;
-                }
-                else
-                {
-                    shadowingFreq = 2;
-                }
-                comboBox1.SelectedIndex = shadowingFreq;
+            
+            int lightingFreq = comboBox6.SelectedIndex;
+            switch (lightingFreq)
+            {
+                case 0:
+                    ri.SetInt("LIGHTINGFREQ", 1000, "terrain settings");
+                    break;
+                case 1:
+                    ri.SetInt("LIGHTINGFREQ", 10000, "terrain settings");
+                    break;
+                case 2:
+                    ri.SetInt("LIGHTINGFREQ", 100000 /*FIXME: ??? */, "terrain settings");
+                    break;
+                default:
+                    ri.SetInt("LIGHTINGFREQ", 100000 /*FIXME: ??? */, "terrain settings");
+                    break;
             }
             
-            return;
-
-
-
-
+            int shadowingFreq = comboBox1.SelectedIndex;
+            switch (shadowingFreq)
+            {
+                case 0:
+                    ri.SetInt("SHADOWINGFREQ", 1000, "terrain settings");
+                    break;
+                case 1:
+                    ri.SetInt("SHADOWINGFREQ", 10000, "terrain settings");
+                    break;
+                case 2:
+                    ri.SetInt("SHADOWINGFREQ", 100000 /*FIXME: ??? */, "terrain settings");
+                    break;
+                default:
+                    ri.SetInt("SHADOWINGFREQ", 100000 /*FIXME: ??? */, "terrain settings");
+                    break;
+            }
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -311,8 +318,8 @@ namespace EIStarterCS
 
         private void button2_Click(object sender, EventArgs e)
         {
-
-            IniFile game = new IniFile("Engine/config/game.ini");
+            ApplySettings();
+            //IniFile game = new IniFile("Engine/config/game.ini");
             /*SetBool(game, "fullscreen", checkBox1.Checked, "general settings");
             SetBool(game, "mipmapping", checkBox2.Checked, "general settings");
             SetBool(game, "antialiasing", checkBox3.Checked, "general settings");

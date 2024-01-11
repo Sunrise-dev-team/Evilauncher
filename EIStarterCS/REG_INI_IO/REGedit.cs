@@ -12,7 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EIStarterCS
 {
-    //TODO: WinRegistry full IO with float support
+    //TODO: In progress: WinRegistry full IO with float support
     class REGedit
     {
         private string KeyPath;
@@ -79,11 +79,44 @@ namespace EIStarterCS
             }
             return defaultValue;
         }
+        public byte[] ReadB(string valueName, byte[] defaultValue = null)
+        {
+            RegistryKey key = BaseKey.OpenSubKey(KeyPath);
+            if (key != null)
+            {
+                object value = key.GetValue(valueName);
+                //MessageBox.Show(KeyPath + "\r\n" + key + "\r\n" + value);
+                if (value != null && value is byte[])
+                {
+                    return (byte[])value;
+                }
+            }
+            return defaultValue;
+        }
 
         public void Write(string valueName, string value)
         {
             RegistryKey key = BaseKey.CreateSubKey(KeyPath);
             key.SetValue(valueName, value);
+            key.Close();
+        }
+
+        public void Write(string valueName, string value, string reserved0 = "nil" )
+        {
+            RegistryKey key = BaseKey.CreateSubKey(KeyPath);
+            key.SetValue(valueName, value);
+            key.Close();
+        }
+        public void Write(string valueName, bool value, string reserved0 = "nil" )
+        {
+            RegistryKey key = BaseKey.CreateSubKey(KeyPath);
+            key.SetValue(valueName, value, RegistryValueKind.DWord);
+            key.Close();
+        }
+        public void Write(string valueName, int value, string reserved0 = "nil" )
+        {
+            RegistryKey key = BaseKey.CreateSubKey(KeyPath);
+            key.SetValue(valueName, value, RegistryValueKind.DWord);
             key.Close();
         }
 
