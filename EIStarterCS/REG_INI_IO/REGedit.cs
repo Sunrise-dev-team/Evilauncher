@@ -93,6 +93,23 @@ namespace EIStarterCS
             }
             return defaultValue;
         }
+        public void WriteB(string valueName, byte[] value, string reserved0 = "nil")
+        {
+            RegistryKey key = BaseKey.CreateSubKey(KeyPath);
+            key.SetValue(valueName, value);
+            key.Close();
+            //RegistryKey key = BaseKey.OpenSubKey(KeyPath);
+            //if (key != null)
+            //{
+            //object value = key.GetValue(valueName);
+            //MessageBox.Show(KeyPath + "\r\n" + key + "\r\n" + value);
+            //if (value != null && value is byte[])
+            //{
+            //    return (byte[])value;
+            //}
+            //}
+            //return defaultValue;
+        }
 
         public void Write(string valueName, string value)
         {

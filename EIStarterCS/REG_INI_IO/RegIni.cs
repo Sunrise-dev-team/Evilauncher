@@ -26,7 +26,7 @@ namespace EIStarterCS
             this.ini = ini;
             isini = Mode.INI;
         }
-        public RegIni(EIREGfile eireg) {
+        public RegIni(EIRegFile eireg) {
             this.eireg = eireg;
             isini = Mode.EI;
         }
@@ -40,13 +40,23 @@ namespace EIStarterCS
             this.ini = ini;
             isini = mode;
         }
+        /// <summary>
+        /// Init for "EI or Ini" support
+        /// </summary>
+        /// <param name="eireg"></param>
+        /// <param name="ini"></param>
+        public RegIni(EIRegFile eireg, IniFile ini, Mode mode = Mode.EI) {
+            this.eireg = eireg;
+            this.ini = ini;
+            isini = mode;
+        }
         public void SetMode(Mode mode)
         {
             this.isini = mode;
         }
         private Mode isini = Mode.INI;
         private readonly REGedit winreg;
-        private readonly EIREGfile eireg;
+        private readonly EIRegFile eireg;
         private readonly IniFile ini;
 
         public bool GetBool(string key, string section = "nil")
@@ -158,6 +168,23 @@ namespace EIStarterCS
                 return GetFlt(winreg, key, section);
             }
         }
+        public void SetFlt(string key, float val, string section = "nil")
+        {
+            if (isini == Mode.INI)
+            {
+                //return SetFlt(ini, key, section);
+            }
+            else if (isini == Mode.EI)
+            {
+                //return -1.0f;
+                //return GetFlt(winreg, key, section);
+            }
+            else
+            {
+                //return GetFlt(winreg, key, section);
+                SetFlt(winreg, key, val, section);
+            }
+        }
 
         /////////////////////////////////////////////////////////////////////
         public bool GetBool(IniFile ini, string key, string section)
@@ -230,6 +257,10 @@ namespace EIStarterCS
         {
             return BitConverter.ToSingle(bytes, 0);
         }
+        public static byte[] SingleToBytes(float single)
+        {
+            return BitConverter.GetBytes(single);
+        }
         public float GetFlt(REGedit reg, string key, string section = "nil")
         {
             if (section != "nil")
@@ -242,6 +273,21 @@ namespace EIStarterCS
                 //ERR: Не удалось преобразовать строку в число
             }
             return BytesToSingle(temp);
+        }
+        public void SetFlt(REGedit reg, string key, float value, string section = "nil")
+        {
+            if (section != "nil")
+                reg.SwitchSubKeyPath(section);
+
+            //var temp = 
+            reg.WriteB(key, SingleToBytes(value), null);
+            /*if (temp == null || !(temp is byte[]) )
+            {
+                //return -1.0f;
+                //ERR: Не удалось преобразовать строку в число
+            }
+            return BytesToSingle(temp);*/
+            
         }
         /////////////////////////////////////////////////////////////////////
         public string GetStr(IniFile ini, string key, string section)
@@ -260,12 +306,12 @@ namespace EIStarterCS
                 return temp;
             return "";
         }
-        public string GetStr(EIREGfile ini, string key, string section = "nil")
+        public string GetStr(EIRegFile ini, string key, string section = "nil", string defaultval = "")
         {
-            var temp = ini.Read(key, section);
+            var temp = ini.GetString(key, section,defaultval);
             if (!string.IsNullOrWhiteSpace(temp))
                 return temp;
-            return "";
+            return defaultval;
         }
         public void SetStr(REGedit reg, string key, string val, string section = "nil")
         {

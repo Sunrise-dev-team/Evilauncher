@@ -19,6 +19,7 @@ using WMPLib;
 using System.Security;
 using System.Drawing.Text;
 using static EIStarterCS.StarterForm;
+using static System.Collections.Specialized.BitVector32;
 
 namespace EIStarterCS
 {
@@ -28,6 +29,7 @@ namespace EIStarterCS
         string lang = "en";
         string design_dir = @"design\";
         bool isusecustomskins = true;
+        bool isINImods = false;
         private List<string> languages = new List<string>();
         public List<Mod> mods = new List<Mod>();
         WindowsMediaPlayer WMP = new WindowsMediaPlayer();
@@ -48,6 +50,9 @@ namespace EIStarterCS
             public string date;
             public bool issingle;
             public bool ismulti;
+
+            public string pluginpath;
+            public string plugintext = "Plugin";
         }
         public StarterForm()
         {
@@ -72,53 +77,131 @@ namespace EIStarterCS
             //lang = languages[0];
             var cfg = new IniFile("starter.config");
             var lastsel = cfg.Read("ModSel", "Settings");
+            var tempconv = cfg.Read("UsingINIconfigs", "Settings"); //isINImods
+            if (!String.IsNullOrWhiteSpace(tempconv))
+                isINImods = Convert.ToBoolean(tempconv);
+
             lang = cfg.Read("language", "Settings", "en");
-            foreach (var modpath in Directory.EnumerateDirectories(@"Mods\"))
+            //var bSkip1 = false;
+            if (Directory.Exists(@"Mods\"))
             {
-                if (File.Exists(modpath + "\\mod.config"))
+                foreach (var modpath in Directory.EnumerateDirectories(@"Mods\"))
                 {
-                    var modcfg = new IniFile(modpath + "\\mod.config");
-                    //MessageBox.Show(cfg.Read("Title", "MOD"));
-                    mods.Add(new Mod()
+                    if (File.Exists(modpath + "\\mod.config") && isINImods)
                     {
-                        name = "Unkn_Title",
-                        path = modpath + "\\mod.config",
-                        ver = "",
-                        author = "Unknown_Author",
-                        email = "",
-                        site = "",
-                        date = "",
-                        issingle = true,
-                        ismulti = true
-                    });
-                    var mod = mods.Last();
+                        var modcfg = new IniFile(modpath + "\\mod.config");
+                        //MessageBox.Show(cfg.Read("Title", "MOD"));
+                        mods.Add(new Mod()
+                        {
+                            name = "Unkn_Title",
+                            path = modpath + "\\mod.config",
+                            ver = "",
+                            author = "Unknown_Author",
+                            email = "",
+                            site = "",
+                            date = "",
+                            issingle = true,
+                            ismulti = true,
+                            pluginpath = "none"
+                        });
+                        var mod = mods.Last();
 
 
-                    mod.name = modcfg.Read("Title", "MOD", "Unkn_Title");
-                    mod.path = modpath + "\\mod.config";
-                    mod.ver = modcfg.Read("Version", "MOD", "");
-                    mod.author = modcfg.Read("Author", "MOD", "Unknown_Author");
-                    mod.email = modcfg.Read("AuthorEmail", "MOD", "");
-                    mod.site = modcfg.Read("URL", "MOD", "");
-                    mod.date = modcfg.Read("date_DMY", "MOD", "");
-                    try
-                    {
-                        if (modcfg.Read("Single", "MOD", "") != "")
-                            mod.issingle = Convert.ToBoolean(int.Parse(modcfg.Read("Single", "MOD", "")));
+                        mod.name = modcfg.Read("Title", "MOD", "Unkn_Title");
+                        mod.path = modpath + "\\mod.config";
+                        mod.ver = modcfg.Read("Version", "MOD", "");
+                        mod.author = modcfg.Read("Author", "MOD", "Unknown_Author");
+                        mod.email = modcfg.Read("AuthorEmail", "MOD", "");
+                        mod.site = modcfg.Read("URL", "MOD", "");
+                        mod.date = modcfg.Read("date_DMY", "MOD", "");
+                        mod.pluginpath = modcfg.Read("pluginpath", "Starter", "none");
+                        mod.plugintext = modcfg.Read("plugintext", "Starter", "Plugin");
+                        try
+                        {
+                            if (modcfg.Read("Single", "MOD", "") != "")
+                                mod.issingle = Convert.ToBoolean(int.Parse(modcfg.Read("Single", "MOD", "")));
+                        }
+                        catch { }
+                        try
+                        {
+                            if (modcfg.Read("Multi", "MOD", "") != "")
+                                mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.Read("Multi", "MOD", "")));
+                        }
+                        catch { }
+                        ModCombo.Items.Add(mods.Last().name);
+                        if (mods.Last().path == lastsel)
+                            ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
                     }
-                    catch { }
-                    try
+                    else if (File.Exists(modpath + "\\config.reg"))
                     {
-                        if (modcfg.Read("Multi", "MOD", "") != "")
-                            mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.Read("Multi", "MOD", "")));
+                        var modcfg = new EIRegFile();
+                        if (!modcfg.isLoaded)
+                            modcfg.Load(modpath + "\\config.reg");
+                        //MessageBox.Show(cfg.Read("Title", "MOD"));
+                        mods.Add(new Mod()
+                        {
+                            name = "Unkn_Title",
+                            path = modpath + "\\mod.config",
+                            ver = "",
+                            author = "Unknown_Author",
+                            email = "",
+                            site = "",
+                            date = "",
+                            issingle = true,
+                            ismulti = true,
+                            pluginpath = "none"
+                        });
+                        var mod = mods.Last();
+
+
+                        mod.name = modcfg.GetString("Title", "MOD", "Unkn_Title");
+                        mod.path = modpath + "\\config.reg";
+                        mod.ver = modcfg.GetString("Version", "MOD", "");
+                        mod.author = modcfg.GetString("Author", "MOD", "Unknown_Author");
+                        mod.email = modcfg.GetString("AuthorEmail", "MOD", "");
+                        mod.site = modcfg.GetString("URL", "MOD", "");
+                        mod.date = modcfg.GetString("date_DMY", "MOD", "");
+                        mod.pluginpath = modcfg.GetString("pluginpath", "Starter", "none");
+                        mod.plugintext = modcfg.GetString("plugintext", "Starter", "Plugin");
+                        try
+                        {
+                            if (modcfg.GetString("Single", "MOD", "") != "")
+                                mod.issingle = Convert.ToBoolean(int.Parse(modcfg.GetString("Single", "MOD", "")));
+                        }
+                        catch { }
+                        try
+                        {
+                            if (modcfg.GetString("Multi", "MOD", "") != "")
+                                mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.GetString("Multi", "MOD", "")));
+                        }
+                        catch { }
+                        ModCombo.Items.Add(mods.Last().name);
+                        if (mods.Last().path == lastsel)
+                            ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
                     }
-                    catch { }
-                    ModCombo.Items.Add(mods.Last().name);
-                    if (mods.Last().path == lastsel)
-                        ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
+                    if (ModCombo.SelectedIndex < 0)
+                        ModCombo.SelectedIndex = 0;
                 }
-                if (ModCombo.SelectedIndex < 0)
-                    ModCombo.SelectedIndex = 0;
+            }
+            else
+            {
+                mods.Add(new Mod()
+                {
+                    name = "Unkn_Title",
+                    path = "\\mod.config",
+                    ver = "",
+                    author = "Unknown_Author",
+                    email = "",
+                    site = "",
+                    date = "",
+                    issingle = true,
+                    ismulti = true,
+                    pluginpath = "none"
+                });
+                ModCombo.Items.Clear();
+                ModCombo.Items.Add("No mods");
+                ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
+                //ModCombo.Visible = false;
             }
 
             /*if (File.Exists(@"design\" + lang + @"\autorun.mp3"))
@@ -214,9 +297,9 @@ namespace EIStarterCS
                 ModCombo.Font = font;
             }
             // Other
-            ModCombo.Location = new Point(button1.Location.X + button1.Width + 10, ModCombo.Location.Y);
-            infobtn.Location = new Point(ModCombo.Location.X + ModCombo.Width + 10, infobtn.Location.Y);
-            langbtn.Location = new Point(1, this.Height - langbtn.Height);
+            ModCombo.Location = new Point(x: button1.Location.X + button1.Width + 10,y: ModCombo.Location.Y);
+            infobtn.Location = new Point(x: ModCombo.Location.X + ModCombo.Width + 10,y: infobtn.Location.Y);
+            langbtn.Location = new Point(x: 1,y: this.Height - langbtn.Height);
         }
         /// <summary>
         /// Get all langs names in design_dir
@@ -263,8 +346,12 @@ namespace EIStarterCS
             {
                 button.Image = Image.FromFile(@"design\" + lang + @"\" + mask + @".bmp");
             }
-            button.Height = button.Image.Height - 1;
-            button.Width = button.Image.Width - 1;
+            if (button.Image != null)
+            {
+                button.Height = button.Image.Height - 1;
+                button.Width = button.Image.Width - 1;
+                button.Text = "";
+            }
         }
 
         private void _MouseEnter(object sender, EventArgs e)
@@ -309,23 +396,35 @@ namespace EIStarterCS
                 //     SetButtonStyle(button.button, button.mask + "");
             }
         }
-        private void BtnS1(object sender)
+        private void BtnS1(object sender, bool fast = false)
         {
-            if (File.Exists(design_dir + lang + @"\click.wav"))
+            if (!fast)
             {
-                //SoundPlayer simpleSound = new SoundPlayer(@"design\" + lang + @"\click.wav");
-                //simpleSound.Play();
-                WMP.settings.volume = 1000;
-                WMP.URL = design_dir + lang + @"\click.wav";
-                WMP.controls.play();
+                if (File.Exists(design_dir + lang + @"\click.wav"))
+                {
+                    //SoundPlayer simpleSound = new SoundPlayer(@"design\" + lang + @"\click.wav");
+                    //simpleSound.Play();
+                    WMP.settings.volume = 1000;
+                    WMP.URL = design_dir + lang + @"\click.wav";
+                    WMP.controls.play();
+                }
+                foreach (var button in buttons)
+                {
+                    if (sender.Equals(button.button))
+                        SetButtonStyle(button.button, button.mask + "_d");
+                    else
+                        SetButtonStyle(button.button, button.mask + "");
+                }
             }
-            foreach (var button in buttons)
+            else
             {
-                if (sender.Equals(button.button))
-                    SetButtonStyle(button.button, button.mask + "_d");
-                else
-                    SetButtonStyle(button.button, button.mask + "");
+                foreach (var button in buttons)
+                {
+                    if (sender.Equals(button.button))
+                        SetButtonStyle(button.button, button.mask + "_d");
+                }
             }
+
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -363,7 +462,8 @@ namespace EIStarterCS
         private void button4_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
-            Process.Start("https://allods.gipat.ru");
+            //Process.Start("https://allods.gipat.ru");
+            Process.Start(new ProcessStartInfo("https://allods.gipat.ru") { UseShellExecute = true });
             BtnS0(sender);
         }
 
@@ -412,7 +512,7 @@ namespace EIStarterCS
         }
         private void langbtn_Click(object sender, EventArgs e)
         {
-            BtnS1(sender);
+            BtnS1(sender, true);
 
             LangSwitch();
             //this.Update();
@@ -430,6 +530,7 @@ namespace EIStarterCS
             cfg.Write("language", lang, "Settings");
             //cfg.Write("ModSkins", isusecustomskins, "Settings");
             cfg.Write("ModSkins", isusecustomskins.ToString(), "Settings");
+            cfg.Write("UsingINIconfigs", isINImods.ToString(), "Settings");
 
             //Settings.Default.lang = lang;
             //Settings.Default.Save();
@@ -461,6 +562,16 @@ namespace EIStarterCS
                 EnumerateLangs();
                 InitLang();
             }
+
+            RegIni.Mode DataSource = RegIni.Mode.Win;
+
+            //IniFile gameini = new IniFile("Engine/config/game.ini");
+            IniFile addonini = new IniFile("Engine/addon.ini");
+            REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
+            //REGedit game = new REGedit("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
+            RegIni ri2 = new RegIni(addon, addonini, DataSource);
+            ri2.SetStr("AddonPath", Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName( mods[ModCombo.SelectedIndex].path), "settings");
+            
             BtnS0(sender);
         }
 

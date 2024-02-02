@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace EIStarterCS
 {
     public partial class ModInfo : Form
     {
+        string readmepath = "";
+        string changelogpath = "";
         StarterForm.Mod mod = new StarterForm.Mod();
         public ModInfo()
         {
@@ -39,18 +42,64 @@ namespace EIStarterCS
             tmp += "Multiplayer: " + mod.ismulti + "\r\n";
 
             textBox1.Text = tmp;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
 
             foreach (var dirfile in Directory.EnumerateFiles(Path.GetDirectoryName(mod.path)))
             {
-                if (Path.GetFileName(dirfile).ToLower().Contains("read")
-                    && Path.GetFileName(dirfile).ToLower().Contains("me")
-                    && Path.GetFileName(dirfile).ToLower().Contains(".txt"))
+                if (Path.GetFileName(dirfile).Contains("read", StringComparison.CurrentCultureIgnoreCase)
+                    && Path.GetFileName(dirfile).Contains("me", StringComparison.CurrentCultureIgnoreCase)
+                    )
                 {
-                    textBox2.Text = File.ReadAllText(dirfile, Encoding.GetEncoding("windows-1251"));
-                    break;
+                    readmepath = dirfile;
+                    button2.Visible = true;
+                }
+                if (Path.GetFileName(dirfile).Contains("change", StringComparison.CurrentCultureIgnoreCase)
+                    && Path.GetFileName(dirfile).Contains("log", StringComparison.CurrentCultureIgnoreCase)
+                    )
+                {
+                    changelogpath = dirfile;
+                    button3.Visible = true;
                 }
             }
+            //pluginpath
+            //MessageBox.Show(Path.GetDirectoryName(mod.path) + "\\" + mod.pluginpath);
+            if (Path.Exists(Path.GetDirectoryName(mod.path) + "\\" + mod.pluginpath))
+            {
+                button1.Visible = true;
+                button1.Text = mod.plugintext;
+            }
 
+        }
+        /// <summary>
+        /// From: https://stackoverflow.com/questions/11365984/c-sharp-open-file-with-default-application-and-parameters
+        /// </summary>
+        /// <param name="path"></param>
+        public static void OpenWithDefaultProgram(string path)
+        {
+            using Process fileopener = new Process();
+
+            fileopener.StartInfo.FileName = "explorer";
+            fileopener.StartInfo.Arguments = "\"" + path + "\"";
+            fileopener.Start();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var path = Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName(mod.path) + @"\" + mod.pluginpath;
+            //MessageBox.Show(path);
+            Process.Start(@"C:\Windows\System32\cmd.exe", "/C \"" + path+"\"");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpenWithDefaultProgram(readmepath);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenWithDefaultProgram(changelogpath);
         }
     }
 }

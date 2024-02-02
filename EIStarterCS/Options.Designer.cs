@@ -29,646 +29,695 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Options));
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.ResolutionsBox = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.AdapterBox = new System.Windows.Forms.ComboBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.tabPage5.SuspendLayout();
-            this.SuspendLayout();
+            splitContainer1 = new System.Windows.Forms.SplitContainer();
+            tabControl1 = new System.Windows.Forms.TabControl();
+            tabPage1 = new System.Windows.Forms.TabPage();
+            comboBox8 = new System.Windows.Forms.ComboBox();
+            label9 = new System.Windows.Forms.Label();
+            comboBox2 = new System.Windows.Forms.ComboBox();
+            label8 = new System.Windows.Forms.Label();
+            comboBox1 = new System.Windows.Forms.ComboBox();
+            label7 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            comboBox7 = new System.Windows.Forms.ComboBox();
+            comboBox6 = new System.Windows.Forms.ComboBox();
+            comboBox5 = new System.Windows.Forms.ComboBox();
+            comboBox4 = new System.Windows.Forms.ComboBox();
+            comboBox3 = new System.Windows.Forms.ComboBox();
+            checkBox6 = new System.Windows.Forms.CheckBox();
+            checkBox4 = new System.Windows.Forms.CheckBox();
+            checkBox3 = new System.Windows.Forms.CheckBox();
+            checkBox2 = new System.Windows.Forms.CheckBox();
+            checkBox1 = new System.Windows.Forms.CheckBox();
+            label2 = new System.Windows.Forms.Label();
+            ResolutionsBox = new System.Windows.Forms.ComboBox();
+            label1 = new System.Windows.Forms.Label();
+            label10 = new System.Windows.Forms.Label();
+            AdapterBox = new System.Windows.Forms.ComboBox();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            checkBox5 = new System.Windows.Forms.CheckBox();
+            numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            tabPage3 = new System.Windows.Forms.TabPage();
+            tabPage4 = new System.Windows.Forms.TabPage();
+            tabPage5 = new System.Windows.Forms.TabPage();
+            propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            tabPage6 = new System.Windows.Forms.TabPage();
+            comboBox9 = new System.Windows.Forms.ComboBox();
+            button2 = new System.Windows.Forms.Button();
+            button1 = new System.Windows.Forms.Button();
+            button3 = new System.Windows.Forms.Button();
+            radioButton3 = new System.Windows.Forms.RadioButton();
+            radioButton2 = new System.Windows.Forms.RadioButton();
+            radioButton1 = new System.Windows.Forms.RadioButton();
+            checkBox7 = new System.Windows.Forms.CheckBox();
+            checkBox8 = new System.Windows.Forms.CheckBox();
+            checkBox9 = new System.Windows.Forms.CheckBox();
+            checkBox10 = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            tabPage3.SuspendLayout();
+            tabPage5.SuspendLayout();
+            tabPage6.SuspendLayout();
+            SuspendLayout();
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(1, 1);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(5);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            splitContainer1.IsSplitterFixed = true;
+            splitContainer1.Location = new System.Drawing.Point(1, 1);
+            splitContainer1.Margin = new System.Windows.Forms.Padding(6);
+            splitContainer1.Name = "splitContainer1";
+            splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            splitContainer1.Panel1.Controls.Add(tabControl1);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.comboBox9);
-            this.splitContainer1.Panel2.Controls.Add(this.button2);
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Panel2.Controls.Add(this.button3);
-            this.splitContainer1.Size = new System.Drawing.Size(462, 352);
-            this.splitContainer1.SplitterDistance = 310;
-            this.splitContainer1.SplitterWidth = 1;
-            this.splitContainer1.TabIndex = 0;
+            splitContainer1.Panel2.Controls.Add(comboBox9);
+            splitContainer1.Panel2.Controls.Add(button2);
+            splitContainer1.Panel2.Controls.Add(button1);
+            splitContainer1.Panel2.Controls.Add(button3);
+            splitContainer1.Size = new System.Drawing.Size(539, 406);
+            splitContainer1.SplitterDistance = 357;
+            splitContainer1.SplitterWidth = 1;
+            splitContainer1.TabIndex = 0;
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.HotTrack = true;
-            this.tabControl1.Location = new System.Drawing.Point(4, 5);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(5);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Padding = new System.Drawing.Point(10, 3);
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(454, 305);
-            this.tabControl1.TabIndex = 0;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
+            tabControl1.Controls.Add(tabPage5);
+            tabControl1.Controls.Add(tabPage6);
+            tabControl1.HotTrack = true;
+            tabControl1.Location = new System.Drawing.Point(5, 6);
+            tabControl1.Margin = new System.Windows.Forms.Padding(6);
+            tabControl1.Name = "tabControl1";
+            tabControl1.Padding = new System.Drawing.Point(10, 3);
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new System.Drawing.Size(530, 352);
+            tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.comboBox8);
-            this.tabPage1.Controls.Add(this.label9);
-            this.tabPage1.Controls.Add(this.comboBox2);
-            this.tabPage1.Controls.Add(this.label8);
-            this.tabPage1.Controls.Add(this.comboBox1);
-            this.tabPage1.Controls.Add(this.label7);
-            this.tabPage1.Controls.Add(this.label6);
-            this.tabPage1.Controls.Add(this.label5);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.comboBox7);
-            this.tabPage1.Controls.Add(this.comboBox6);
-            this.tabPage1.Controls.Add(this.comboBox5);
-            this.tabPage1.Controls.Add(this.comboBox4);
-            this.tabPage1.Controls.Add(this.comboBox3);
-            this.tabPage1.Controls.Add(this.checkBox6);
-            this.tabPage1.Controls.Add(this.checkBox4);
-            this.tabPage1.Controls.Add(this.checkBox3);
-            this.tabPage1.Controls.Add(this.checkBox2);
-            this.tabPage1.Controls.Add(this.checkBox1);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.ResolutionsBox);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.label10);
-            this.tabPage1.Controls.Add(this.AdapterBox);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(5);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(1);
-            this.tabPage1.Size = new System.Drawing.Size(446, 279);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Graphics";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Controls.Add(comboBox8);
+            tabPage1.Controls.Add(label9);
+            tabPage1.Controls.Add(comboBox2);
+            tabPage1.Controls.Add(label8);
+            tabPage1.Controls.Add(comboBox1);
+            tabPage1.Controls.Add(label7);
+            tabPage1.Controls.Add(label6);
+            tabPage1.Controls.Add(label5);
+            tabPage1.Controls.Add(label4);
+            tabPage1.Controls.Add(label3);
+            tabPage1.Controls.Add(comboBox7);
+            tabPage1.Controls.Add(comboBox6);
+            tabPage1.Controls.Add(comboBox5);
+            tabPage1.Controls.Add(comboBox4);
+            tabPage1.Controls.Add(comboBox3);
+            tabPage1.Controls.Add(checkBox6);
+            tabPage1.Controls.Add(checkBox4);
+            tabPage1.Controls.Add(checkBox3);
+            tabPage1.Controls.Add(checkBox2);
+            tabPage1.Controls.Add(checkBox1);
+            tabPage1.Controls.Add(label2);
+            tabPage1.Controls.Add(ResolutionsBox);
+            tabPage1.Controls.Add(label1);
+            tabPage1.Controls.Add(label10);
+            tabPage1.Controls.Add(AdapterBox);
+            tabPage1.Location = new System.Drawing.Point(4, 24);
+            tabPage1.Margin = new System.Windows.Forms.Padding(6);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new System.Windows.Forms.Padding(1);
+            tabPage1.Size = new System.Drawing.Size(522, 324);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Graphics";
+            tabPage1.UseVisualStyleBackColor = true;
             // 
             // comboBox8
             // 
-            this.comboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox8.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Items.AddRange(new object[] {
-            "Off",
-            "Normal",
-            "Safe"});
-            this.comboBox8.Location = new System.Drawing.Point(3, 255);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(77, 21);
-            this.comboBox8.TabIndex = 25;
+            comboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox8.Font = new System.Drawing.Font("Tahoma", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
+            comboBox8.FormattingEnabled = true;
+            comboBox8.Items.AddRange(new object[] { "Off", "Normal", "Safe" });
+            comboBox8.Location = new System.Drawing.Point(4, 294);
+            comboBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox8.Name = "comboBox8";
+            comboBox8.Size = new System.Drawing.Size(89, 21);
+            comboBox8.TabIndex = 25;
             // 
             // label9
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.Location = new System.Drawing.Point(215, 123);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(136, 13);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "Textures quality";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            label9.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            label9.Location = new System.Drawing.Point(251, 142);
+            label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(159, 15);
+            label9.TabIndex = 24;
+            label9.Text = "Textures quality";
+            label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // comboBox2
             // 
-            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "high",
-            "normal",
-            "low"});
-            this.comboBox2.Location = new System.Drawing.Point(354, 119);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(88, 21);
-            this.comboBox2.TabIndex = 23;
+            comboBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "high", "normal", "low" });
+            comboBox2.Location = new System.Drawing.Point(413, 137);
+            comboBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new System.Drawing.Size(102, 23);
+            comboBox2.TabIndex = 23;
             // 
             // label8
             // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.Location = new System.Drawing.Point(215, 259);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(136, 13);
-            this.label8.TabIndex = 22;
-            this.label8.Text = "Shadowing freq.";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            label8.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            label8.Location = new System.Drawing.Point(251, 299);
+            label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(159, 15);
+            label8.TabIndex = 22;
+            label8.Text = "Shadowing freq.";
+            label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // comboBox1
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Fast",
-            "Normal",
-            "Rare"});
-            this.comboBox1.Location = new System.Drawing.Point(354, 255);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(88, 21);
-            this.comboBox1.TabIndex = 21;
+            comboBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Fast", "Normal", "Rare" });
+            comboBox1.Location = new System.Drawing.Point(413, 294);
+            comboBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new System.Drawing.Size(102, 23);
+            comboBox1.TabIndex = 21;
             // 
             // label7
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.Location = new System.Drawing.Point(215, 191);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(136, 13);
-            this.label7.TabIndex = 20;
-            this.label7.Text = "Terrain LOD";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            label7.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            label7.Location = new System.Drawing.Point(251, 220);
+            label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(159, 15);
+            label7.TabIndex = 20;
+            label7.Text = "Terrain LOD";
+            label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.Location = new System.Drawing.Point(215, 157);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(136, 13);
-            this.label6.TabIndex = 19;
-            this.label6.Text = "Shadows quality";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            label6.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            label6.Location = new System.Drawing.Point(251, 181);
+            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(159, 15);
+            label6.TabIndex = 19;
+            label6.Text = "Shadows quality";
+            label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.Location = new System.Drawing.Point(215, 225);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(136, 13);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "Lighting freq.";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            label5.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            label5.Location = new System.Drawing.Point(251, 260);
+            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(159, 15);
+            label5.TabIndex = 18;
+            label5.Text = "Lighting freq.";
+            label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.Location = new System.Drawing.Point(215, 89);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(136, 13);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Filtering";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            label4.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            label4.Location = new System.Drawing.Point(251, 103);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(159, 15);
+            label4.TabIndex = 17;
+            label4.Text = "Filtering";
+            label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(85, 225);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Movies";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(99, 260);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(45, 15);
+            label3.TabIndex = 16;
+            label3.Text = "Movies";
             // 
             // comboBox7
             // 
-            this.comboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Items.AddRange(new object[] {
-            "Off",
-            "1:1",
-            "Fit"});
-            this.comboBox7.Location = new System.Drawing.Point(3, 221);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(77, 21);
-            this.comboBox7.TabIndex = 15;
+            comboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox7.FormattingEnabled = true;
+            comboBox7.Items.AddRange(new object[] { "Off", "1:1", "Fit" });
+            comboBox7.Location = new System.Drawing.Point(4, 255);
+            comboBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox7.Name = "comboBox7";
+            comboBox7.Size = new System.Drawing.Size(89, 23);
+            comboBox7.TabIndex = 15;
             // 
             // comboBox6
             // 
-            this.comboBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Items.AddRange(new object[] {
-            "Fast",
-            "Normal",
-            "Rare"});
-            this.comboBox6.Location = new System.Drawing.Point(354, 221);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(88, 21);
-            this.comboBox6.TabIndex = 14;
-            this.comboBox6.SelectedIndexChanged += new System.EventHandler(this.comboBox6_SelectedIndexChanged);
+            comboBox6.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox6.FormattingEnabled = true;
+            comboBox6.Items.AddRange(new object[] { "Fast", "Normal", "Rare" });
+            comboBox6.Location = new System.Drawing.Point(413, 255);
+            comboBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox6.Name = "comboBox6";
+            comboBox6.Size = new System.Drawing.Size(102, 23);
+            comboBox6.TabIndex = 14;
+            comboBox6.SelectedIndexChanged += comboBox6_SelectedIndexChanged;
             // 
             // comboBox5
             // 
-            this.comboBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Items.AddRange(new object[] {
-            "High",
-            "normal",
-            "Low"});
-            this.comboBox5.Location = new System.Drawing.Point(355, 187);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(87, 21);
-            this.comboBox5.TabIndex = 13;
-            this.comboBox5.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
+            comboBox5.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox5.FormattingEnabled = true;
+            comboBox5.Items.AddRange(new object[] { "High", "normal", "Low" });
+            comboBox5.Location = new System.Drawing.Point(414, 216);
+            comboBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox5.Name = "comboBox5";
+            comboBox5.Size = new System.Drawing.Size(101, 23);
+            comboBox5.TabIndex = 13;
+            comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
             // 
             // comboBox4
             // 
-            this.comboBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
-            "None",
-            "Low",
-            "Smooth"});
-            this.comboBox4.Location = new System.Drawing.Point(355, 153);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(87, 21);
-            this.comboBox4.TabIndex = 12;
-            this.comboBox4.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
+            comboBox4.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Items.AddRange(new object[] { "None", "Low", "Smooth" });
+            comboBox4.Location = new System.Drawing.Point(414, 177);
+            comboBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new System.Drawing.Size(101, 23);
+            comboBox4.TabIndex = 12;
+            comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             // 
             // comboBox3
             // 
-            this.comboBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "point",
-            "bilinear",
-            "thrilinear"});
-            this.comboBox3.Location = new System.Drawing.Point(355, 85);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(87, 21);
-            this.comboBox3.TabIndex = 11;
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            comboBox3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Items.AddRange(new object[] { "point", "bilinear", "thrilinear" });
+            comboBox3.Location = new System.Drawing.Point(414, 98);
+            comboBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new System.Drawing.Size(101, 23);
+            comboBox3.TabIndex = 11;
+            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
             // checkBox6
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(5, 191);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(137, 17);
-            this.checkBox6.TabIndex = 9;
-            this.checkBox6.Text = "FPS independed cursor";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            checkBox6.AutoSize = true;
+            checkBox6.Location = new System.Drawing.Point(6, 220);
+            checkBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox6.Name = "checkBox6";
+            checkBox6.Size = new System.Drawing.Size(147, 19);
+            checkBox6.TabIndex = 9;
+            checkBox6.Text = "FPS independed cursor";
+            checkBox6.UseVisualStyleBackColor = true;
             // 
             // checkBox4
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(5, 165);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(68, 17);
-            this.checkBox4.TabIndex = 7;
-            this.checkBox4.Text = "Dithering";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            checkBox4.AutoSize = true;
+            checkBox4.Location = new System.Drawing.Point(6, 190);
+            checkBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox4.Name = "checkBox4";
+            checkBox4.Size = new System.Drawing.Size(75, 19);
+            checkBox4.TabIndex = 7;
+            checkBox4.Text = "Dithering";
+            checkBox4.UseVisualStyleBackColor = true;
             // 
             // checkBox3
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(5, 139);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(79, 17);
-            this.checkBox3.TabIndex = 6;
-            this.checkBox3.Text = "Antialiasing";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            checkBox3.AutoSize = true;
+            checkBox3.Location = new System.Drawing.Point(6, 160);
+            checkBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox3.Name = "checkBox3";
+            checkBox3.Size = new System.Drawing.Size(88, 19);
+            checkBox3.TabIndex = 6;
+            checkBox3.Text = "Antialiasing";
+            checkBox3.UseVisualStyleBackColor = true;
             // 
             // checkBox2
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(5, 113);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(87, 17);
-            this.checkBox2.TabIndex = 5;
-            this.checkBox2.Text = "Mip-Mapping";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new System.Drawing.Point(6, 130);
+            checkBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new System.Drawing.Size(100, 19);
+            checkBox2.TabIndex = 5;
+            checkBox2.Text = "Mip-Mapping";
+            checkBox2.UseVisualStyleBackColor = true;
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(5, 87);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(76, 17);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "FullScreen";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new System.Drawing.Point(6, 100);
+            checkBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new System.Drawing.Size(80, 19);
+            checkBox1.TabIndex = 4;
+            checkBox1.Text = "FullScreen";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Resolution";
+            label2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(5, 47);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(63, 15);
+            label2.TabIndex = 3;
+            label2.Text = "Resolution";
             // 
             // ResolutionsBox
             // 
-            this.ResolutionsBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ResolutionsBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ResolutionsBox.FormattingEnabled = true;
-            this.ResolutionsBox.Location = new System.Drawing.Point(3, 56);
-            this.ResolutionsBox.MaxDropDownItems = 10;
-            this.ResolutionsBox.Name = "ResolutionsBox";
-            this.ResolutionsBox.Size = new System.Drawing.Size(439, 21);
-            this.ResolutionsBox.TabIndex = 2;
+            ResolutionsBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            ResolutionsBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ResolutionsBox.FormattingEnabled = true;
+            ResolutionsBox.Location = new System.Drawing.Point(4, 65);
+            ResolutionsBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ResolutionsBox.MaxDropDownItems = 10;
+            ResolutionsBox.Name = "ResolutionsBox";
+            ResolutionsBox.Size = new System.Drawing.Size(511, 23);
+            ResolutionsBox.TabIndex = 2;
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 2);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Adapter";
+            label1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(5, 2);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(49, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Adapter";
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(88, 259);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(34, 13);
-            this.label10.TabIndex = 26;
-            this.label10.Text = "Audio";
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(103, 299);
+            label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(39, 15);
+            label10.TabIndex = 26;
+            label10.Text = "Audio";
             // 
             // AdapterBox
             // 
-            this.AdapterBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AdapterBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AdapterBox.FormattingEnabled = true;
-            this.AdapterBox.Location = new System.Drawing.Point(3, 17);
-            this.AdapterBox.MaxDropDownItems = 10;
-            this.AdapterBox.Name = "AdapterBox";
-            this.AdapterBox.Size = new System.Drawing.Size(439, 21);
-            this.AdapterBox.TabIndex = 0;
+            AdapterBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            AdapterBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            AdapterBox.FormattingEnabled = true;
+            AdapterBox.Location = new System.Drawing.Point(4, 20);
+            AdapterBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AdapterBox.MaxDropDownItems = 10;
+            AdapterBox.Name = "AdapterBox";
+            AdapterBox.Size = new System.Drawing.Size(511, 23);
+            AdapterBox.TabIndex = 0;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.numericUpDown2);
-            this.tabPage2.Controls.Add(this.numericUpDown1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(446, 279);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Addon";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            tabPage2.Controls.Add(checkBox5);
+            tabPage2.Controls.Add(numericUpDown2);
+            tabPage2.Controls.Add(numericUpDown1);
+            tabPage2.Location = new System.Drawing.Point(4, 24);
+            tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage2.Size = new System.Drawing.Size(522, 324);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Addon";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            checkBox5.AutoSize = true;
+            checkBox5.Location = new System.Drawing.Point(24, 139);
+            checkBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox5.Name = "checkBox5";
+            checkBox5.Size = new System.Drawing.Size(181, 19);
+            checkBox5.TabIndex = 10;
+            checkBox5.Text = "Pause when minimized game";
+            checkBox5.UseVisualStyleBackColor = true;
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Location = new System.Drawing.Point(21, 85);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.ReadOnly = true;
-            this.numericUpDown2.Size = new System.Drawing.Size(106, 20);
-            this.numericUpDown2.TabIndex = 3;
-            this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+            numericUpDown2.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDown2.Location = new System.Drawing.Point(24, 98);
+            numericUpDown2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDown2.Maximum = new decimal(new int[] { 5000, 0, 0, 0 });
+            numericUpDown2.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDown2.Name = "numericUpDown2";
+            numericUpDown2.ReadOnly = true;
+            numericUpDown2.Size = new System.Drawing.Size(124, 23);
+            numericUpDown2.TabIndex = 3;
+            numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDown2.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Location = new System.Drawing.Point(21, 48);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.ReadOnly = true;
-            this.numericUpDown1.Size = new System.Drawing.Size(106, 20);
-            this.numericUpDown1.TabIndex = 2;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+            numericUpDown1.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDown1.Location = new System.Drawing.Point(24, 55);
+            numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDown1.Maximum = new decimal(new int[] { 5000, 0, 0, 0 });
+            numericUpDown1.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.ReadOnly = true;
+            numericUpDown1.Size = new System.Drawing.Size(124, 23);
+            numericUpDown1.TabIndex = 2;
+            numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDown1.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // tabPage3
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(446, 279);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Multiplayer";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            tabPage3.Controls.Add(checkBox9);
+            tabPage3.Controls.Add(checkBox8);
+            tabPage3.Controls.Add(checkBox7);
+            tabPage3.Location = new System.Drawing.Point(4, 24);
+            tabPage3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage3.Size = new System.Drawing.Size(522, 324);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Multiplayer";
+            tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(446, 279);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Game";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // comboBox9
-            // 
-            this.comboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(7, 9);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(108, 21);
-            this.comboBox9.TabIndex = 26;
-            // 
-            // button2
-            // 
-            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(274, 5);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 29);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "OK";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button1.Location = new System.Drawing.Point(369, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 29);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Cancel";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(121, 5);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(88, 29);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Apply preset";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(4, 46);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(45, 17);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Low";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(4, 29);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(62, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Medium";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(4, 12);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(47, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "High";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            tabPage4.Location = new System.Drawing.Point(4, 24);
+            tabPage4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new System.Drawing.Size(522, 324);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Game";
+            tabPage4.UseVisualStyleBackColor = true;
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.propertyGrid1);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(446, 279);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Camera";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(446, 279);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "Utils";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            tabPage5.Controls.Add(propertyGrid1);
+            tabPage5.Location = new System.Drawing.Point(4, 24);
+            tabPage5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage5.Size = new System.Drawing.Size(522, 324);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "Camera";
+            tabPage5.UseVisualStyleBackColor = true;
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(440, 273);
-            this.propertyGrid1.TabIndex = 0;
+            propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            propertyGrid1.HelpVisible = false;
+            propertyGrid1.Location = new System.Drawing.Point(4, 3);
+            propertyGrid1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            propertyGrid1.Name = "propertyGrid1";
+            propertyGrid1.Size = new System.Drawing.Size(514, 318);
+            propertyGrid1.TabIndex = 0;
+            // 
+            // tabPage6
+            // 
+            tabPage6.Controls.Add(checkBox10);
+            tabPage6.Location = new System.Drawing.Point(4, 24);
+            tabPage6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage6.Size = new System.Drawing.Size(522, 324);
+            tabPage6.TabIndex = 5;
+            tabPage6.Text = "Utils";
+            tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // comboBox9
+            // 
+            comboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBox9.FormattingEnabled = true;
+            comboBox9.Location = new System.Drawing.Point(8, 10);
+            comboBox9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBox9.Name = "comboBox9";
+            comboBox9.Size = new System.Drawing.Size(125, 23);
+            comboBox9.TabIndex = 26;
+            // 
+            // button2
+            // 
+            button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            button2.Location = new System.Drawing.Point(320, 6);
+            button2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button2.Name = "button2";
+            button2.Size = new System.Drawing.Size(103, 33);
+            button2.TabIndex = 1;
+            button2.Text = "OK";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button1
+            // 
+            button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            button1.Location = new System.Drawing.Point(430, 6);
+            button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(103, 33);
+            button1.TabIndex = 0;
+            button1.Text = "Cancel";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new System.Drawing.Point(141, 6);
+            button3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button3.Name = "button3";
+            button3.Size = new System.Drawing.Size(103, 33);
+            button3.TabIndex = 3;
+            button3.Text = "Apply preset";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton3
+            // 
+            radioButton3.AutoSize = true;
+            radioButton3.Location = new System.Drawing.Point(4, 46);
+            radioButton3.Name = "radioButton3";
+            radioButton3.Size = new System.Drawing.Size(45, 17);
+            radioButton3.TabIndex = 2;
+            radioButton3.TabStop = true;
+            radioButton3.Text = "Low";
+            radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new System.Drawing.Point(4, 29);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new System.Drawing.Size(62, 17);
+            radioButton2.TabIndex = 1;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Medium";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new System.Drawing.Point(4, 12);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new System.Drawing.Size(47, 17);
+            radioButton1.TabIndex = 0;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "High";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            checkBox7.AutoSize = true;
+            checkBox7.Location = new System.Drawing.Point(67, 176);
+            checkBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox7.Name = "checkBox7";
+            checkBox7.Size = new System.Drawing.Size(143, 19);
+            checkBox7.TabIndex = 11;
+            checkBox7.Text = "Second speed support";
+            checkBox7.UseVisualStyleBackColor = true;
+            // 
+            // checkBox8
+            // 
+            checkBox8.AutoSize = true;
+            checkBox8.Location = new System.Drawing.Point(67, 201);
+            checkBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox8.Name = "checkBox8";
+            checkBox8.Size = new System.Drawing.Size(201, 19);
+            checkBox8.TabIndex = 12;
+            checkBox8.Text = "Load .MQ (Quest) files from Host";
+            checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // checkBox9
+            // 
+            checkBox9.AutoSize = true;
+            checkBox9.Location = new System.Drawing.Point(67, 226);
+            checkBox9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox9.Name = "checkBox9";
+            checkBox9.Size = new System.Drawing.Size(113, 19);
+            checkBox9.TabIndex = 13;
+            checkBox9.Text = "Console support";
+            checkBox9.UseVisualStyleBackColor = true;
+            // 
+            // checkBox10
+            // 
+            checkBox10.AutoSize = true;
+            checkBox10.Location = new System.Drawing.Point(26, 40);
+            checkBox10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox10.Name = "checkBox10";
+            checkBox10.Size = new System.Drawing.Size(179, 19);
+            checkBox10.TabIndex = 11;
+            checkBox10.Text = "Russian charset fix for WinXP";
+            checkBox10.UseVisualStyleBackColor = true;
             // 
             // Options
             // 
-            this.AcceptButton = this.button2;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.button1;
-            this.ClientSize = new System.Drawing.Size(464, 354);
-            this.Controls.Add(this.splitContainer1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Options";
-            this.Padding = new System.Windows.Forms.Padding(1);
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Options";
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.tabPage5.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AcceptButton = button2;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = button1;
+            ClientSize = new System.Drawing.Size(541, 408);
+            Controls.Add(splitContainer1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "Options";
+            Padding = new System.Windows.Forms.Padding(1);
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Options";
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
+            tabPage5.ResumeLayout(false);
+            tabPage6.ResumeLayout(false);
+            tabPage6.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -718,5 +767,10 @@
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.CheckBox checkBox10;
     }
 }
