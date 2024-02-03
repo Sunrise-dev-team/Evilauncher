@@ -482,12 +482,12 @@ namespace EIStarterCS
         private void writeshortcut(RegIni ri, CamShortcut cut, string regname)
         {
             //TODO shortcut write
-            cut.Distance = ri.GetFlt(regname + "Distance", "camera settings");
-            cut.AxisX = ri.GetFlt(regname + "AxisX", "camera settings");
-            cut.AxisY = ri.GetFlt(regname + "AxisY", "camera settings");
-            cut.AxisZ = ri.GetFlt(regname + "AxisZ", "camera settings");
-            cut.Angle = ri.GetFlt(regname + "Angle", "camera settings");
-            cut.Pitch = ri.GetFlt(regname + "Pitch", "camera settings");
+             ri.SetFlt(regname + "Distance", cut.Distance, "camera settings");
+             ri.SetFlt(regname + "AxisX", cut.AxisX, "camera settings");
+             ri.SetFlt(regname + "AxisY", cut.AxisY, "camera settings");
+             ri.SetFlt(regname + "AxisZ", cut.AxisZ, "camera settings");
+             ri.SetFlt(regname + "Angle", cut.Angle, "camera settings");
+             ri.SetFlt(regname + "Pitch", cut.Pitch, "camera settings");
         }
         private void writeminmax(RegIni ri, CamMinMaxParam cut, string regname)
         {
@@ -536,8 +536,8 @@ namespace EIStarterCS
             prop.NearClipDistance = ri.GetFlt("NearClipDistance", "camera settings");
             prop.FlipXAxis = ri.GetBool("CameraFlipXAxis", "camera settings");
             prop.FlipYAxis = ri.GetBool("CameraFlipYAxis", "camera settings");
-            prop.XDeploy = ri.GetFlt("CAMERADEFAULTXDEPLOY", "camera settings");
-            prop.YDeploy = ri.GetFlt("CAMERADEFAULTYDEPLOY", "camera settings");
+            prop.XDeploy = ri.GetFlt("CameraDefaultXDeploy", "camera settings");
+            prop.YDeploy = ri.GetFlt("CameraDefaultYDeploy", "camera settings");
 
             readshortcut(ri, prop.Shortcut0, "CameraShortcut 0 ");
             readshortcut(ri, prop.Shortcut1, "CameraShortcut 1 ");
@@ -567,6 +567,9 @@ namespace EIStarterCS
             numericUpDown1.Value = ri2.GetInt("LandscapeDrawRadius", "settings");
             numericUpDown2.Value = ri2.GetInt("ObjectsDrawRadius", "settings");
             checkBox5.Checked = ri2.GetBool("PauseOnMinimize", "settings");
+            checkBox7.Checked = ri2.GetBool("MP Speed-control", "settings");
+            checkBox8.Checked = ri2.GetBool("MQ client", "settings");
+            checkBox9.Checked = ri2.GetBool("MP console", "settings");
 
             comboBox2.SelectedIndex = ri.GetInt("TextureQuality", "general settings");
             comboBox3.SelectedIndex = ri.GetInt("filtering", "general settings");
@@ -633,13 +636,30 @@ namespace EIStarterCS
             ri2.SetBool("PauseOnMinimize", checkBox5.Checked, "settings");
             ri2.SetInt("LandscapeDrawRadius", Convert.ToInt32(numericUpDown1.Value), "settings");
             ri2.SetInt("ObjectsDrawRadius", Convert.ToInt32(numericUpDown2.Value), "settings");
+            ri2.SetBool("MP Speed-control", checkBox7.Checked, "settings");
+            ri2.SetBool("MQ client", checkBox8.Checked, "settings");
+            ri2.SetBool("MP console", checkBox9.Checked, "settings");
 
             ri2.SetInt("Xoptions Active", 1, "settings"); //Force Extra options support!
             ri2.SetInt("ModesFiltration", 0, "settings"); //Force All resolutions displaying!
 
 
+            ri.SetInt("CameraBorderScrollArea", prop.BorderScrollArea, "camera settings");
+            ri.SetFlt("CameraTerrainSensetiveArea", prop.TerrainSensetiveArea, "camera settings");
+            ri.SetInt("CameraFrameSelectionSensetiveArea", prop.FrameSelectionSensetiveArea, "camera settings");
+
             ri.SetFlt("FarClipDistance", prop.FarClipDistance, "camera settings");
             ri.SetFlt("NearClipDistance", prop.NearClipDistance, "camera settings");
+
+            ri.SetBool("CameraFlipXAxis", prop.FlipXAxis, "camera settings");
+            ri.SetBool("CameraFlipYAxis", prop.FlipYAxis, "camera settings");
+            ri.SetFlt("CameraDefaultXDeploy", prop.XDeploy, "camera settings");
+            ri.SetFlt("CameraDefaultYDeploy", prop.YDeploy, "camera settings");
+
+            writeshortcut(ri, prop.Shortcut0, "CameraShortcut 0 ");
+            writeshortcut(ri, prop.Shortcut1, "CameraShortcut 1 ");
+            writeshortcut(ri, prop.Shortcut2, "CameraShortcut 2 ");
+            writeshortcut(ri, prop.Shortcut3, "CameraShortcut 3 ");
 
             writeminmax(ri, prop.DefaultPitch, "CameraDefault{0}Pitch");
             writeminmax(ri, prop.LimitDistanceToCarrier, "Camera{0}LimitDistanceToCarrier");
@@ -668,8 +688,8 @@ namespace EIStarterCS
             int terrainQuality = comboBox5.SelectedIndex;
             if (terrainQuality < 2)
             {
-                //ri.SetFlt("LOD1", 90.0f, "terrain settings");
-                //ri.SetFlt("LOD2", 130.0f, "terrain settings");
+                ri.SetFlt("LOD1", 90.0f, "terrain settings");
+                ri.SetFlt("LOD2", 130.0f, "terrain settings");
                 if (terrainQuality == 0)
                     ri.SetBool("EnableWaterWaves", true, "terrain settings");
                 else
@@ -677,8 +697,8 @@ namespace EIStarterCS
             }
             else
             {
-                //ri.SetFlt("LOD1", /*FIXME: ??? - 90.0f - ???, "terrain settings");
-                //ri.SetFlt("LOD2", ??? - 130.0f - ???, "terrain settings");
+                ri.SetFlt("LOD1", 55.0f, "terrain settings");
+                ri.SetFlt("LOD2", 90.0f, "terrain settings");
                 ri.SetBool("EnableWaterWaves", false, "terrain settings");
             }
 

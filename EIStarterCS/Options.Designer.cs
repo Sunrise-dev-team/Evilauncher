@@ -58,14 +58,20 @@
             label10 = new System.Windows.Forms.Label();
             AdapterBox = new System.Windows.Forms.ComboBox();
             tabPage2 = new System.Windows.Forms.TabPage();
+            label12 = new System.Windows.Forms.Label();
+            label11 = new System.Windows.Forms.Label();
             checkBox5 = new System.Windows.Forms.CheckBox();
             numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             tabPage3 = new System.Windows.Forms.TabPage();
+            checkBox9 = new System.Windows.Forms.CheckBox();
+            checkBox8 = new System.Windows.Forms.CheckBox();
+            checkBox7 = new System.Windows.Forms.CheckBox();
             tabPage4 = new System.Windows.Forms.TabPage();
             tabPage5 = new System.Windows.Forms.TabPage();
             propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             tabPage6 = new System.Windows.Forms.TabPage();
+            checkBox10 = new System.Windows.Forms.CheckBox();
             comboBox9 = new System.Windows.Forms.ComboBox();
             button2 = new System.Windows.Forms.Button();
             button1 = new System.Windows.Forms.Button();
@@ -73,10 +79,6 @@
             radioButton3 = new System.Windows.Forms.RadioButton();
             radioButton2 = new System.Windows.Forms.RadioButton();
             radioButton1 = new System.Windows.Forms.RadioButton();
-            checkBox7 = new System.Windows.Forms.CheckBox();
-            checkBox8 = new System.Windows.Forms.CheckBox();
-            checkBox9 = new System.Windows.Forms.CheckBox();
-            checkBox10 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -456,6 +458,8 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label12);
+            tabPage2.Controls.Add(label11);
             tabPage2.Controls.Add(checkBox5);
             tabPage2.Controls.Add(numericUpDown2);
             tabPage2.Controls.Add(numericUpDown1);
@@ -468,10 +472,28 @@
             tabPage2.Text = "Addon";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new System.Drawing.Point(148, 66);
+            label12.Name = "label12";
+            label12.Size = new System.Drawing.Size(111, 15);
+            label12.TabIndex = 12;
+            label12.Text = "Objects draw radius";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new System.Drawing.Point(148, 38);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(127, 15);
+            label11.TabIndex = 11;
+            label11.Text = "Landscape draw radius";
+            // 
             // checkBox5
             // 
             checkBox5.AutoSize = true;
-            checkBox5.Location = new System.Drawing.Point(24, 139);
+            checkBox5.Location = new System.Drawing.Point(18, 104);
             checkBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             checkBox5.Name = "checkBox5";
             checkBox5.Size = new System.Drawing.Size(181, 19);
@@ -482,7 +504,7 @@
             // numericUpDown2
             // 
             numericUpDown2.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            numericUpDown2.Location = new System.Drawing.Point(24, 98);
+            numericUpDown2.Location = new System.Drawing.Point(18, 63);
             numericUpDown2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             numericUpDown2.Maximum = new decimal(new int[] { 5000, 0, 0, 0 });
             numericUpDown2.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
@@ -496,7 +518,7 @@
             // numericUpDown1
             // 
             numericUpDown1.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            numericUpDown1.Location = new System.Drawing.Point(24, 55);
+            numericUpDown1.Location = new System.Drawing.Point(18, 34);
             numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             numericUpDown1.Maximum = new decimal(new int[] { 5000, 0, 0, 0 });
             numericUpDown1.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
@@ -520,6 +542,39 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Multiplayer";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox9
+            // 
+            checkBox9.AutoSize = true;
+            checkBox9.Location = new System.Drawing.Point(21, 77);
+            checkBox9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox9.Name = "checkBox9";
+            checkBox9.Size = new System.Drawing.Size(113, 19);
+            checkBox9.TabIndex = 13;
+            checkBox9.Text = "Console support";
+            checkBox9.UseVisualStyleBackColor = true;
+            // 
+            // checkBox8
+            // 
+            checkBox8.AutoSize = true;
+            checkBox8.Location = new System.Drawing.Point(21, 52);
+            checkBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox8.Name = "checkBox8";
+            checkBox8.Size = new System.Drawing.Size(237, 19);
+            checkBox8.TabIndex = 12;
+            checkBox8.Text = "Do not load .MQ (Quest) files from Host";
+            checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            checkBox7.AutoSize = true;
+            checkBox7.Location = new System.Drawing.Point(21, 27);
+            checkBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox7.Name = "checkBox7";
+            checkBox7.Size = new System.Drawing.Size(143, 19);
+            checkBox7.TabIndex = 11;
+            checkBox7.Text = "Second speed support";
+            checkBox7.UseVisualStyleBackColor = true;
             // 
             // tabPage4
             // 
@@ -564,6 +619,17 @@
             tabPage6.TabIndex = 5;
             tabPage6.Text = "Utils";
             tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // checkBox10
+            // 
+            checkBox10.AutoSize = true;
+            checkBox10.Location = new System.Drawing.Point(26, 40);
+            checkBox10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBox10.Name = "checkBox10";
+            checkBox10.Size = new System.Drawing.Size(179, 19);
+            checkBox10.TabIndex = 11;
+            checkBox10.Text = "Russian charset fix for WinXP";
+            checkBox10.UseVisualStyleBackColor = true;
             // 
             // comboBox9
             // 
@@ -640,50 +706,6 @@
             radioButton1.TabStop = true;
             radioButton1.Text = "High";
             radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox7
-            // 
-            checkBox7.AutoSize = true;
-            checkBox7.Location = new System.Drawing.Point(67, 176);
-            checkBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            checkBox7.Name = "checkBox7";
-            checkBox7.Size = new System.Drawing.Size(143, 19);
-            checkBox7.TabIndex = 11;
-            checkBox7.Text = "Second speed support";
-            checkBox7.UseVisualStyleBackColor = true;
-            // 
-            // checkBox8
-            // 
-            checkBox8.AutoSize = true;
-            checkBox8.Location = new System.Drawing.Point(67, 201);
-            checkBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            checkBox8.Name = "checkBox8";
-            checkBox8.Size = new System.Drawing.Size(201, 19);
-            checkBox8.TabIndex = 12;
-            checkBox8.Text = "Load .MQ (Quest) files from Host";
-            checkBox8.UseVisualStyleBackColor = true;
-            // 
-            // checkBox9
-            // 
-            checkBox9.AutoSize = true;
-            checkBox9.Location = new System.Drawing.Point(67, 226);
-            checkBox9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            checkBox9.Name = "checkBox9";
-            checkBox9.Size = new System.Drawing.Size(113, 19);
-            checkBox9.TabIndex = 13;
-            checkBox9.Text = "Console support";
-            checkBox9.UseVisualStyleBackColor = true;
-            // 
-            // checkBox10
-            // 
-            checkBox10.AutoSize = true;
-            checkBox10.Location = new System.Drawing.Point(26, 40);
-            checkBox10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            checkBox10.Name = "checkBox10";
-            checkBox10.Size = new System.Drawing.Size(179, 19);
-            checkBox10.TabIndex = 11;
-            checkBox10.Text = "Russian charset fix for WinXP";
-            checkBox10.UseVisualStyleBackColor = true;
             // 
             // Options
             // 
@@ -772,5 +794,7 @@
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
     }
 }

@@ -182,15 +182,15 @@
             ModCombo.BackColor = System.Drawing.Color.Black;
             ModCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ModCombo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            ModCombo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
+            ModCombo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
             ModCombo.ForeColor = System.Drawing.Color.SteelBlue;
             ModCombo.FormattingEnabled = true;
-            ModCombo.ItemHeight = 13;
+            ModCombo.ItemHeight = 15;
             ModCombo.Location = new System.Drawing.Point(484, 97);
             ModCombo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             ModCombo.MaxDropDownItems = 10;
             ModCombo.Name = "ModCombo";
-            ModCombo.Size = new System.Drawing.Size(170, 21);
+            ModCombo.Size = new System.Drawing.Size(170, 23);
             ModCombo.TabIndex = 1;
             ModCombo.SelectedIndexChanged += ModCombo_SelectedIndexChanged;
             // 

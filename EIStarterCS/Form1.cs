@@ -222,20 +222,20 @@ namespace EIStarterCS
             if (File.Exists(design_dir + lang + @"\back.bmp"))
             {
                 this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.bmp");
+                foreach (var button in buttons)
+                {
+                    SetButtonStyle(button.button, button.mask);
+                }
             }
             else
             {
                 // message "language not found! select other? LangSel
             }
 
-            foreach (var button in buttons)
-            {
-                SetButtonStyle(button.button, button.mask);
-            }
 
             //TODO: Switch construction is faster?
             // FONT
-            var font_size = 10f;
+            var font_size = 11f;
             Font font = new Font("Arial", font_size);
             if (privateFontCollection.Families.Length > 0)
             {
@@ -251,46 +251,39 @@ namespace EIStarterCS
             {
                 privateFontCollection.AddFontFile(@"design\" + lang + @"\font.otf");
                 font = new Font(privateFontCollection.Families[0], font_size);
-                //ModCombo.Font = font;
             }
             // No lang OTF
             else if (File.Exists(design_dir + @"font.otf"))
             {
                 privateFontCollection.AddFontFile(design_dir + @"font.otf");
                 font = new Font(privateFontCollection.Families[0], font_size);
-                //ModCombo.Font = font;
             }
             else if (File.Exists(@"design\font.otf"))
             {
                 privateFontCollection.AddFontFile(@"design\font.otf");
                 font = new Font(privateFontCollection.Families[0], font_size);
-                //ModCombo.Font = font;
             }
             // TTF
             else if (File.Exists(design_dir + lang + @"\font.ttf"))
             {
                 privateFontCollection.AddFontFile(@"design\" + lang + @"\font.ttf");
                 font = new Font(privateFontCollection.Families[0], font_size);
-                //ModCombo.Font = font;
             }
             else if (File.Exists(@"design\" + lang + @"\font.ttf"))
             {
                 privateFontCollection.AddFontFile(@"design\" + lang + @"\font.ttf");
                 font = new Font(privateFontCollection.Families[0], font_size);
-                //ModCombo.Font = font;
             }
             // No lang TTF
             else if (File.Exists(design_dir + @"font.ttf"))
             {
                 privateFontCollection.AddFontFile(design_dir + @"font.ttf");
                 font = new Font(privateFontCollection.Families[0], font_size);
-                //ModCombo.Font = font;
             }
             else if (File.Exists(@"design\font.ttf"))
             {
                 privateFontCollection.AddFontFile(@"design\font.ttf");
                 font = new Font(privateFontCollection.Families[0], font_size);
-                //ModCombo.Font = font;
             }
             if (privateFontCollection.Families.Length > 0)
             {
@@ -313,7 +306,8 @@ namespace EIStarterCS
                 {
                     if (File.Exists(langpath + "\\back.bmp"))
                     {
-                        languages.Add(Path.GetFileName(Path.GetDirectoryName(langpath + "\\back.bmp")));
+                        //languages.Add(Path.GetFileName(Path.GetDirectoryName(langpath + "\\back.bmp")));
+                        languages.Add(Path.GetFileName(langpath));
                         //design_dir = Path.GetDirectoryName(mods[ModCombo.SelectedIndex].path) + @"\design\";
                     }
                 }
@@ -381,7 +375,7 @@ namespace EIStarterCS
         private void StarterForm_MouseMove(object sender, MouseEventArgs e)
         {
             base.Capture = false;
-            //this.Opacity = 0.6; 
+            //this.Opacity = 0.9; 
             Message m = Message.Create(base.Handle, 161, new IntPtr(2), IntPtr.Zero);
             this.WndProc(ref m);
         }
@@ -462,8 +456,10 @@ namespace EIStarterCS
         private void button4_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
-            //Process.Start("https://allods.gipat.ru");
-            Process.Start(new ProcessStartInfo("https://allods.gipat.ru") { UseShellExecute = true });
+            Process.Start(
+                new ProcessStartInfo("https://allods.gipat.ru") 
+                { UseShellExecute = true }
+                );
             BtnS0(sender);
         }
 
@@ -528,12 +524,8 @@ namespace EIStarterCS
             var cfg = new IniFile("starter.config");
             cfg.Write("ModSel", mods[ModCombo.SelectedIndex].path, "Settings");
             cfg.Write("language", lang, "Settings");
-            //cfg.Write("ModSkins", isusecustomskins, "Settings");
             cfg.Write("ModSkins", isusecustomskins.ToString(), "Settings");
             cfg.Write("UsingINIconfigs", isINImods.ToString(), "Settings");
-
-            //Settings.Default.lang = lang;
-            //Settings.Default.Save();
         }
 
         private void ModCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -556,7 +548,7 @@ namespace EIStarterCS
                     }
                 }
             }
-            else
+            else if (design_dir != @"design\")
             {
                 design_dir = @"design\";
                 EnumerateLangs();
@@ -565,10 +557,8 @@ namespace EIStarterCS
 
             RegIni.Mode DataSource = RegIni.Mode.Win;
 
-            //IniFile gameini = new IniFile("Engine/config/game.ini");
             IniFile addonini = new IniFile("Engine/addon.ini");
             REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
-            //REGedit game = new REGedit("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
             RegIni ri2 = new RegIni(addon, addonini, DataSource);
             ri2.SetStr("AddonPath", Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName( mods[ModCombo.SelectedIndex].path), "settings");
             
