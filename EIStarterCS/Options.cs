@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -88,7 +89,7 @@ namespace EIStarterCS
         public Options()
         {
             InitializeComponent();
-            AdapterBox.Items.Add("Primary Videodriver");
+            cbbAdapter.Items.Add("Primary Videodriver");
 
             uint deviceIndex = 0;
             DISPLAY_DEVICE displayDevice = new DISPLAY_DEVICE();
@@ -96,8 +97,8 @@ namespace EIStarterCS
 
             while (EnumDisplayDevices(null, deviceIndex, ref displayDevice, 0))
             {
-                if (!AdapterBox.Items.Contains(displayDevice.DeviceString))
-                    AdapterBox.Items.Add(displayDevice.DeviceString);
+                if (!cbbAdapter.Items.Contains(displayDevice.DeviceString))
+                    cbbAdapter.Items.Add(displayDevice.DeviceString);
                 //Console.WriteLine("Device Name: " + displayDevice.DeviceName);
                 //Console.WriteLine("Device String: " + displayDevice.DeviceString);
                 //Console.WriteLine("Device ID: " + displayDevice.DeviceID);
@@ -113,8 +114,8 @@ namespace EIStarterCS
             int i = 0;
             while (EnumDisplaySettings(null, i, ref vDevMode))
             {
-                if (!ResolutionsBox.Items.Contains(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight))// + @" " + vDevMode.dmBitsPerPel))
-                    ResolutionsBox.Items.Add(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight);// + @" " + vDevMode.dmBitsPerPel);
+                if (!cbbResolutions.Items.Contains(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight))// + @" " + vDevMode.dmBitsPerPel))
+                    cbbResolutions.Items.Add(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight);// + @" " + vDevMode.dmBitsPerPel);
                 i++;
             }
             initSettings();
@@ -525,8 +526,8 @@ namespace EIStarterCS
             //ri.SetMode(DataSource);
             //ri2.SetMode(DataSource);
 
-            propertyGrid1.SelectedObject = new PropertyCategories();
-            PropertyCategories prop = (PropertyCategories)propertyGrid1.SelectedObject;
+            propGridCamera.SelectedObject = new PropertyCategories();
+            PropertyCategories prop = (PropertyCategories)propGridCamera.SelectedObject;
             
             prop.BorderScrollArea = ri.GetInt("CameraBorderScrollArea", "camera settings");
             prop.TerrainSensetiveArea = ri.GetFlt("CameraTerrainSensetiveArea", "camera settings");
@@ -557,28 +558,34 @@ namespace EIStarterCS
             readmov(ri, prop.Scroll, "CameraDefaultScroll{0}");
             readmov(ri, prop.Zoom, "CameraDefaultZoom{0}");
 
-            checkBox1.Checked = ri.GetBool("fullscreen", "general settings");
-            checkBox2.Checked = ri.GetBool("mipmapping", "general settings");
-            checkBox3.Checked = ri.GetBool("antialiasing", "general settings");
-            checkBox4.Checked = ri.GetBool("dithering", "general settings");
-            checkBox6.Checked = ri.GetBool("FPSIndependentCursor", "general settings");
+            cbFullscreen.Checked = ri.GetBool("fullscreen", "general settings");
+            cbMipMapping.Checked = ri.GetBool("mipmapping", "general settings");
+            cbAntialiasing.Checked = ri.GetBool("antialiasing", "general settings");
+            cbDithering.Checked = ri.GetBool("dithering", "general settings");
+            cbFPSCursor.Checked = ri.GetBool("FPSIndependentCursor", "general settings");
             //checkBox7.Checked = GetBool(game, "safesound", "general settings");
 
-            numericUpDown1.Value = ri2.GetInt("LandscapeDrawRadius", "settings");
-            numericUpDown2.Value = ri2.GetInt("ObjectsDrawRadius", "settings");
-            checkBox5.Checked = ri2.GetBool("PauseOnMinimize", "settings");
-            checkBox7.Checked = ri2.GetBool("MP Speed-control", "settings");
-            checkBox8.Checked = ri2.GetBool("MQ client", "settings");
-            checkBox9.Checked = ri2.GetBool("MP console", "settings");
+            var tmpnum = ri2.GetInt("LandscapeDrawRadius", "settings");
+            if (tmpnum > nbDrawRadiusTerrain.Minimum && tmpnum < nbDrawRadiusTerrain.Maximum)
+                nbDrawRadiusTerrain.Value = tmpnum;
 
-            comboBox2.SelectedIndex = ri.GetInt("TextureQuality", "general settings");
-            comboBox3.SelectedIndex = ri.GetInt("filtering", "general settings");
-            comboBox8.SelectedIndex = ri.GetInt("audio", "general settings");
-            comboBox7.SelectedIndex = ri.GetInt("video", "general settings");
-            comboBox4.SelectedIndex = ri.GetInt("shadowquality", "shadow settings");
+            tmpnum = ri2.GetInt("ObjectsDrawRadius", "settings");
+            if (tmpnum > nbDrawRadiusTerrain.Minimum && tmpnum < nbDrawRadiusTerrain.Maximum)
+                nbDrawRadiusObjects.Value = tmpnum;
 
-            AdapterBox.SelectedIndex = ri.GetInt("drawingtarget", "general settings");
-            ResolutionsBox.SelectedIndex = ResolutionsBox.Items.IndexOf(ri.GetStr("videoresolution", "general settings"));
+            cbOnMinimizePause.Checked = ri2.GetBool("PauseOnMinimize", "settings");
+            cbMPSecondSpeed.Checked = ri2.GetBool("MP Speed-control", "settings");
+            cbMPDisableMQ.Checked = ri2.GetBool("MQ client", "settings");
+            cbMPConsoleSupport.Checked = ri2.GetBool("MP console", "settings");
+
+            cbbTextures.SelectedIndex = ri.GetInt("TextureQuality", "general settings");
+            cbbFiltering.SelectedIndex = ri.GetInt("filtering", "general settings");
+            cbbAudio.SelectedIndex = ri.GetInt("audio", "general settings");
+            cbbMovies.SelectedIndex = ri.GetInt("video", "general settings");
+            cbbShadows.SelectedIndex = ri.GetInt("shadowquality", "shadow settings");
+
+            cbbAdapter.SelectedIndex = ri.GetInt("drawingtarget", "general settings");
+            cbbResolutions.SelectedIndex = cbbResolutions.Items.IndexOf(ri.GetStr("videoresolution", "general settings"));
 
             int terrainQuality;
             if (ri.GetBool("EnableWaterWaves", "terrain settings"))
@@ -587,7 +594,7 @@ namespace EIStarterCS
                 terrainQuality = 1;
             else
                 terrainQuality = 2;
-            comboBox5.SelectedIndex = terrainQuality;
+            cbbTerrain.SelectedIndex = terrainQuality;
 
             int lightingFreq;
             if (ri.GetInt("LIGHTINGFREQ", "terrain settings") == 1000)
@@ -596,7 +603,7 @@ namespace EIStarterCS
                 lightingFreq = 1;
             else
                 lightingFreq = 2;
-            comboBox6.SelectedIndex = lightingFreq;
+            cbbLighting.SelectedIndex = lightingFreq;
 
             int shadowingFreq;
             if (ri.GetInt("SHADOWINGFREQ", "terrain settings") == 1000)
@@ -605,7 +612,7 @@ namespace EIStarterCS
                 shadowingFreq = 1;
             else
                 shadowingFreq = 2;
-            comboBox1.SelectedIndex = shadowingFreq;
+            cbbShadowing.SelectedIndex = shadowingFreq;
 
             return;
         }
@@ -624,21 +631,21 @@ namespace EIStarterCS
 
             RegIni ri = new RegIni(game, gameini, DataSource);
             RegIni ri2 = new RegIni(addon, addonini, DataSource);
-            PropertyCategories prop = (PropertyCategories)propertyGrid1.SelectedObject;
+            PropertyCategories prop = (PropertyCategories)propGridCamera.SelectedObject;
 
 
-            ri.SetBool("fullscreen", checkBox1.Checked, "general settings");
-            ri.SetBool("mipmapping", checkBox2.Checked, "general settings");
-            ri.SetBool("antialiasing", checkBox3.Checked, "general settings");
-            ri.SetBool("dithering", checkBox4.Checked, "general settings");
-            ri.SetBool("FPSIndependentCursor", checkBox6.Checked, "general settings");
+            ri.SetBool("fullscreen", cbFullscreen.Checked, "general settings");
+            ri.SetBool("mipmapping", cbMipMapping.Checked, "general settings");
+            ri.SetBool("antialiasing", cbAntialiasing.Checked, "general settings");
+            ri.SetBool("dithering", cbDithering.Checked, "general settings");
+            ri.SetBool("FPSIndependentCursor", cbFPSCursor.Checked, "general settings");
             
-            ri2.SetBool("PauseOnMinimize", checkBox5.Checked, "settings");
-            ri2.SetInt("LandscapeDrawRadius", Convert.ToInt32(numericUpDown1.Value), "settings");
-            ri2.SetInt("ObjectsDrawRadius", Convert.ToInt32(numericUpDown2.Value), "settings");
-            ri2.SetBool("MP Speed-control", checkBox7.Checked, "settings");
-            ri2.SetBool("MQ client", checkBox8.Checked, "settings");
-            ri2.SetBool("MP console", checkBox9.Checked, "settings");
+            ri2.SetBool("PauseOnMinimize", cbOnMinimizePause.Checked, "settings");
+            ri2.SetInt("LandscapeDrawRadius", Convert.ToInt32(nbDrawRadiusTerrain.Value), "settings");
+            ri2.SetInt("ObjectsDrawRadius", Convert.ToInt32(nbDrawRadiusObjects.Value), "settings");
+            ri2.SetBool("MP Speed-control", cbMPSecondSpeed.Checked, "settings");
+            ri2.SetBool("MQ client", cbMPDisableMQ.Checked, "settings");
+            ri2.SetBool("MP console", cbMPConsoleSupport.Checked, "settings");
 
             ri2.SetInt("Xoptions Active", 1, "settings"); //Force Extra options support!
             ri2.SetInt("ModesFiltration", 0, "settings"); //Force All resolutions displaying!
@@ -674,18 +681,18 @@ namespace EIStarterCS
             writemov(ri, prop.Scroll, "CameraDefaultScroll{0}");
             writemov(ri, prop.Zoom, "CameraDefaultZoom{0}");
 
-            ri.SetInt("TextureQuality", comboBox2.SelectedIndex, "general settings");
-            ri.SetInt("filtering", comboBox3.SelectedIndex, "general settings");
-            ri.SetInt("audio", comboBox8.SelectedIndex, "general settings");
-            ri.SetInt("video", comboBox7.SelectedIndex, "general settings");
-            ri.SetInt("shadowquality", comboBox4.SelectedIndex, "shadow settings");
+            ri.SetInt("TextureQuality", cbbTextures.SelectedIndex, "general settings");
+            ri.SetInt("filtering", cbbFiltering.SelectedIndex, "general settings");
+            ri.SetInt("audio", cbbAudio.SelectedIndex, "general settings");
+            ri.SetInt("video", cbbMovies.SelectedIndex, "general settings");
+            ri.SetInt("shadowquality", cbbShadows.SelectedIndex, "shadow settings");
 
 
-            ri.SetInt("drawingtarget", AdapterBox.SelectedIndex, "general settings");
-            ri.SetStr("videoresolution", ResolutionsBox.SelectedItem.ToString(), "general settings"); //TODO: add resolution validation
+            ri.SetInt("drawingtarget", cbbAdapter.SelectedIndex, "general settings");
+            ri.SetStr("videoresolution", cbbResolutions.SelectedItem.ToString(), "general settings"); //TODO: add resolution validation
             
 
-            int terrainQuality = comboBox5.SelectedIndex;
+            int terrainQuality = cbbTerrain.SelectedIndex;
             if (terrainQuality < 2)
             {
                 ri.SetFlt("LOD1", 90.0f, "terrain settings");
@@ -703,7 +710,7 @@ namespace EIStarterCS
             }
 
             
-            int lightingFreq = comboBox6.SelectedIndex;
+            int lightingFreq = cbbLighting.SelectedIndex;
             switch (lightingFreq)
             {
                 case 0:
@@ -720,7 +727,7 @@ namespace EIStarterCS
                     break;
             }
             
-            int shadowingFreq = comboBox1.SelectedIndex;
+            int shadowingFreq = cbbShadowing.SelectedIndex;
             switch (shadowingFreq)
             {
                 case 0:
@@ -762,9 +769,9 @@ namespace EIStarterCS
 
         private void numericUpDown1_Leave(object sender, EventArgs e)
         {
-            if (!numericUpDown1.Validate())
+            if (!nbDrawRadiusTerrain.Validate())
             {
-                button2.Enabled = false;
+                btOk.Enabled = false;
             }
             //if()
         }
@@ -779,18 +786,72 @@ namespace EIStarterCS
             }
         }
 
+        public void Localise(string lang, bool bCreate = false)
+        {
+            if (!File.Exists(string.Format("lang/{0}/lang.ini", lang)))
+                return;
+
+            IniFile ini = new IniFile( string.Format("lang/{0}/lang.ini", lang) );
+
+            List<Control> allControls = ControlHelper.GetAllControls(this);
+
+            if (bCreate)
+            {
+                IniFile ini_save = new IniFile(string.Format("lang/{0}/lang_create.ini", lang));
+                ini_save.Write(this.Text, this.Text, this.Text);
+                foreach (Control control in allControls)
+                {
+                    if (!string.IsNullOrEmpty(control.Name)
+                        && !string.IsNullOrEmpty(control.Text)
+                        && !control.Name.ToLower().StartsWith("cbb")
+                        && !control.Name.ToLower().StartsWith("nb"))
+                        ini_save.Write(control.Name, control.Text, this.Text);
+                    else if (!string.IsNullOrEmpty(control.Name)
+                        && control.Name.ToLower().StartsWith("cbb")
+                        && control != cbbResolutions
+                        )
+                    {
+                        ComboBox cbb = (ComboBox)control;
+                        int itr = 0;
+                        foreach (var obj in cbb.Items)
+                        {
+                            //MessageBox.Show(obj.ToString());
+                            ini_save.Write(control.Name + "__" + itr, obj.ToString(), this.Text);
+                            itr++;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Control control in allControls)
+                {
+                    if (!string.IsNullOrEmpty(control.Name)
+                        && !control.Name.ToLower().StartsWith("cbb")
+                        && !control.Name.ToLower().StartsWith("nb")
+                        )
+                        control.Text = ini.Read(control.Name, this.Text, control.Text);
+                    else if (!string.IsNullOrEmpty(control.Name)
+                        && control.Name.ToLower().StartsWith("cbb")
+                        && control != cbbResolutions
+                        )
+                    {
+                        ComboBox cbb = (ComboBox)control;
+                        int itr = 0;
+                        foreach (var obj in cbb.Items)
+                        {
+                            cbb.Items[itr] = ini.Read(control.Name + "__" + itr, this.Text, obj.ToString());
+                            itr++;
+                        }
+                    }
+                }
+                this.Text = ini.Read(this.Text, this.Text, this.Text);
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             ApplySettings();
-            //IniFile game = new IniFile("Engine/config/game.ini");
-            /*SetBool(game, "fullscreen", checkBox1.Checked, "general settings");
-            SetBool(game, "mipmapping", checkBox2.Checked, "general settings");
-            SetBool(game, "antialiasing", checkBox3.Checked, "general settings");
-            SetBool(game, "dithering", checkBox4.Checked, "general settings");
-            SetBool(game, "FPSIndependentCursor", checkBox6.Checked, "general settings");
-            checkBox4.Checked = GetBool(game, "dithering", "general settings");
-            //checkBox1.Checked = GetBool(game, "fullscreen", "general settings");
-            */
         }
     }
 }

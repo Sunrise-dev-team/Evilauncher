@@ -11,10 +11,10 @@ namespace EIStarterCS
         string EXE = Assembly.GetExecutingAssembly().GetName().Name;
 
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
-        static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
+        static extern long WritePrivateProfileStringW(string Section, string Key, string Value, string FilePath);
 
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
-        static extern int GetPrivateProfileString(string Section, string Key, string Default, StringBuilder RetVal, int Size, string FilePath);
+        static extern int GetPrivateProfileStringW(string Section, string Key, string Default, StringBuilder RetVal, int Size, string FilePath);
 
         public IniFile(string IniPath = null)
         {
@@ -24,13 +24,13 @@ namespace EIStarterCS
         public string Read(string Key, string Section = null)
         {
             var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section ?? EXE, Key, "", RetVal, 255, Path);
+            GetPrivateProfileStringW(Section ?? EXE, Key, "", RetVal, 255, Path);
             return RetVal.ToString();
         }
         public string Read(string Key, string Section = null, string Default = "")
         {
             var RetVal = new StringBuilder(255);
-            GetPrivateProfileString(Section ?? EXE, Key, "", RetVal, 255, Path);
+            GetPrivateProfileStringW(Section ?? EXE, Key, "", RetVal, 255, Path);
             if (RetVal.ToString() == "")
                 return Default;
             return RetVal.ToString();
@@ -38,7 +38,7 @@ namespace EIStarterCS
 
         public void Write(string Key, string Value, string Section = null)
         {
-            WritePrivateProfileString(Section ?? EXE, Key, Value, Path);
+            WritePrivateProfileStringW(Section ?? EXE, Key, Value, Path);
         }
 
         public void DeleteKey(string Key, string Section = null)

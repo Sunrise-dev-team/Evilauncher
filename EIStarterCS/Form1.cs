@@ -15,11 +15,12 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Xml.Linq;
 //using System.Media;
-using WMPLib;
+//using WMPLib;
 using System.Security;
 using System.Drawing.Text;
 using static EIStarterCS.StarterForm;
 using static System.Collections.Specialized.BitVector32;
+using System.Media;
 
 namespace EIStarterCS
 {
@@ -32,7 +33,8 @@ namespace EIStarterCS
         bool isINImods = false;
         private List<string> languages = new List<string>();
         public List<Mod> mods = new List<Mod>();
-        WindowsMediaPlayer WMP = new WindowsMediaPlayer();
+        //WindowsMediaPlayer WMP = new WindowsMediaPlayer();
+        SoundPlayer simpleSound = new SoundPlayer();
         PrivateFontCollection privateFontCollection = new PrivateFontCollection();
         public class Buttons
         {
@@ -390,18 +392,37 @@ namespace EIStarterCS
                 //     SetButtonStyle(button.button, button.mask + "");
             }
         }
+        private bool SoundCheck(string str)
+        {
+            if (File.Exists(str))
+            {
+                if (simpleSound.SoundLocation != str)
+                {
+                    simpleSound.SoundLocation = str;
+                }
+                return true;
+            }
+            return false;
+        }
         private void BtnS1(object sender, bool fast = false)
         {
             if (!fast)
             {
-                if (File.Exists(design_dir + lang + @"\click.wav"))
+                //MessageBox.Show(design_dir);
+                var str = string.Format("{0}{1}{2}", design_dir, /*lang,*/ @"click.wav", "");
+                var str2 = string.Format("{0}{1}{2}", @"design\", /*lang,*/ @"click.wav", "");
+                if (SoundCheck(str))
                 {
-                    //SoundPlayer simpleSound = new SoundPlayer(@"design\" + lang + @"\click.wav");
-                    //simpleSound.Play();
-                    WMP.settings.volume = 1000;
+                    /*WMP.settings.volume = 1000;
                     WMP.URL = design_dir + lang + @"\click.wav";
-                    WMP.controls.play();
+                    WMP.controls.play();*/
+                    simpleSound.Play();
                 }
+                else if(SoundCheck(str2))
+                {
+                    simpleSound.Play();
+                }
+
                 foreach (var button in buttons)
                 {
                     if (sender.Equals(button.button))
@@ -443,6 +464,8 @@ namespace EIStarterCS
         {
             BtnS1(sender);
             Options options = new Options();
+            //options.Localise("ru",true); //Export translate
+            options.Localise(lang);
             var rez = options.ShowDialog();
             if (rez == DialogResult.OK || rez == DialogResult.Cancel)
                 BtnS0(sender);
