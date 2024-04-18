@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace EIStarterCS
+namespace EIStarter
 {
     public class EIRegFile
     {

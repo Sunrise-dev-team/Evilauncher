@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace EIStarterCS
+namespace EIStarter
 {
     class IniFile   // revision 11
     {

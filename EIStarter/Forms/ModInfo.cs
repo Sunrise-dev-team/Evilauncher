@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EIStarterCS
+namespace EIStarter
 {
     public partial class ModInfo : Form
     {
@@ -29,6 +29,7 @@ namespace EIStarterCS
 
         private void ModInfo_Load(object sender, EventArgs e)
         {
+            // TODO: format this crap
             var tmp = "";
             tmp += mod.name + "\r\n";
             tmp += "Version: " + mod.ver + "\r\n";
@@ -48,15 +49,15 @@ namespace EIStarterCS
 
             foreach (var dirfile in Directory.EnumerateFiles(Path.GetDirectoryName(mod.path)))
             {
-                if (Path.GetFileName(dirfile).Contains("read", StringComparison.CurrentCultureIgnoreCase)
-                    && Path.GetFileName(dirfile).Contains("me", StringComparison.CurrentCultureIgnoreCase)
+                if (Path.GetFileName(dirfile).ToLower().Contains("read")//, StringComparison.CurrentCultureIgnoreCase)
+                    && Path.GetFileName(dirfile).ToLower().Contains("me")//, StringComparison.CurrentCultureIgnoreCase)
                     )
                 {
                     readmepath = dirfile;
                     button2.Visible = true;
                 }
-                if (Path.GetFileName(dirfile).Contains("change", StringComparison.CurrentCultureIgnoreCase)
-                    && Path.GetFileName(dirfile).Contains("log", StringComparison.CurrentCultureIgnoreCase)
+                if (Path.GetFileName(dirfile).ToLower().Contains("change")//, StringComparison.CurrentCultureIgnoreCase)
+                    && Path.GetFileName(dirfile).ToLower().Contains("log")//, StringComparison.CurrentCultureIgnoreCase)
                     )
                 {
                     changelogpath = dirfile;
@@ -65,7 +66,7 @@ namespace EIStarterCS
             }
             //pluginpath
             //MessageBox.Show(Path.GetDirectoryName(mod.path) + "\\" + mod.pluginpath);
-            if (Path.Exists(Path.GetDirectoryName(mod.path) + "\\" + mod.pluginpath))
+            if (File.Exists(Path.GetDirectoryName(mod.path) + "\\" + mod.pluginpath))
             {
                 button1.Visible = true;
                 button1.Text = mod.plugintext;

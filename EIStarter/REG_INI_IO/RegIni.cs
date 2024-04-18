@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EIStarterCS
+namespace EIStarter
 {
     //TODO: EI .reg support, WinRegistry full support
     class RegIni

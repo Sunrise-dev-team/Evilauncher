@@ -9,21 +9,19 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static EIStarterCS.StarterForm;
+using static EIStarter.StarterForm;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
-namespace EIStarterCS
+namespace EIStarter
 {
     public partial class Options : Form
     {
         [DllImport("user32.dll")]
         public static extern bool EnumDisplaySettings(
               string deviceName, int modeNum, ref DEVMODE devMode);
-        //const int ENUM_CURRENT_SETTINGS = -1;
-
-        //const int ENUM_REGISTRY_SETTINGS = -2;
 
         [StructLayout(LayoutKind.Sequential)]
         public struct DEVMODE
@@ -65,8 +63,6 @@ namespace EIStarterCS
             public int dmPanningHeight;
 
         }
-
-
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct DISPLAY_DEVICE
@@ -135,7 +131,7 @@ namespace EIStarterCS
             public float Pitch { get; set; }
             public override string ToString()
             {
-                return string.Format("Dist: {0}, Axis({1},{2},{3}), Angle: {4}, Pitch: {5}", float.Round(Distance,2),AxisX,AxisY,AxisZ,Angle, float.Round(Pitch, 2));
+                return string.Format("Dist: {0}, Axis({1},{2},{3}), Angle: {4}, Pitch: {5}", Math.Round((double)Distance) /*float.Round(Distance,2)*/,AxisX,AxisY,AxisZ,Angle, Math.Round((double)Pitch) /*float.Round(Pitch, 2)*/);
             }
         }
         public class CamMoveParam
@@ -155,7 +151,7 @@ namespace EIStarterCS
             public float Default { get; set; }
             public override string ToString()
             {
-                return string.Format("Range: [{0} : {1} : {2}]",Min,Default, float.Round(Max, 2));
+                return string.Format("Range: [{0} : {1} : {2}]",Min,Default, Math.Round((double)Max));
             }
         }
         public class CamMinMaxParam
@@ -164,7 +160,7 @@ namespace EIStarterCS
             public float Max { get; set; }
             public override string ToString()
             {
-                return string.Format("Range: [{0} : {1}]", Min, float.Round(Max, 2));
+                return string.Format("Range: [{0} : {1}]", Min, Math.Round((double)Max));
             }
         }
         #endregion
@@ -482,7 +478,6 @@ namespace EIStarterCS
         }
         private void writeshortcut(RegIni ri, CamShortcut cut, string regname)
         {
-            //TODO shortcut write
              ri.SetFlt(regname + "Distance", cut.Distance, "camera settings");
              ri.SetFlt(regname + "AxisX", cut.AxisX, "camera settings");
              ri.SetFlt(regname + "AxisY", cut.AxisY, "camera settings");
@@ -623,16 +618,16 @@ namespace EIStarterCS
 
             RegIni.Mode DataSource = RegIni.Mode.Win;
 
-            IniFile gameini = new IniFile("Engine/config/game.ini");
-            IniFile addonini = new IniFile("Engine/addon.ini");
+            IniFile gameini = new("Engine/config/game.ini");
+            IniFile addonini = new("Engine/addon.ini");
 
-            REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
-            REGedit game = new REGedit("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
+            REGedit addon = new("Software\\Gipat.ru\\EI_Starter");
+            REGedit game = new("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
 
-            RegIni ri = new RegIni(game, gameini, DataSource);
-            RegIni ri2 = new RegIni(addon, addonini, DataSource);
+            RegIni ri = new(game, gameini, DataSource);
+            RegIni ri2 = new(addon, addonini, DataSource);
             PropertyCategories prop = (PropertyCategories)propGridCamera.SelectedObject;
-
+            
 
             ri.SetBool("fullscreen", cbFullscreen.Checked, "general settings");
             ri.SetBool("mipmapping", cbMipMapping.Checked, "general settings");
@@ -663,6 +658,7 @@ namespace EIStarterCS
             ri.SetFlt("CameraDefaultXDeploy", prop.XDeploy, "camera settings");
             ri.SetFlt("CameraDefaultYDeploy", prop.YDeploy, "camera settings");
 
+            
             writeshortcut(ri, prop.Shortcut0, "CameraShortcut 0 ");
             writeshortcut(ri, prop.Shortcut1, "CameraShortcut 1 ");
             writeshortcut(ri, prop.Shortcut2, "CameraShortcut 2 ");
@@ -747,25 +743,10 @@ namespace EIStarterCS
 
         }
 
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        /*private void comboBox4_SelectedIndexChanged(object sender, EventArgs e){}
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e){}
+        private void comboBox6_SelectedIndexChanged(object sender, EventArgs e){}
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e){}*/
 
         private void numericUpDown1_Leave(object sender, EventArgs e)
         {
@@ -775,7 +756,6 @@ namespace EIStarterCS
             }
             //if()
         }
-
 
         private void _Validating(object sender, CancelEventArgs e)
         {
@@ -836,12 +816,21 @@ namespace EIStarterCS
                         && control != cbbResolutions
                         )
                     {
+                        
                         ComboBox cbb = (ComboBox)control;
+                        /*
+                        // .Net 8
                         int itr = 0;
                         foreach (var obj in cbb.Items)
                         {
                             cbb.Items[itr] = ini.Read(control.Name + "__" + itr, this.Text, obj.ToString());
                             itr++;
+                        }*/
+
+                        // .Net FW 4.7
+                        for (int i = 0; i < cbb.Items.Count; i++)
+                        {
+                            cbb.Items[i] = ini.Read(control.Name + "__" + i, this.Text, cbb.Items[i].ToString());
                         }
                     }
                 }
@@ -849,7 +838,7 @@ namespace EIStarterCS
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btOk_Click(object sender, EventArgs e)
         {
             ApplySettings();
         }

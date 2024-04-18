@@ -4,8 +4,66 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
+namespace System
+{
+    public readonly struct Index
+    {
+        public int Value { get; }
+        public bool IsFromEnd { get; }
 
-namespace EIStarterCS
+        public Index(int value, bool isFromEnd = false)
+        {
+            Value = value;
+            IsFromEnd = isFromEnd;
+        }
+
+        // Implicit conversion from int to Index
+        public static implicit operator Index(int value)
+        {
+            return new Index(value, isFromEnd: false);
+        }
+
+        public static Index Start => new Index(0);
+
+        public static Index End => new Index(0, true);
+
+        // Method to calculate the offset from the start given the collection length
+        public int GetOffset(int length)
+        {
+            if (IsFromEnd)
+            {
+                return length - Value;
+            }
+            else
+            {
+                return Value;
+            }
+        }
+    }
+
+    public readonly struct Range
+    {
+        public Index Start { get; }
+        public Index End { get; }
+
+        public Range(Index start, Index end)
+        {
+            Start = start;
+            End = end;
+        }
+
+        public static Range StartAt(Index start) => new Range(start, Index.End);
+
+        public static Range EndAt(Index end) => new Range(Index.Start, end);
+
+        public static Range All => new Range(Index.Start, Index.End);
+
+        // Assuming you want to add some functionality to work with arrays or collections
+        // You might need to implement methods or extensions to support slicing with this custom Range type.
+    }
+}
+
+namespace EIStarter
 {
     internal static class Utility
     {
@@ -97,7 +155,8 @@ namespace EIStarterCS
             if (!pathNormalized.StartsWith(rootPathNormalized))
                 throw new ArgumentException();
 
-            var res = pathNormalized[(rootPathNormalized.Length + 1)..];
+            var res = pathNormalized[(rootPathNormalized.Length + 1)..]; //.Net 8 +
+            //var res = pathNormalized.Substring(rootPathNormalized.Length + 1); //.Net FW 4.7.2
             return res;
         }
 

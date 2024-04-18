@@ -1,4 +1,4 @@
-﻿namespace EIStarterCS
+﻿namespace EIStarter
 {
     partial class ModInfo
     {
@@ -52,7 +52,7 @@
             textBox1.Margin = new System.Windows.Forms.Padding(45, 40, 4, 3);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Mod Info";
+            //textBox1.PlaceholderText = "Mod Info";
             textBox1.ReadOnly = true;
             textBox1.Size = new System.Drawing.Size(254, 217);
             textBox1.TabIndex = 1;
@@ -110,7 +110,7 @@
             button3.TabIndex = 2;
             button3.Text = "Changelog";
             button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -122,7 +122,7 @@
             button2.TabIndex = 1;
             button2.Text = "Read Me";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -134,7 +134,7 @@
             button1.TabIndex = 0;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ModInfo
             // 
@@ -149,7 +149,7 @@
             ShowInTaskbar = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "ModInfo";
-            Load += ModInfo_Load;
+            this.Load += new System.EventHandler(this.ModInfo_Load);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);

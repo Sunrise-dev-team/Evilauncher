@@ -1,4 +1,4 @@
-﻿using EIStarterCS.Properties;
+﻿using EIStarter.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +18,11 @@ using System.Xml.Linq;
 //using WMPLib;
 using System.Security;
 using System.Drawing.Text;
-using static EIStarterCS.StarterForm;
+using static EIStarter.StarterForm;
 using static System.Collections.Specialized.BitVector32;
 using System.Media;
 
-namespace EIStarterCS
+namespace EIStarter
 {
     public partial class StarterForm : Form
     {
@@ -80,7 +80,7 @@ namespace EIStarterCS
             var cfg = new IniFile("starter.config");
             var lastsel = cfg.Read("ModSel", "Settings");
             var tempconv = cfg.Read("UsingINIconfigs", "Settings"); //isINImods
-            if (!String.IsNullOrWhiteSpace(tempconv))
+            if (!string.IsNullOrWhiteSpace(tempconv))
                 isINImods = Convert.ToBoolean(tempconv);
 
             lang = cfg.Read("language", "Settings", "en");
@@ -221,28 +221,26 @@ namespace EIStarterCS
         /// </summary>
         public void InitLang()
         {
-            if (File.Exists(design_dir + lang + @"\back.bmp"))
-            {
+            if (File.Exists(design_dir + lang + @"\back.png"))
+                this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.png");
+            else if (File.Exists(design_dir + lang + @"\back.bmp"))
                 this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.bmp");
-                foreach (var button in buttons)
-                {
-                    SetButtonStyle(button.button, button.mask);
-                }
-            }
-            else
-            {
+            //else
                 // message "language not found! select other? LangSel
+
+            foreach (var button in buttons)
+            {
+                SetButtonStyle(button.button, button.mask);
             }
 
 
             //TODO: Switch construction is faster?
             // FONT
-            var font_size = 11f;
+            var font_size = 10f;
             Font font = new Font("Arial", font_size);
             if (privateFontCollection.Families.Length > 0)
-            {
                 privateFontCollection.Families[0].Dispose();
-            }
+            
             // OTF
             if (File.Exists(design_dir + lang + @"\font.otf"))
             {
@@ -288,14 +286,14 @@ namespace EIStarterCS
                 font = new Font(privateFontCollection.Families[0], font_size);
             }
             if (privateFontCollection.Families.Length > 0)
-            {
                 ModCombo.Font = font;
-            }
+
             // Other
             ModCombo.Location = new Point(x: button1.Location.X + button1.Width + 10,y: ModCombo.Location.Y);
             infobtn.Location = new Point(x: ModCombo.Location.X + ModCombo.Width + 10,y: infobtn.Location.Y);
             langbtn.Location = new Point(x: 1,y: this.Height - langbtn.Height);
         }
+
         /// <summary>
         /// Get all langs names in design_dir
         /// </summary>
@@ -306,18 +304,19 @@ namespace EIStarterCS
                 languages.Clear();
                 foreach (var langpath in Directory.EnumerateDirectories(design_dir))
                 {
-                    if (File.Exists(langpath + "\\back.bmp"))
+                    if (File.Exists(langpath + "\\back.png"))
+                        languages.Add(Path.GetFileName(langpath));
+                    else if (File.Exists(langpath + "\\back.bmp"))
                     {
-                        //languages.Add(Path.GetFileName(Path.GetDirectoryName(langpath + "\\back.bmp")));
                         languages.Add(Path.GetFileName(langpath));
                         //design_dir = Path.GetDirectoryName(mods[ModCombo.SelectedIndex].path) + @"\design\";
                     }
                 }
                 //InitLang();
-
             }
             //languages.Add("en");
         }
+
         /// <summary>
         /// Set button image. Autosize to image.
         /// </summary>
@@ -397,9 +396,8 @@ namespace EIStarterCS
             if (File.Exists(str))
             {
                 if (simpleSound.SoundLocation != str)
-                {
                     simpleSound.SoundLocation = str;
-                }
+
                 return true;
             }
             return false;
@@ -419,9 +417,7 @@ namespace EIStarterCS
                     simpleSound.Play();
                 }
                 else if(SoundCheck(str2))
-                {
                     simpleSound.Play();
-                }
 
                 foreach (var button in buttons)
                 {
@@ -464,7 +460,7 @@ namespace EIStarterCS
         {
             BtnS1(sender);
             Options options = new Options();
-            //options.Localise("ru",true); //Export translate
+            //options.Localise("ru",true); // DEBUG: Export translate
             options.Localise(lang);
             var rez = options.ShowDialog();
             if (rez == DialogResult.OK || rez == DialogResult.Cancel)
