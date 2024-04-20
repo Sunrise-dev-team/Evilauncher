@@ -523,7 +523,12 @@ namespace EIStarter
 
             propGridCamera.SelectedObject = new PropertyCategories();
             PropertyCategories prop = (PropertyCategories)propGridCamera.SelectedObject;
-            
+
+            NTRtbExeName.Text = StarterForm.ExeName;
+            NTRtbPathCD.Text = ri.GetStr("CD-ROM Path", "Path Settings");
+            NTRtbPathRes.Text = ri.GetStr("Resources Path", "Path Settings");
+            NTRtbPathGameWork.Text = ri.GetStr("Work Path", "Path Settings");
+
             prop.BorderScrollArea = ri.GetInt("CameraBorderScrollArea", "camera settings");
             prop.TerrainSensetiveArea = ri.GetFlt("CameraTerrainSensetiveArea", "camera settings");
             prop.FrameSelectionSensetiveArea = ri.GetInt("CameraFrameSelectionSensetiveArea", "camera settings");
@@ -612,6 +617,25 @@ namespace EIStarter
             return;
         }
 
+        private void ApplyPaths()
+        {
+            //TODO: registry/ini switch support
+            RegIni.Mode DataSource = RegIni.Mode.Win;
+            IniFile gameini = new("Engine/config/game.ini");
+            IniFile addonini = new("Engine/addon.ini");
+
+            REGedit addon = new("Software\\Gipat.ru\\EI_Starter");
+            REGedit game = new("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
+
+            RegIni ri = new(game, gameini, DataSource);
+            RegIni ri2 = new(addon, addonini, DataSource);
+
+            StarterForm.ExeName = NTRtbExeName.Text;
+            ri.SetStr("CD-ROM Path", NTRtbPathCD.Text, "Path Settings");
+            ri.SetStr("Resources Path", NTRtbPathRes.Text, "Path Settings");
+            ri.SetStr("Work Path", NTRtbPathGameWork.Text, "Path Settings");
+        }
+
         private void ApplySettings()
         {
             //TODO: registry/ini switch support
@@ -627,7 +651,7 @@ namespace EIStarter
             RegIni ri = new(game, gameini, DataSource);
             RegIni ri2 = new(addon, addonini, DataSource);
             PropertyCategories prop = (PropertyCategories)propGridCamera.SelectedObject;
-            
+
 
             ri.SetBool("fullscreen", cbFullscreen.Checked, "general settings");
             ri.SetBool("mipmapping", cbMipMapping.Checked, "general settings");
@@ -761,8 +785,22 @@ namespace EIStarter
         {
             NumericUpDown tmp = (NumericUpDown)sender;
             if (Convert.ToString(tmp.Value) == "")
-            {
                 e.Cancel = true;
+        }
+
+        /// <summary>
+        /// Get user selecton to target text box
+        /// </summary>
+        /// <param name="box">target</param>
+        private void OpenPath(TextBox box)
+        {
+            FolderBrowserDialog opn = new FolderBrowserDialog();
+            opn.ShowNewFolderButton = true;
+            opn.SelectedPath = box.Text;
+            var rez = opn.ShowDialog();
+            if (rez == DialogResult.OK)
+            {
+                box.Text = opn.SelectedPath;
             }
         }
 
@@ -773,7 +811,7 @@ namespace EIStarter
 
             IniFile ini = new IniFile( string.Format("lang/{0}/lang.ini", lang) );
 
-            List<Control> allControls = ControlHelper.GetAllControls(this);
+            List<Control> allControls = SimplyHelper.GetAllControls(this);
 
             if (bCreate)
             {
@@ -781,11 +819,28 @@ namespace EIStarter
                 ini_save.Write(this.Text, this.Text, this.Text);
                 foreach (Control control in allControls)
                 {
-                    if (!string.IsNullOrEmpty(control.Name)
-                        && !string.IsNullOrEmpty(control.Text)
-                        && !control.Name.ToLower().StartsWith("cbb")
-                        && !control.Name.ToLower().StartsWith("nb"))
+                    if (string.IsNullOrEmpty(control.Name))
+                        continue;
+
+                    if (!string.IsNullOrEmpty(control.Text) &&
+                        !control.Name.ToLower().StartsWith("cbb") &&
+                        !control.Name.ToLower().StartsWith("nb") &&
+                        !control.Name.ToLower().StartsWith("tb") &&
+                        !control.Name.ToLower().StartsWith("prop") &&
+
+                        !control.Name.ToLower().StartsWith("ntr")
+                        )
                         ini_save.Write(control.Name, control.Text, this.Text);
+                    else if (!string.IsNullOrEmpty(control.Text)
+                        && control.Name.ToLower().StartsWith("tb")
+
+                        && !control.Name.ToLower().StartsWith("ntr")
+                        )
+                    {
+                        TextBox tb = (TextBox)control;
+                        ini_save.Write(tb.Name, tb.Text.Replace("\r\n","<rn>"), this.Text);
+                    }
+
                     else if (!string.IsNullOrEmpty(control.Name)
                         && control.Name.ToLower().StartsWith("cbb")
                         && control != cbbResolutions
@@ -795,7 +850,6 @@ namespace EIStarter
                         int itr = 0;
                         foreach (var obj in cbb.Items)
                         {
-                            //MessageBox.Show(obj.ToString());
                             ini_save.Write(control.Name + "__" + itr, obj.ToString(), this.Text);
                             itr++;
                         }
@@ -806,14 +860,31 @@ namespace EIStarter
             {
                 foreach (Control control in allControls)
                 {
-                    if (!string.IsNullOrEmpty(control.Name)
-                        && !control.Name.ToLower().StartsWith("cbb")
-                        && !control.Name.ToLower().StartsWith("nb")
+                    if (string.IsNullOrEmpty(control.Name))
+                        continue;
+                    if (
+                        !control.Name.ToLower().StartsWith("cbb") &&
+                        !control.Name.ToLower().StartsWith("nb") &&
+                        !control.Name.ToLower().StartsWith("tb") &&
+                        !control.Name.ToLower().StartsWith("prop") &&
+
+                        !control.Name.ToLower().StartsWith("ntr")
                         )
                         control.Text = ini.Read(control.Name, this.Text, control.Text);
-                    else if (!string.IsNullOrEmpty(control.Name)
-                        && control.Name.ToLower().StartsWith("cbb")
-                        && control != cbbResolutions
+
+                    else if (!string.IsNullOrEmpty(control.Text)
+                        && control.Name.ToLower().StartsWith("tb")
+
+                        && !control.Name.ToLower().StartsWith("ntr")
+                        )
+                    {
+                        TextBox tb = (TextBox)control;
+                        tb.Text = ini.Read(control.Name, this.Text, tb.Text).Replace("<rn>", "\r\n");
+                    }
+
+                    else if (
+                        control.Name.ToLower().StartsWith("cbb") &&
+                        control != cbbResolutions
                         )
                     {
                         
@@ -841,6 +912,26 @@ namespace EIStarter
         private void btOk_Click(object sender, EventArgs e)
         {
             ApplySettings();
+        }
+
+        private void btApplyPaths_Click(object sender, EventArgs e)
+        {
+            ApplyPaths();
+        }
+
+        private void NTRbtBrowse1_Click(object sender, EventArgs e)
+        {
+            OpenPath(NTRtbPathCD);
+        }
+
+        private void NTRbtBrowse2_Click(object sender, EventArgs e)
+        {
+            OpenPath(NTRtbPathRes);
+        }
+
+        private void NTRbtBrowse3_Click(object sender, EventArgs e)
+        {
+            OpenPath(NTRtbPathGameWork);
         }
     }
 }

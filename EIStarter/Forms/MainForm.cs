@@ -1,26 +1,18 @@
 ﻿using EIStarter.Properties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using System.Xml.Linq;
-//using System.Media;
 //using WMPLib;
-using System.Security;
 using System.Drawing.Text;
 using static EIStarter.StarterForm;
-using static System.Collections.Specialized.BitVector32;
 using System.Media;
+using System.Globalization;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace EIStarter
 {
@@ -29,6 +21,7 @@ namespace EIStarter
         private List<Buttons> buttons = new List<Buttons>();
         string lang = "en";
         string design_dir = @"design\";
+        public static string ExeName = @"game.exe";
         bool isusecustomskins = true;
         bool isINImods = false;
         private List<string> languages = new List<string>();
@@ -56,6 +49,19 @@ namespace EIStarter
             public string pluginpath;
             public string plugintext = "Plugin";
         }
+        bool ValidateExeName(string exename)
+        {
+            if (string.IsNullOrWhiteSpace(exename))
+                return false;
+            Regex regex = new Regex(@"^[^\\/:*?""<>|\r\n]+$");
+            if (!regex.IsMatch(exename))
+            {
+                MessageBox.Show("Err666: └ї Є√ ярфыр, їрЎъхЁ эхт·хсхээ√щ!\r\nGame.exe path is incorrect!");
+                return false;
+            }
+
+            return true;
+        }
         public StarterForm()
         {
             InitializeComponent();
@@ -68,12 +74,6 @@ namespace EIStarter
             buttons.Add(new Buttons() { button = langbtn, mask = "lang" });
             buttons.Add(new Buttons() { button = infobtn, mask = "info" });
 
-            //languages.Add("en");
-            /*languages.Add("ru");
-            languages.Add("de");
-            languages.Add("pl");
-            languages.Add("ko");
-            languages.Add("zh");*/
             EnumerateLangs();
             //lang = Settings.Default.lang;
             //lang = languages[0];
@@ -83,8 +83,16 @@ namespace EIStarter
             if (!string.IsNullOrWhiteSpace(tempconv))
                 isINImods = Convert.ToBoolean(tempconv);
 
-            lang = cfg.Read("language", "Settings", "en");
-            //var bSkip1 = false;
+            var tempconv2 = cfg.Read("ExeName", "Settings","game.exe"); // custom EXE
+            if (ValidateExeName(tempconv2))
+                ExeName = tempconv2;
+
+            string currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            if(!string.IsNullOrWhiteSpace(currentLanguage))
+                lang = cfg.Read("language", "Settings", currentLanguage);
+            else
+                lang = cfg.Read("language", "Settings", "en");
+            
             if (Directory.Exists(@"Mods\"))
             {
                 foreach (var modpath in Directory.EnumerateDirectories(@"Mods\"))
@@ -92,7 +100,6 @@ namespace EIStarter
                     if (File.Exists(modpath + "\\mod.config") && isINImods)
                     {
                         var modcfg = new IniFile(modpath + "\\mod.config");
-                        //MessageBox.Show(cfg.Read("Title", "MOD"));
                         mods.Add(new Mod()
                         {
                             name = "Unkn_Title",
@@ -139,7 +146,6 @@ namespace EIStarter
                         var modcfg = new EIRegFile();
                         if (!modcfg.isLoaded)
                             modcfg.Load(modpath + "\\config.reg");
-                        //MessageBox.Show(cfg.Read("Title", "MOD"));
                         mods.Add(new Mod()
                         {
                             name = "Unkn_Title",
@@ -221,72 +227,77 @@ namespace EIStarter
         /// </summary>
         public void InitLang()
         {
-            if (File.Exists(design_dir + lang + @"\back.png"))
-                this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.png");
-            else if (File.Exists(design_dir + lang + @"\back.bmp"))
-                this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.bmp");
+            //if (File.Exists(design_dir + lang + @"\back.png"))
+            //    this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.png");
+            //else if (File.Exists(design_dir + lang + @"\back.bmp"))
+            //    this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.bmp");
             //else
-                // message "language not found! select other? LangSel
+            // message "language not found! select other? LangSel
+
+            string[] extensions = { ".png", ".bmp" };
+            string[] directories = { design_dir + lang, design_dir, @"design\" + lang, @"design\" };
+
+            var filename = "back";
+            var fullbreak = false;
+
+            foreach (string directory in directories)
+            {
+                foreach (string extension in extensions)
+                {
+                    string imagePath = Path.Combine(directory, filename + extension);
+                    if (File.Exists(imagePath))
+                    {
+                        BackgroundImage = Image.FromFile(imagePath);
+                        fullbreak = true;
+                    }
+                    if (fullbreak)
+                        break;
+                }
+                if (fullbreak)
+                    break;
+            }
 
             foreach (var button in buttons)
             {
                 SetButtonStyle(button.button, button.mask);
             }
 
-
             //TODO: Switch construction is faster?
             // FONT
-            var font_size = 10f;
+            var font_size = 10.7f;
             Font font = new Font("Arial", font_size);
             if (privateFontCollection.Families.Length > 0)
-                privateFontCollection.Families[0].Dispose();
-            
+                    privateFontCollection.Families[0].Dispose();
+
             // OTF
             if (File.Exists(design_dir + lang + @"\font.otf"))
-            {
                 privateFontCollection.AddFontFile(design_dir + lang + @"\font.otf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
             else if (File.Exists(@"design\" + lang + @"\font.otf"))
-            {
                 privateFontCollection.AddFontFile(@"design\" + lang + @"\font.otf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
+
             // No lang OTF
             else if (File.Exists(design_dir + @"font.otf"))
-            {
                 privateFontCollection.AddFontFile(design_dir + @"font.otf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
             else if (File.Exists(@"design\font.otf"))
-            {
                 privateFontCollection.AddFontFile(@"design\font.otf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
+
             // TTF
             else if (File.Exists(design_dir + lang + @"\font.ttf"))
-            {
                 privateFontCollection.AddFontFile(@"design\" + lang + @"\font.ttf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
             else if (File.Exists(@"design\" + lang + @"\font.ttf"))
-            {
                 privateFontCollection.AddFontFile(@"design\" + lang + @"\font.ttf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
+            
             // No lang TTF
             else if (File.Exists(design_dir + @"font.ttf"))
-            {
                 privateFontCollection.AddFontFile(design_dir + @"font.ttf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
             else if (File.Exists(@"design\font.ttf"))
-            {
                 privateFontCollection.AddFontFile(@"design\font.ttf");
-                font = new Font(privateFontCollection.Families[0], font_size);
-            }
+            
             if (privateFontCollection.Families.Length > 0)
+            {
+                font = new Font(privateFontCollection.Families[0], font_size);
                 ModCombo.Font = font;
+            }
 
             // Other
             ModCombo.Location = new Point(x: button1.Location.X + button1.Width + 10,y: ModCombo.Location.Y);
@@ -304,12 +315,15 @@ namespace EIStarter
                 languages.Clear();
                 foreach (var langpath in Directory.EnumerateDirectories(design_dir))
                 {
-                    if (File.Exists(langpath + "\\back.png"))
-                        languages.Add(Path.GetFileName(langpath));
-                    else if (File.Exists(langpath + "\\back.bmp"))
+                    foreach(var picpath in Directory.EnumerateFiles(langpath))
                     {
-                        languages.Add(Path.GetFileName(langpath));
-                        //design_dir = Path.GetDirectoryName(mods[ModCombo.SelectedIndex].path) + @"\design\";
+                        // TODO: know is true translate folder or not
+                        var ext = Path.GetExtension(picpath).ToLower();
+                        if (File.Exists(picpath) && (ext == ".png" || ext == ".bmp"))
+                        {
+                            languages.Add(Path.GetFileName(langpath));
+                            break;
+                        }
                     }
                 }
                 //InitLang();
@@ -324,52 +338,60 @@ namespace EIStarter
         /// <param name="mask">img name mask</param>
         private void SetButtonStyle(Button button, string mask)
         {
-            //TODO: refactoring needed maybe
-            if (File.Exists(design_dir + lang + @"\" + mask + @".png"))
+            string[] extensions = { ".png", ".bmp" };
+            string[] directories = { design_dir + lang, design_dir, @"design\" + lang, @"design\" };
+
+            foreach (string directory in directories)
             {
-                button.Image = Image.FromFile(design_dir + lang + @"\" + mask + @".png");
-            }
-            else if (File.Exists(design_dir + lang + @"\" + mask + @".bmp"))
-            {
-                button.Image = Image.FromFile(design_dir + lang + @"\" + mask + @".bmp");
-            }
-            else if (File.Exists(@"design\" + lang + @"\" + mask + @".png"))
-            {
-                button.Image = Image.FromFile(@"design\" + lang + @"\" + mask + @".png");
-            }
-            else if (File.Exists(@"design\" + lang + @"\" + mask + @".bmp"))
-            {
-                button.Image = Image.FromFile(@"design\" + lang + @"\" + mask + @".bmp");
-            }
-            if (button.Image != null)
-            {
-                button.Height = button.Image.Height - 1;
-                button.Width = button.Image.Width - 1;
-                button.Text = "";
+                foreach (string extension in extensions)
+                {
+                    string imagePath = Path.Combine(directory, mask + extension);
+                    if (File.Exists(imagePath))
+                    {
+                        button.Image = Image.FromFile(imagePath);
+                        if (button.Image != null)
+                        {
+                            button.Height = button.Image.Height - 1;
+                            button.Width = button.Image.Width - 1;
+                            button.Text = "";
+                            return;
+                        }
+                    }
+                }
             }
         }
 
         private void _MouseEnter(object sender, EventArgs e)
         {
-            foreach (var button in buttons)
+            /*foreach (var button in buttons)
             {
                 if (sender.Equals(button.button))
                 {
                     SetButtonStyle(button.button, button.mask + "_h");
                     return;
                 }
+            }*/
+            var hoveredButton = buttons.FirstOrDefault(b => sender.Equals(b.button));
+            if (hoveredButton != null)
+            {
+                SetButtonStyle(hoveredButton.button, hoveredButton.mask + "_h");
             }
         }
 
         private void _MouseLeave(object sender, EventArgs e)
         {
-            foreach (var button in buttons)
+            /*foreach (var button in buttons)
             {
                 if (sender.Equals(button.button))
                 {
                     SetButtonStyle(button.button, button.mask + "");
                     return;
                 }
+            }*/
+            var hoveredButton = buttons.FirstOrDefault(b => sender.Equals(b.button));
+            if (hoveredButton != null)
+            {
+                SetButtonStyle(hoveredButton.button, hoveredButton.mask + "");
             }
         }
 
@@ -397,7 +419,6 @@ namespace EIStarter
             {
                 if (simpleSound.SoundLocation != str)
                     simpleSound.SoundLocation = str;
-
                 return true;
             }
             return false;
@@ -406,7 +427,6 @@ namespace EIStarter
         {
             if (!fast)
             {
-                //MessageBox.Show(design_dir);
                 var str = string.Format("{0}{1}{2}", design_dir, /*lang,*/ @"click.wav", "");
                 var str2 = string.Format("{0}{1}{2}", @"design\", /*lang,*/ @"click.wav", "");
                 if (SoundCheck(str))
@@ -435,23 +455,23 @@ namespace EIStarter
                         SetButtonStyle(button.button, button.mask + "_d");
                 }
             }
-
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
-            //TODO: custom game.exe path.
-            if (File.Exists(@"Engine\Game.exe"))
+            string engine_path = @$"Engine\{ExeName}";
+            if (File.Exists(engine_path))
             {
-                ProcessStartInfo start = new ProcessStartInfo(Directory.GetCurrentDirectory() + @"\Engine\Game.exe");
+                ProcessStartInfo start = new ProcessStartInfo(Directory.GetCurrentDirectory() +@"\"+ engine_path);
                 start.WorkingDirectory = Directory.GetCurrentDirectory() + @"\Engine";
                 start.UseShellExecute = false;
-                Process.Start(start);
-                Application.Exit();
+                if (Process.Start(start) != null)
+                    Application.Exit();
             }
             else
             {
-                MessageBox.Show(@"Engine\Game.exe not found!");
+                MessageBox.Show($"{engine_path} not found!");
                 BtnS0(sender);
             }
         }
@@ -470,6 +490,15 @@ namespace EIStarter
         private void button3_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
+
+            string path = string.Format(@"lang\{0}\readme.txt", lang);
+            string path_def = @"lang\en\readme.txt";
+            if (File.Exists(path))
+                SimplyHelper.OpenWithDefaultProgram(path);
+            else if(File.Exists(path_def))
+                SimplyHelper.OpenWithDefaultProgram(path_def);
+
+            BtnS0(sender);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -485,6 +514,23 @@ namespace EIStarter
         private void button5_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
+            if (File.Exists(@".\uninstall.exe"))
+            {
+                var rez = MessageBox.Show("Are you want uninstal EIStarter?", null, MessageBoxButtons.YesNo);
+                if (rez != DialogResult.Yes)
+                    return;
+
+                ProcessStartInfo start = new ProcessStartInfo(Directory.GetCurrentDirectory() + @".\uninstall.exe");
+                start.WorkingDirectory = Directory.GetCurrentDirectory();
+                start.UseShellExecute = false;
+                if(Process.Start(start) != null)
+                    Application.Exit();
+            }
+            else
+            {
+                MessageBox.Show(@"Uninstall.exe not found!");
+                BtnS0(sender);
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -492,10 +538,6 @@ namespace EIStarter
             BtnS1(sender);
             Application.Exit();
         }
-
-        //private void button7_Click(object sender, EventArgs e)
-        //{
-        //}
 
 
         private void _ChangeUICues(object sender, UICuesEventArgs e)
@@ -545,6 +587,7 @@ namespace EIStarter
             cfg.Write("language", lang, "Settings");
             cfg.Write("ModSkins", isusecustomskins.ToString(), "Settings");
             cfg.Write("UsingINIconfigs", isINImods.ToString(), "Settings");
+            cfg.Write("ExeName", ExeName, "Settings");
         }
 
         private void ModCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -589,6 +632,8 @@ namespace EIStarter
             BtnS1(sender);
             ModInfo modInfo = new ModInfo();
             modInfo.SetMod(mods[ModCombo.SelectedIndex]);
+            //modInfo.Localise("ru", true); // DEBUG: Export translate
+            modInfo.Localise(lang);
             var rez = modInfo.ShowDialog();
             if (rez == DialogResult.OK || rez == DialogResult.Cancel)
                 BtnS0(sender);

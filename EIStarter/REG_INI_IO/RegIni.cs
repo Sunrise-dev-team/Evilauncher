@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EIStarter
 {
-    //TODO: EI .reg support, WinRegistry full support
+    //TODO: EI .reg write support
     class RegIni
     {
         public enum Mode : ushort

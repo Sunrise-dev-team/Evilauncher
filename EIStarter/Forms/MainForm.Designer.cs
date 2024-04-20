@@ -201,7 +201,7 @@
             this.ModCombo.Location = new System.Drawing.Point(415, 98);
             this.ModCombo.MaxDropDownItems = 10;
             this.ModCombo.Name = "ModCombo";
-            this.ModCombo.Size = new System.Drawing.Size(157, 23);
+            this.ModCombo.Size = new System.Drawing.Size(169, 23);
             this.ModCombo.TabIndex = 1;
             this.ModCombo.SelectedIndexChanged += new System.EventHandler(this.ModCombo_SelectedIndexChanged);
             // 

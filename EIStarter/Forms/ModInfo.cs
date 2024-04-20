@@ -17,6 +17,8 @@ namespace EIStarter
     {
         string readmepath = "";
         string changelogpath = "";
+        string insertdataorig = "{0} \r\nVersion: {1} \r\nAuthor(s): {2} \r\nDate: {3} \r\n\r\nSite: {4} \r\nE-mail: {5} \r\n\r\nSingleplayer: {6} \r\nMultiplayer: {7} \r\n";
+        string insertdata = "{0} \r\nVersion: {1} \r\nAuthor(s): {2} \r\nDate: {3} \r\n\r\nSite: {4} \r\nE-mail: {5} \r\n\r\nSingleplayer: {6} \r\nMultiplayer: {7} \r\n";
         StarterForm.Mod mod = new StarterForm.Mod();
         public ModInfo()
         {
@@ -29,23 +31,18 @@ namespace EIStarter
 
         private void ModInfo_Load(object sender, EventArgs e)
         {
-            // TODO: format this crap
-            var tmp = "";
-            tmp += mod.name + "\r\n";
-            tmp += "Version: " + mod.ver + "\r\n";
-            tmp += "Author(s): " + mod.author + "\r\n";
-            tmp += "Date: " + mod.date + "\r\n";
-            tmp += "\r\n";
-            tmp += "Site: " + mod.site + "\r\n";
-            tmp += "E-mail: " + mod.email + "\r\n";
-            tmp += "\r\n";
-            tmp += "Singleplayer: " + mod.issingle + "\r\n";
-            tmp += "Multiplayer: " + mod.ismulti + "\r\n";
+            /*var tmp = $"{mod.name} \r\n" +
+            $"Version: {mod.ver} \r\n" +
+            $"Author(s): {mod.author} \r\n" +
+            $"Date: {mod.date} \r\n\r\n" +
+            $"Site: {mod.site} \r\n" +
+            $"E-mail: {mod.email} \r\n\r\n" +
+            $"Singleplayer: {mod.issingle} \r\n" +
+            $"Multiplayer: {mod.ismulti} \r\n";*/
 
-            textBox1.Text = tmp;
-            button1.Visible = false;
-            button2.Visible = false;
-            button3.Visible = false;
+            NTRbtModAction.Visible = false;
+            btReadme.Visible = false;
+            btChangelog.Visible = false;
 
             foreach (var dirfile in Directory.EnumerateFiles(Path.GetDirectoryName(mod.path)))
             {
@@ -54,53 +51,99 @@ namespace EIStarter
                     )
                 {
                     readmepath = dirfile;
-                    button2.Visible = true;
+                    btReadme.Visible = true;
                 }
                 if (Path.GetFileName(dirfile).ToLower().Contains("change")//, StringComparison.CurrentCultureIgnoreCase)
                     && Path.GetFileName(dirfile).ToLower().Contains("log")//, StringComparison.CurrentCultureIgnoreCase)
                     )
                 {
                     changelogpath = dirfile;
-                    button3.Visible = true;
+                    btChangelog.Visible = true;
                 }
             }
             //pluginpath
-            //MessageBox.Show(Path.GetDirectoryName(mod.path) + "\\" + mod.pluginpath);
             if (File.Exists(Path.GetDirectoryName(mod.path) + "\\" + mod.pluginpath))
             {
-                button1.Visible = true;
-                button1.Text = mod.plugintext;
+                NTRbtModAction.Visible = true;
+                NTRbtModAction.Text = mod.plugintext;
             }
-
-        }
-        /// <summary>
-        /// From: https://stackoverflow.com/questions/11365984/c-sharp-open-file-with-default-application-and-parameters
-        /// </summary>
-        /// <param name="path"></param>
-        public static void OpenWithDefaultProgram(string path)
-        {
-            using Process fileopener = new Process();
-
-            fileopener.StartInfo.FileName = "explorer";
-            fileopener.StartInfo.Arguments = "\"" + path + "\"";
-            fileopener.Start();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             var path = Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName(mod.path) + @"\" + mod.pluginpath;
-            //MessageBox.Show(path);
             Process.Start(@"C:\Windows\System32\cmd.exe", "/C \"" + path+"\"");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            OpenWithDefaultProgram(readmepath);
+            SimplyHelper.OpenWithDefaultProgram(readmepath);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            OpenWithDefaultProgram(changelogpath);
+            SimplyHelper.OpenWithDefaultProgram(changelogpath);
+        }
+
+        public void Localise(string lang, bool bCreate = false)
+        {
+            NTRtbModInfo.Text = string.Format(insertdata, mod.name, mod.ver, mod.author, mod.date, mod.site, mod.email, mod.issingle, mod.ismulti);
+
+            if (!File.Exists(string.Format("lang/{0}/lang.ini", lang)))
+                return;
+
+            IniFile ini = new IniFile(string.Format("lang/{0}/lang.ini", lang));
+
+            List<Control> allControls = SimplyHelper.GetAllControls(this);
+
+            if (bCreate)
+            {
+                IniFile ini_save = new IniFile(string.Format("lang/{0}/lang_create.ini", lang));
+                ini_save.Write(this.Text, this.Text, this.Text);
+                ini_save.Write("ModDesc", insertdata.Replace("\r\n","<rn>"), this.Text);
+                foreach (Control control in allControls)
+                {
+                    if (string.IsNullOrEmpty(control.Name))
+                        continue;
+
+                    if (!string.IsNullOrEmpty(control.Text)
+                        && !control.Name.ToLower().StartsWith("cbb")
+                        && !control.Name.ToLower().StartsWith("nb")
+                        && !control.Name.ToLower().StartsWith("tb")
+                        && !control.Name.ToLower().StartsWith("ntr")
+                        )
+                        ini_save.Write(control.Name, control.Text, this.Text);
+                }
+            }
+            else
+            {
+                foreach (Control control in allControls)
+                {
+                    if (string.IsNullOrEmpty(control.Name))
+                        continue;
+                    if (
+                        !control.Name.ToLower().StartsWith("cbb") &&
+                        !control.Name.ToLower().StartsWith("nb") &&
+                        !control.Name.ToLower().StartsWith("tb") &&
+                        !control.Name.ToLower().StartsWith("ntr")
+                        )
+                        control.Text = ini.Read(control.Name, this.Text, control.Text);
+
+                    else if (!string.IsNullOrEmpty(control.Text)
+                        && control.Name.ToLower().StartsWith("tb")
+                        && !control.Name.ToLower().StartsWith("ntr")
+                        )
+                    {
+                        TextBox tb = (TextBox)control;
+                        for (int i = 0; i < tb.Lines.Count(); i++)
+                            tb.Lines[i] = ini.Read(control.Name + "_strN" + i, this.Text, tb.Lines[i]);
+                    }
+                }
+                insertdata = ini.Read("ModDesc", this.Text, insertdataorig).Replace("<rn>", "\r\n");
+                NTRtbModInfo.Text = string.Format(insertdata, mod.name, mod.ver, mod.author, mod.date, mod.site, mod.email, mod.issingle, mod.ismulti);
+
+                this.Text = ini.Read(this.Text, this.Text, this.Text);
+            }
         }
     }
 }
