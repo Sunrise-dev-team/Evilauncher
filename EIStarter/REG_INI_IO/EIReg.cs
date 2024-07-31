@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace EIStarter
 {
@@ -64,6 +65,7 @@ namespace EIStarter
             {
                 case ValueType.VT_DWORD:
                     valueData = BitConverter.ToUInt32(data, offset);
+                    //MessageBox.Show(valueData.ToString()+" "+name);
                     break;
                 case ValueType.VT_FLOAT:
                     valueData = BitConverter.ToSingle(data, offset);
@@ -81,7 +83,7 @@ namespace EIStarter
             return new Value(name, type, valueData);
         }
 
-        public float GetFloat(string sectionName, string valueName, float defaultValue)
+        public float GetFloat(string valueName, string sectionName, float defaultValue)
         {
             if (_sections.TryGetValue(sectionName, out Section? section) &&
                 section.Values.TryGetValue(valueName, out Value? value) &&
@@ -90,7 +92,7 @@ namespace EIStarter
             return defaultValue;
         }
 
-        public uint GetDword(string sectionName, string valueName, uint defaultValue)
+        public uint GetDword(string valueName, string sectionName, uint defaultValue)
         {
             if (_sections.TryGetValue(sectionName, out Section? section) &&
                 section.Values.TryGetValue(valueName, out Value? value) &&

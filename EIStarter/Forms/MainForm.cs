@@ -129,13 +129,13 @@ namespace EIStarter
                         try
                         {
                             if (modcfg.Read("Single", "MOD", "") != "")
-                                mod.issingle = Convert.ToBoolean(int.Parse(modcfg.Read("Single", "MOD", "")));
+                                mod.issingle = Convert.ToBoolean(int.Parse(modcfg.Read("Single", "MOD", "1")));
                         }
                         catch { }
                         try
                         {
                             if (modcfg.Read("Multi", "MOD", "") != "")
-                                mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.Read("Multi", "MOD", "")));
+                                mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.Read("Multi", "MOD", "1")));
                         }
                         catch { }
                         ModCombo.Items.Add(mods.Last().name);
@@ -174,14 +174,12 @@ namespace EIStarter
                         mod.plugintext = modcfg.GetString("plugintext", "Starter", "Plugin");
                         try
                         {
-                            if (modcfg.GetString("Single", "MOD", "") != "")
-                                mod.issingle = Convert.ToBoolean(int.Parse(modcfg.GetString("Single", "MOD", "")));
+                            mod.issingle = Convert.ToBoolean(modcfg.GetDword("Single", "MOD", 1));
                         }
                         catch { }
                         try
                         {
-                            if (modcfg.GetString("Multi", "MOD", "") != "")
-                                mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.GetString("Multi", "MOD", "")));
+                            mod.ismulti = Convert.ToBoolean(modcfg.GetDword("Multi", "MOD", 1));
                         }
                         catch { }
                         ModCombo.Items.Add(mods.Last().name);
