@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\GuiHelper.cs" />
     <Compile Include="Misc\SimplyHelper.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>

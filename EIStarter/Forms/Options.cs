@@ -801,6 +801,8 @@ namespace EIStarter
             if (rez == DialogResult.OK)
             {
                 box.Text = opn.SelectedPath;
+                if (!box.Text.EndsWith("\\"))
+                    box.Text += "\\";
             }
         }
 

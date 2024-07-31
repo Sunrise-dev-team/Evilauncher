@@ -279,15 +279,8 @@ namespace EIStarter
             if (section != "nil")
                 reg.SwitchSubKeyPath(section);
 
-            //var temp = 
-            reg.WriteB(key, SingleToBytes(value), null);
-            /*if (temp == null || !(temp is byte[]) )
-            {
-                //return -1.0f;
-                //ERR: Не удалось преобразовать строку в число
-            }
-            return BytesToSingle(temp);*/
-            
+            reg.WriteB(key, SingleToBytes(value), null); // TODO: ? WriteB( SingleToBytes() ) to Write( float ) 
+
         }
         /////////////////////////////////////////////////////////////////////
         public string GetStr(IniFile ini, string key, string section)
