@@ -27,6 +27,7 @@ namespace EIStarter
         bool isINImods = false;
         private List<string> languages = new List<string>();
         public List<Mod> mods = new List<Mod>();
+        public bool isModsExists = false;
         //WindowsMediaPlayer WMP = new WindowsMediaPlayer();
         SoundPlayer simpleSound = new SoundPlayer();
         PrivateFontCollection privateFontCollection = new PrivateFontCollection();
@@ -37,17 +38,17 @@ namespace EIStarter
         }
         public class Mod
         {
-            public string name;
+            public string name = "unknown";
             public string path;
-            public string ver;
-            public string author;
-            public string email;
-            public string site;
-            public string date;
-            public bool issingle;
-            public bool ismulti;
+            public string ver = "0.0.0";
+            public string author = "unknown";
+            public string email = "";
+            public string site = "";
+            public string date = "";
+            public bool issingle = true;
+            public bool ismulti = true;
 
-            public string pluginpath;
+            public string pluginpath = "none";
             public string plugintext = "Plugin";
         }
         bool ValidateExeName(string exename)
@@ -98,27 +99,16 @@ namespace EIStarter
             {
                 foreach (var modpath in Directory.EnumerateDirectories(@"Mods\"))
                 {
-                    if (File.Exists(modpath + "\\mod.config") && isINImods)
+                    if (File.Exists($@"{modpath}\mod.config") && isINImods)
                     {
-                        var modcfg = new IniFile(modpath + "\\mod.config");
-                        mods.Add(new Mod()
-                        {
-                            name = "Unkn_Title",
-                            path = modpath + "\\mod.config",
-                            ver = "",
-                            author = "Unknown_Author",
-                            email = "",
-                            site = "",
-                            date = "",
-                            issingle = true,
-                            ismulti = true,
-                            pluginpath = "none"
-                        });
-                        var mod = mods.Last();
+                        var modcfg = new IniFile($@"{modpath}\mod.config");
+                        var mod = new Mod(){path = $@"{modpath}\mod.config"};
+                        mods.Add(mod);
+                        isModsExists = true;
 
 
                         mod.name = modcfg.Read("Title", "MOD", "Unkn_Title");
-                        mod.path = modpath + "\\mod.config";
+                        mod.path = $@"{modpath}\mod.config";
                         mod.ver = modcfg.Read("Version", "MOD", "");
                         mod.author = modcfg.Read("Author", "MOD", "Unknown_Author");
                         mod.email = modcfg.Read("AuthorEmail", "MOD", "");
@@ -138,33 +128,22 @@ namespace EIStarter
                                 mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.Read("Multi", "MOD", "1")));
                         }
                         catch { }
-                        ModCombo.Items.Add(mods.Last().name);
-                        if (mods.Last().path == lastsel)
+                        ModCombo.Items.Add(mod.name);
+                        if (mod.path == lastsel)
                             ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
                     }
-                    else if (File.Exists(modpath + "\\config.reg"))
+                    else if (File.Exists($@"{modpath}\config.reg"))
                     {
                         var modcfg = new EIRegFile();
                         if (!modcfg.isLoaded)
-                            modcfg.Load(modpath + "\\config.reg");
-                        mods.Add(new Mod()
-                        {
-                            name = "Unkn_Title",
-                            path = modpath + "\\mod.config",
-                            ver = "",
-                            author = "Unknown_Author",
-                            email = "",
-                            site = "",
-                            date = "",
-                            issingle = true,
-                            ismulti = true,
-                            pluginpath = "none"
-                        });
-                        var mod = mods.Last();
+                            modcfg.Load($@"{modpath}\config.reg");
+                        var mod = new Mod() { path = $@"{modpath}\mod.config" };
+                        mods.Add(mod);
+                        isModsExists = true;
 
 
                         mod.name = modcfg.GetString("Title", "MOD", "Unkn_Title");
-                        mod.path = modpath + "\\config.reg";
+                        mod.path = $@"{modpath}\config.reg";
                         mod.ver = modcfg.GetString("Version", "MOD", "");
                         mod.author = modcfg.GetString("Author", "MOD", "Unknown_Author");
                         mod.email = modcfg.GetString("AuthorEmail", "MOD", "");
@@ -182,8 +161,8 @@ namespace EIStarter
                             mod.ismulti = Convert.ToBoolean(modcfg.GetDword("Multi", "MOD", 1));
                         }
                         catch { }
-                        ModCombo.Items.Add(mods.Last().name);
-                        if (mods.Last().path == lastsel)
+                        ModCombo.Items.Add(mod.name);
+                        if (mod.path == lastsel)
                             ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
                     }
                     if (ModCombo.SelectedIndex < 0)
@@ -192,19 +171,10 @@ namespace EIStarter
             }
             else
             {
-                mods.Add(new Mod()
-                {
-                    name = "Unkn_Title",
-                    path = "\\mod.config",
-                    ver = "",
-                    author = "Unknown_Author",
-                    email = "",
-                    site = "",
-                    date = "",
-                    issingle = true,
-                    ismulti = true,
-                    pluginpath = "none"
-                });
+                var mod = new Mod() { path = $@"\mod.config" };
+                mods.Add(mod);
+                isModsExists = false;
+
                 ModCombo.Items.Clear();
                 ModCombo.Items.Add("No mods");
                 ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
@@ -255,7 +225,7 @@ namespace EIStarter
                     if (fullbreak)
                         break;
                 }
-            }catch (Exception) { }
+            }catch { }
 
             foreach (var button in buttons)
             {
@@ -272,35 +242,37 @@ namespace EIStarter
             try
             {
                 // OTF
-                if (File.Exists(design_dir + lang + @"\font.otf"))
-                    privateFontCollection.AddFontFile(design_dir + lang + @"\font.otf");
-                else if (File.Exists(@"design\" + lang + @"\font.otf"))
-                    privateFontCollection.AddFontFile(@"design\" + lang + @"\font.otf");
+                if (File.Exists(@$"{design_dir}{lang}\font.otf"))
+                    privateFontCollection.AddFontFile(@$"{design_dir}{lang}\font.otf");
+                else if (File.Exists($@"design\{lang}\font.otf"))
+                    privateFontCollection.AddFontFile(@$"design\{lang}\font.otf");
 
                 // No lang OTF
-                else if (File.Exists(design_dir + @"font.otf"))
-                    privateFontCollection.AddFontFile(design_dir + @"font.otf");
+                else if (File.Exists($"{design_dir}font.otf"))
+                    privateFontCollection.AddFontFile($"{design_dir}font.otf");
                 else if (File.Exists(@"design\font.otf"))
                     privateFontCollection.AddFontFile(@"design\font.otf");
             }
-            catch (Exception) { }
+            catch{}
 
             if (privateFontCollection.Families.Length == 0)
+            {
                 try
                 {
                     // TTF
-                    if (File.Exists(design_dir + lang + @"\font.ttf"))
-                        privateFontCollection.AddFontFile(@"design\" + lang + @"\font.ttf");
-                    else if (File.Exists(@"design\" + lang + @"\font.ttf"))
-                        privateFontCollection.AddFontFile(@"design\" + lang + @"\font.ttf");
+                    if (File.Exists(@$"{design_dir}{lang}\font.ttf"))
+                        privateFontCollection.AddFontFile(@$"{design_dir}{lang}\font.ttf");
+                    else if (File.Exists(@$"design\{lang}\font.ttf"))
+                        privateFontCollection.AddFontFile(@$"design\{lang}\font.ttf");
 
                     // No lang TTF
-                    else if (File.Exists(design_dir + @"font.ttf"))
-                        privateFontCollection.AddFontFile(design_dir + @"font.ttf");
+                    else if (File.Exists(@$"{design_dir}font.ttf"))
+                        privateFontCollection.AddFontFile(@$"{design_dir}font.ttf");
                     else if (File.Exists(@"design\font.ttf"))
                         privateFontCollection.AddFontFile(@"design\font.ttf");
                 }
-                catch (Exception){}
+                catch { }
+            }
             
             if (privateFontCollection.Families.Length > 0)
             {
@@ -500,7 +472,7 @@ namespace EIStarter
         {
             BtnS1(sender);
 
-            string path = string.Format(@"lang\{0}\readme.txt", lang);
+            string path = @$"lang\{lang}\readme.txt";
             string path_def = @"lang\en\readme.txt";
             if (File.Exists(path))
                 SimplyHelper.OpenWithDefaultProgram(path);
@@ -602,13 +574,22 @@ namespace EIStarter
         private void ModCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             BtnS1(sender);
-            if (Directory.Exists(Path.GetDirectoryName(mods[ModCombo.SelectedIndex].path) + @"\design\"))
+            var mod = mods[ModCombo.SelectedIndex];
+            /*if (!Directory.Exists(mod.path))
+            {
+                MessageBox.Show(@$"Mod: `{mod.name}` have wrong path: `{mod.path}`");
+                BtnS0(sender);
+                return;
+            }*/
+
+
+            if (Directory.Exists(mod.path) && Directory.Exists(Path.GetDirectoryName(mod.path) + @"\design\"))
             {
                 for (int i = 0; i < languages.Count; i++)
                 {
-                    if (Directory.Exists(Path.GetDirectoryName(mods[ModCombo.SelectedIndex].path) + @"\design\" + lang) && isusecustomskins)
+                    if (Directory.Exists(Path.GetDirectoryName(mod.path) + @"\design\" + lang) && isusecustomskins)
                     {
-                        design_dir = Path.GetDirectoryName(mods[ModCombo.SelectedIndex].path) + @"\design\";
+                        design_dir = Path.GetDirectoryName(mod.path) + @"\design\";
                         EnumerateLangs();
                         InitLang();
                         break;
@@ -629,10 +610,26 @@ namespace EIStarter
             RegIni.Mode DataSource = RegIni.Mode.Win;
 
             IniFile addonini = new IniFile("Engine/addon.ini");
-            REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
+            REGedit addon = new REGedit(@"Software\Gipat.ru\EI_Starter");
             RegIni ri2 = new RegIni(addon, addonini, DataSource);
-            ri2.SetStr("AddonPath", Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName( mods[ModCombo.SelectedIndex].path), "settings");
-            
+            var modFullPath = "";
+            if (isModsExists)
+                modFullPath = Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName(mod.path);
+            ri2.SetStr("AddonPath", modFullPath, "settings");
+
+            // Get addon.dll version
+            try
+            {
+                if (File.Exists(modFullPath + @"\addon.dll"))
+                    NTRlbAddonVer.Text = $"Parhelion(Addon.dll) v{FileVersionInfo.GetVersionInfo(modFullPath + @"\addon.dll").FileVersion}";
+                else if (File.Exists(Directory.GetCurrentDirectory() + @"\addon.dll"))
+                    NTRlbAddonVer.Text = $"Parhelion(Addon.dll) v{FileVersionInfo.GetVersionInfo(Directory.GetCurrentDirectory() + @"\addon.dll").FileVersion}";
+                else
+                    NTRlbAddonVer.Text = $"Parhelion(Addon.dll) not found!";
+            }
+            catch { }
+
+
             BtnS0(sender);
         }
 
@@ -646,6 +643,11 @@ namespace EIStarter
             var rez = modInfo.ShowDialog();
             if (rez == DialogResult.OK || rez == DialogResult.Cancel)
                 BtnS0(sender);
+        }
+
+        private void NTRlbAddonVer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // TODO: Addon.dll version click!
         }
     }
 }

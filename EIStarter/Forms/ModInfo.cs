@@ -85,6 +85,11 @@ namespace EIStarter
             SimplyHelper.OpenWithDefaultProgram(changelogpath);
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SimplyHelper.OpenWithDefaultProgram(Path.GetDirectoryName(mod.path));
+        }
+
         public void Localise(string lang, bool bCreate = false)
         {
             NTRtbModInfo.Text = string.Format(insertdata, mod.name, mod.ver, mod.author, mod.date, mod.site, mod.email, mod.issingle, mod.ismulti);
@@ -145,5 +150,6 @@ namespace EIStarter
                 this.Text = ini.Read(this.Text, this.Text, this.Text);
             }
         }
+
     }
 }

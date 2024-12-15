@@ -512,8 +512,8 @@ namespace EIStarter
             IniFile gameini = new IniFile("Engine/config/game.ini");
             IniFile addonini = new IniFile("Engine/addon.ini");
 
-            REGedit addon = new REGedit("Software\\Gipat.ru\\EI_Starter");
-            REGedit game = new REGedit("Software\\Gipat.ru\\EI_Starter\\EvilIslands");
+            REGedit addon = new REGedit(@"Software\Gipat.ru\EI_Starter");
+            REGedit game = new REGedit(@"Software\Gipat.ru\EI_Starter\EvilIslands");
 
             RegIni ri = new RegIni(game, gameini, DataSource);
             RegIni ri2 = new RegIni(addon, addonini, DataSource);

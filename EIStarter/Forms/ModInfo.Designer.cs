@@ -35,6 +35,7 @@
             this.btChangelog = new System.Windows.Forms.Button();
             this.btReadme = new System.Windows.Forms.Button();
             this.NTRbtModAction = new System.Windows.Forms.Button();
+            this.btModFolder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -55,7 +56,7 @@
             this.NTRtbModInfo.Multiline = true;
             this.NTRtbModInfo.Name = "NTRtbModInfo";
             this.NTRtbModInfo.ReadOnly = true;
-            this.NTRtbModInfo.Size = new System.Drawing.Size(218, 188);
+            this.NTRtbModInfo.Size = new System.Drawing.Size(217, 188);
             this.NTRtbModInfo.TabIndex = 1;
             this.NTRtbModInfo.TabStop = false;
             // 
@@ -64,7 +65,7 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(13, 13, 13, 13);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(13);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -75,7 +76,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Size = new System.Drawing.Size(378, 201);
-            this.splitContainer1.SplitterDistance = 231;
+            this.splitContainer1.SplitterDistance = 230;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -84,6 +85,7 @@
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.btModFolder, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.btChangelog, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btReadme, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.NTRbtModAction, 0, 0);
@@ -95,10 +97,10 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(146, 201);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(147, 201);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // btChangelog
@@ -109,7 +111,7 @@
             this.btChangelog.Location = new System.Drawing.Point(3, 71);
             this.btChangelog.MaximumSize = new System.Drawing.Size(0, 61);
             this.btChangelog.Name = "btChangelog";
-            this.btChangelog.Size = new System.Drawing.Size(140, 28);
+            this.btChangelog.Size = new System.Drawing.Size(141, 28);
             this.btChangelog.TabIndex = 2;
             this.btChangelog.Text = "Changelog";
             this.btChangelog.UseVisualStyleBackColor = true;
@@ -123,7 +125,7 @@
             this.btReadme.Location = new System.Drawing.Point(3, 37);
             this.btReadme.MaximumSize = new System.Drawing.Size(0, 61);
             this.btReadme.Name = "btReadme";
-            this.btReadme.Size = new System.Drawing.Size(140, 28);
+            this.btReadme.Size = new System.Drawing.Size(141, 28);
             this.btReadme.TabIndex = 1;
             this.btReadme.Text = "Read Me";
             this.btReadme.UseVisualStyleBackColor = true;
@@ -137,11 +139,25 @@
             this.NTRbtModAction.Location = new System.Drawing.Point(3, 3);
             this.NTRbtModAction.MaximumSize = new System.Drawing.Size(0, 61);
             this.NTRbtModAction.Name = "NTRbtModAction";
-            this.NTRbtModAction.Size = new System.Drawing.Size(140, 28);
+            this.NTRbtModAction.Size = new System.Drawing.Size(141, 28);
             this.NTRbtModAction.TabIndex = 0;
             this.NTRbtModAction.Text = "button1";
             this.NTRbtModAction.UseVisualStyleBackColor = true;
             this.NTRbtModAction.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btModFolder
+            // 
+            this.btModFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btModFolder.Location = new System.Drawing.Point(3, 105);
+            this.btModFolder.MaximumSize = new System.Drawing.Size(0, 61);
+            this.btModFolder.Name = "btModFolder";
+            this.btModFolder.Size = new System.Drawing.Size(141, 28);
+            this.btModFolder.TabIndex = 3;
+            this.btModFolder.Text = "Open in Explorer...";
+            this.btModFolder.UseVisualStyleBackColor = true;
+            this.btModFolder.Click += new System.EventHandler(this.button4_Click);
             // 
             // ModInfo
             // 
@@ -175,5 +191,6 @@
         private System.Windows.Forms.Button btReadme;
         private System.Windows.Forms.Button NTRbtModAction;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btModFolder;
     }
 }

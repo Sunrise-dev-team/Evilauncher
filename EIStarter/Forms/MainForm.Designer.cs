@@ -38,6 +38,7 @@
             this.ModCombo = new System.Windows.Forms.ComboBox();
             this.langbtn = new System.Windows.Forms.Button();
             this.infobtn = new System.Windows.Forms.Button();
+            this.NTRlbAddonVer = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // button1
@@ -243,6 +244,22 @@
             this.infobtn.MouseEnter += new System.EventHandler(this._MouseEnter);
             this.infobtn.MouseLeave += new System.EventHandler(this._MouseLeave);
             // 
+            // NTRlbAddonVer
+            // 
+            this.NTRlbAddonVer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.NTRlbAddonVer.BackColor = System.Drawing.Color.Transparent;
+            this.NTRlbAddonVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.NTRlbAddonVer.LinkColor = System.Drawing.Color.SteelBlue;
+            this.NTRlbAddonVer.Location = new System.Drawing.Point(422, 338);
+            this.NTRlbAddonVer.Name = "NTRlbAddonVer";
+            this.NTRlbAddonVer.Size = new System.Drawing.Size(213, 18);
+            this.NTRlbAddonVer.TabIndex = 9;
+            this.NTRlbAddonVer.TabStop = true;
+            this.NTRlbAddonVer.Text = "Parhelion(Addon.dll) vUNK";
+            this.NTRlbAddonVer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.NTRlbAddonVer.VisitedLinkColor = System.Drawing.Color.SteelBlue;
+            this.NTRlbAddonVer.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.NTRlbAddonVer_LinkClicked);
+            // 
             // StarterForm
             // 
             this.AcceptButton = this.button1;
@@ -252,6 +269,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.button6;
             this.ClientSize = new System.Drawing.Size(640, 360);
+            this.Controls.Add(this.NTRlbAddonVer);
             this.Controls.Add(this.infobtn);
             this.Controls.Add(this.langbtn);
             this.Controls.Add(this.ModCombo);
@@ -282,6 +300,7 @@
         private System.Windows.Forms.ComboBox ModCombo;
         private System.Windows.Forms.Button langbtn;
         private System.Windows.Forms.Button infobtn;
+        private System.Windows.Forms.LinkLabel NTRlbAddonVer;
     }
 }
 
