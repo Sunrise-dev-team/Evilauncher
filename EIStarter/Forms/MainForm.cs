@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 //using WMPLib;
 using System.Drawing.Text;
 using static EIStarter.StarterForm;
@@ -22,22 +21,33 @@ namespace EIStarter
     public partial class StarterForm : Form
     {
         private List<Buttons> buttons = new List<Buttons>();
-        string lang = "en";
-        string design_dir = @"design\";
+        // TODO: lang button -> lang(planet) & theme(brush) buttons
+
+        public string lang = "en";
+
+        public string design_dir = @"design\";
         public static string ExeName = @"game.exe";
-        bool isusecustomskins = true;
-        bool isINImods = false;
-        private List<string> languages = new List<string>();
-        public List<Mod> mods = new List<Mod>();
+
+        public bool isusecustomskins = true;
+
+        // "mod.config" override "config.reg"
+        public bool isINImods = false;
+
+        private List<string> languages = [];
+        public List<Mod> mods = [];
+
+        // folder "Mods" exists and contains one or more mods
         public bool isModsExists = false;
         //WindowsMediaPlayer WMP = new WindowsMediaPlayer();
-        SoundPlayer simpleSound = new SoundPlayer();
-        PrivateFontCollection privateFontCollection = new PrivateFontCollection();
         public class Buttons
         {
             public Button button;
             public string mask;
         }
+        private SoundPlayer simpleSound = new();
+
+        private PrivateFontCollection privateFontCollection = new();
+
         public class Mod
         {
             public string name = "unknown";
@@ -66,11 +76,12 @@ namespace EIStarter
             buttons.Add(new Buttons() { button = infobtn, mask = "info" });
 
             EnumerateLangs();
-            //lang = Settings.Default.lang;
-            //lang = languages[0];
-            var cfg = new IniFile("starter.config");
-            var lastsel = cfg.Read("ModSel", "Settings");
-            var tempconv = cfg.Read("UsingINIconfigs", "Settings"); //isINImods
+
+
+            IniFile cfg = new("starter.config");
+
+            string lastsel = cfg.Read("ModSel", "Settings");
+            string tempconv = cfg.Read("UsingINIconfigs", "Settings"); //isINImods
             if (!string.IsNullOrWhiteSpace(tempconv))
                 isINImods = Convert.ToBoolean(tempconv);
 
@@ -79,14 +90,14 @@ namespace EIStarter
                 ExeName = tempExeName;
 
             string currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-            if(!string.IsNullOrWhiteSpace(currentLanguage))
+            if (!string.IsNullOrWhiteSpace(currentLanguage))
                 lang = cfg.Read("language", "Settings", currentLanguage);
             else
                 lang = cfg.Read("language", "Settings", "en");
-            
+
             if (Directory.Exists(@"Mods\"))
             {
-                foreach (var modpath in Directory.EnumerateDirectories(@"Mods\"))
+                foreach (string modpath in Directory.EnumerateDirectories(@"Mods\"))
                 {
                     if (File.Exists($@"{modpath}\mod.config") && isINImods)
                     {
@@ -160,7 +171,7 @@ namespace EIStarter
             }
             else
             {
-                var mod = new Mod() { path = $@"\mod.config" };
+                Mod mod = new() { path = $@"\mod.config" };
                 mods.Add(mod);
                 isModsExists = false;
 
@@ -184,27 +195,22 @@ namespace EIStarter
                 MessageBox.Show("game runing!", "Warning!");
 
         }
+
         /// <summary>
         /// Set style for all elements by current design_dir + lang.
         /// </summary>
         public void InitLang()
         {
-            //if (File.Exists(design_dir + lang + @"\back.png"))
-            //    this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.png");
-            //else if (File.Exists(design_dir + lang + @"\back.bmp"))
-            //    this.BackgroundImage = Image.FromFile(design_dir + lang + @"\back.bmp");
-            //else
-            // message "language not found! select other? LangSel
-
-            string[] extensions = { ".png", ".bmp" };
             string[] directories = { design_dir + lang, design_dir, @"design\" + lang, @"design\" };
+            string[] imgExt = { ".png",".gif", ".bmp" };
 
-            var filename = "back";
-            var fullbreak = false;
-            try{
+            string filename = "back";
+            bool fullbreak = false;
+            try
+            {
                 foreach (string directory in directories)
                 {
-                    foreach (string extension in extensions)
+                    foreach (string extension in imgExt)
                     {
                         string imagePath = Path.Combine(directory, filename + extension);
                         if (File.Exists(imagePath))
@@ -218,7 +224,8 @@ namespace EIStarter
                     if (fullbreak)
                         break;
                 }
-            }catch { }
+            }
+            catch { }
 
             foreach (var button in buttons)
             {
@@ -227,8 +234,8 @@ namespace EIStarter
 
             //TODO: Switch construction is faster?
             // FONT
-            var font_size = 10.7f;
-            Font font = new Font("Arial", font_size);
+            float font_size = 10.7f;
+            Font font = new("Arial", font_size);
             if (privateFontCollection.Families.Length > 0)
                 privateFontCollection.Families[0].Dispose(); // TODO: check 
 
@@ -312,8 +319,8 @@ namespace EIStarter
         /// <param name="mask">img name mask</param>
         private void SetButtonStyle(Button button, string mask)
         {
-            string[] extensions = { ".png", ".bmp" };
             string[] directories = { design_dir + lang, design_dir, @"design\" + lang, @"design\" };
+            string[] extensions = [".png", ".bmp"];
 
             foreach (string directory in directories)
             {
@@ -337,14 +344,6 @@ namespace EIStarter
 
         private void _MouseEnter(object sender, EventArgs e)
         {
-            /*foreach (var button in buttons)
-            {
-                if (sender.Equals(button.button))
-                {
-                    SetButtonStyle(button.button, button.mask + "_h");
-                    return;
-                }
-            }*/
             var hoveredButton = buttons.FirstOrDefault(b => sender.Equals(b.button));
             if (hoveredButton != null)
             {
@@ -354,14 +353,6 @@ namespace EIStarter
 
         private void _MouseLeave(object sender, EventArgs e)
         {
-            /*foreach (var button in buttons)
-            {
-                if (sender.Equals(button.button))
-                {
-                    SetButtonStyle(button.button, button.mask + "");
-                    return;
-                }
-            }*/
             var hoveredButton = buttons.FirstOrDefault(b => sender.Equals(b.button));
             if (hoveredButton != null)
             {
@@ -383,8 +374,6 @@ namespace EIStarter
             {
                 if (sender.Equals(button.button))
                     SetButtonStyle(button.button, button.mask + "");
-                // else
-                //     SetButtonStyle(button.button, button.mask + "");
             }
         }
         private bool SoundCheck(string str)
@@ -459,12 +448,11 @@ namespace EIStarter
         private void button2_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
-            Options options = new Options();
+            Options options = new();
             //options.Localise("ru",true); // DEBUG: Export translate
             options.Localise(lang);
-            var rez = options.ShowDialog();
-            if (rez == DialogResult.OK || rez == DialogResult.Cancel)
-                BtnS0(sender);
+            options.ShowDialog();
+            BtnS0(sender);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -475,7 +463,7 @@ namespace EIStarter
             string path_def = @"lang\en\readme.txt";
             if (File.Exists(path))
                 SimplyHelper.OpenWithDefaultProgram(path);
-            else if(File.Exists(path_def))
+            else if (File.Exists(path_def))
                 SimplyHelper.OpenWithDefaultProgram(path_def);
 
             BtnS0(sender);
@@ -485,7 +473,7 @@ namespace EIStarter
         {
             BtnS1(sender);
             Process.Start(
-                new ProcessStartInfo("https://allods.gipat.ru") 
+                new ProcessStartInfo("https://allods.gipat.ru")
                 { UseShellExecute = true }
                 );
             BtnS0(sender);
@@ -496,14 +484,16 @@ namespace EIStarter
             BtnS1(sender);
             if (File.Exists(@".\uninstall.exe"))
             {
-                var rez = MessageBox.Show("Are you want uninstal EIStarter?", null, MessageBoxButtons.YesNo);
+                DialogResult rez = MessageBox.Show("Are you want uninstal EIStarter?", null, MessageBoxButtons.YesNo);
                 if (rez != DialogResult.Yes)
                     return;
 
-                ProcessStartInfo start = new ProcessStartInfo(Directory.GetCurrentDirectory() + @".\uninstall.exe");
-                start.WorkingDirectory = Directory.GetCurrentDirectory();
-                start.UseShellExecute = false;
-                if(Process.Start(start) != null)
+                ProcessStartInfo start = new(Directory.GetCurrentDirectory() + @".\uninstall.exe")
+                {
+                    WorkingDirectory = Directory.GetCurrentDirectory(),
+                    UseShellExecute = false
+                };
+                if (Process.Start(start) != null)
                     Application.Exit();
             }
             else
@@ -524,7 +514,7 @@ namespace EIStarter
         {
             BtnS1(sender);
         }
-        
+
         /// <summary>
         /// Set next lang from languages list.
         /// </summary>
@@ -535,13 +525,8 @@ namespace EIStarter
                 if (languages[i] == lang && i != languages.Count - 1)
                 {
                     lang = languages[i + 1];
-                    //return;
                     break;
                 }
-                //else if(languages[i] == lang && i == languages.Count - 1)
-                //{
-                //    lang = languages[0];
-                //}
                 if (i == languages.Count - 1)
                     lang = languages[0];
             }
@@ -552,18 +537,13 @@ namespace EIStarter
             BtnS1(sender, true);
 
             LangSwitch();
-            //this.Update();
-            //foreach (var button in buttons)
-            //{
-            //    button.button.Update();
-            //}
-            //this.Invalidate();
         }
 
         private void StarterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var cfg = new IniFile("starter.config");
-            cfg.Write("ModSel", mods[ModCombo.SelectedIndex].path, "Settings");
+            IniFile cfg = new("starter.config");
+
+                cfg.Write("ModSel", mods[cbbMod.SelectedIndex].path, "Settings");
             cfg.Write("language", lang, "Settings");
             cfg.Write("ModSkins", isusecustomskins.ToString(), "Settings");
             cfg.Write("UsingINIconfigs", isINImods.ToString(), "Settings");
@@ -608,21 +588,21 @@ namespace EIStarter
 
             APIMode DataSource = APIMode.Win; // use Windows Registry
 
-            IniFile addonini = new IniFile("Engine/addon.ini");
-            REGedit addon = new REGedit(@"Software\Gipat.ru\EI_Starter");
-            RegIni ri2 = new RegIni(addon, addonini, DataSource);
+            IniFile addonini = new("Engine/addon.ini");
+            REGedit addon = new(@"Software\Gipat.ru\EI_Starter");
+            RegIni ri2 = new(addon, addonini, DataSource);
             var modFullPath = "";
             if (isModsExists)
-                modFullPath = Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName(mod.path);
+                modFullPath = $@"{Directory.GetCurrentDirectory()}\{Path.GetDirectoryName(mod.path)}";
             ri2.SetStr("AddonPath", modFullPath, "settings");
 
             // Get addon.dll version
             try
             {
-                if (File.Exists(modFullPath + @"\addon.dll"))
-                    NTRlbAddonVer.Text = $"Parhelion(Addon.dll) v{FileVersionInfo.GetVersionInfo(modFullPath + @"\addon.dll").FileVersion}";
-                else if (File.Exists(Directory.GetCurrentDirectory() + @"\addon.dll"))
-                    NTRlbAddonVer.Text = $"Parhelion(Addon.dll) v{FileVersionInfo.GetVersionInfo(Directory.GetCurrentDirectory() + @"\addon.dll").FileVersion}";
+                if (File.Exists(@$"{modFullPath}\addon.dll"))
+                    NTRlbAddonVer.Text = $"Parhelion(Addon.dll) v{FileVersionInfo.GetVersionInfo(@$"{modFullPath}\addon.dll").FileVersion}";
+                else if (File.Exists($@"{Directory.GetCurrentDirectory()}\addon.dll"))
+                    NTRlbAddonVer.Text = $"Parhelion(Addon.dll) v{FileVersionInfo.GetVersionInfo($@"{Directory.GetCurrentDirectory()}\addon.dll").FileVersion}";
                 else
                     NTRlbAddonVer.Text = $"Parhelion(Addon.dll) not found!";
             }
@@ -639,14 +619,14 @@ namespace EIStarter
             modInfo.SetMod(mods[ModCombo.SelectedIndex]);
             //modInfo.Localise("ru", true); // DEBUG: Export translate
             modInfo.Localise(lang);
-            var rez = modInfo.ShowDialog();
-            if (rez == DialogResult.OK || rez == DialogResult.Cancel)
-                BtnS0(sender);
+            modInfo.ShowDialog();
+            BtnS0(sender);
         }
 
         private void NTRlbAddonVer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // TODO: Addon.dll version click!
         }
+
     }
 }
