@@ -203,6 +203,7 @@ namespace EIStarter
         {
             string[] directories = { design_dir + lang, design_dir, @"design\" + lang, @"design\" };
             string[] imgExt = { ".png",".gif", ".bmp" };
+            string[] fontExt = { ".otf", ".ttf" };
 
             string filename = "back";
             bool fullbreak = false;
@@ -239,41 +240,27 @@ namespace EIStarter
             if (privateFontCollection.Families.Length > 0)
                 privateFontCollection.Families[0].Dispose(); // TODO: check 
 
+            fullbreak = false;
             try
             {
-                // OTF
-                if (File.Exists(@$"{design_dir}{lang}\font.otf"))
-                    privateFontCollection.AddFontFile(@$"{design_dir}{lang}\font.otf");
-                else if (File.Exists($@"design\{lang}\font.otf"))
-                    privateFontCollection.AddFontFile(@$"design\{lang}\font.otf");
-
-                // No lang OTF
-                else if (File.Exists($"{design_dir}font.otf"))
-                    privateFontCollection.AddFontFile($"{design_dir}font.otf");
-                else if (File.Exists(@"design\font.otf"))
-                    privateFontCollection.AddFontFile(@"design\font.otf");
-            }
-            catch{}
-
-            if (privateFontCollection.Families.Length == 0)
-            {
-                try
+                foreach (var dir in directories)
                 {
-                    // TTF
-                    if (File.Exists(@$"{design_dir}{lang}\font.ttf"))
-                        privateFontCollection.AddFontFile(@$"{design_dir}{lang}\font.ttf");
-                    else if (File.Exists(@$"design\{lang}\font.ttf"))
-                        privateFontCollection.AddFontFile(@$"design\{lang}\font.ttf");
+                    foreach (var ext in fontExt)
+                    {
+                        if (File.Exists(Path.Combine(dir, "font" + ext)))
+                            privateFontCollection.AddFontFile(Path.Combine(dir, "font" + ext));
+                        if (privateFontCollection.Families.Length != 0)
+                            fullbreak = true;
 
-                    // No lang TTF
-                    else if (File.Exists(@$"{design_dir}font.ttf"))
-                        privateFontCollection.AddFontFile(@$"{design_dir}font.ttf");
-                    else if (File.Exists(@"design\font.ttf"))
-                        privateFontCollection.AddFontFile(@"design\font.ttf");
+                        if (fullbreak)
+                            break;
+                    }
+                    if (fullbreak)
+                        break;
                 }
-                catch { }
             }
-            
+            catch { }
+
             if (privateFontCollection.Families.Length > 0)
             {
                 font = new Font(privateFontCollection.Families[0], font_size);
