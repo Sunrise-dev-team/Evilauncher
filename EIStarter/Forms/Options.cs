@@ -795,11 +795,12 @@ namespace EIStarter
         /// <param name="box">target</param>
         private void OpenPath(TextBox box)
         {
-            FolderBrowserDialog opn = new FolderBrowserDialog();
-            opn.ShowNewFolderButton = true;
-            opn.SelectedPath = box.Text;
-            var rez = opn.ShowDialog();
-            if (rez == DialogResult.OK)
+            FolderBrowserDialog opn = new()
+            {
+                ShowNewFolderButton = true,
+                SelectedPath = box.Text
+            };
+            if (opn.ShowDialog() == DialogResult.OK)
             {
                 box.Text = opn.SelectedPath;
                 if (!box.Text.EndsWith("\\"))
@@ -825,19 +826,21 @@ namespace EIStarter
                     if (string.IsNullOrEmpty(control.Name))
                         continue;
 
-                    if (!string.IsNullOrEmpty(control.Text) &&
-                        !control.Name.ToLower().StartsWith("cbb") &&
-                        !control.Name.ToLower().StartsWith("nb") &&
-                        !control.Name.ToLower().StartsWith("tb") &&
-                        !control.Name.ToLower().StartsWith("prop") &&
+                    var low = control.Name.ToLower();
 
-                        !control.Name.ToLower().StartsWith("ntr")
+                    if (!string.IsNullOrEmpty(control.Text) &&
+                        !low.StartsWith("cbb") &&
+                        !low.StartsWith("nb") &&
+                        !low.StartsWith("tb") &&
+                        !low.StartsWith("prop") &&
+
+                        !low.StartsWith("ntr")
                         )
                         ini_save.Write(control.Name, control.Text, this.Text);
                     else if (!string.IsNullOrEmpty(control.Text)
-                        && control.Name.ToLower().StartsWith("tb")
+                        && low.StartsWith("tb")
 
-                        && !control.Name.ToLower().StartsWith("ntr")
+                        && !low.StartsWith("ntr")
                         )
                     {
                         TextBox tb = (TextBox)control;
@@ -845,15 +848,17 @@ namespace EIStarter
                     }
 
                     else if (!string.IsNullOrEmpty(control.Name)
-                        && control.Name.ToLower().StartsWith("cbb")
+                        && low.StartsWith("cbb")
                         && control != cbbResolutions
+
+                        && !low.StartsWith("ntr")
                         )
                     {
                         ComboBox cbb = (ComboBox)control;
                         int itr = 0;
                         foreach (var obj in cbb.Items)
                         {
-                            ini_save.Write(control.Name + "__" + itr, obj.ToString(), this.Text);
+                            ini_save.Write($"{control.Name}__{itr}", obj.ToString(), this.Text);
                             itr++;
                         }
                     }
@@ -865,20 +870,21 @@ namespace EIStarter
                 {
                     if (string.IsNullOrEmpty(control.Name))
                         continue;
+                    var low = control.Name.ToLower();
                     if (
-                        !control.Name.ToLower().StartsWith("cbb") &&
-                        !control.Name.ToLower().StartsWith("nb") &&
-                        !control.Name.ToLower().StartsWith("tb") &&
-                        !control.Name.ToLower().StartsWith("prop") &&
+                        !low.StartsWith("cbb") &&
+                        !low.StartsWith("nb") &&
+                        !low.StartsWith("tb") &&
+                        !low.StartsWith("prop") &&
 
-                        !control.Name.ToLower().StartsWith("ntr")
+                        !low.StartsWith("ntr")
                         )
                         control.Text = ini.Read(control.Name, this.Text, control.Text);
 
                     else if (!string.IsNullOrEmpty(control.Text)
-                        && control.Name.ToLower().StartsWith("tb")
+                        && low.StartsWith("tb")
 
-                        && !control.Name.ToLower().StartsWith("ntr")
+                        && !low.StartsWith("ntr")
                         )
                     {
                         TextBox tb = (TextBox)control;
@@ -886,26 +892,30 @@ namespace EIStarter
                     }
 
                     else if (
-                        control.Name.ToLower().StartsWith("cbb") &&
+                        low.StartsWith("cbb") &&
                         control != cbbResolutions
+
+                        && !low.StartsWith("ntr")
                         )
                     {
                         
                         ComboBox cbb = (ComboBox)control;
-                        /*
+
                         // .Net 8
+#if NET
                         int itr = 0;
                         foreach (var obj in cbb.Items)
                         {
-                            cbb.Items[itr] = ini.Read(control.Name + "__" + itr, this.Text, obj.ToString());
+                            cbb.Items[itr] = ini.Read($"{control.Name}__{itr}", this.Text, obj.ToString());
                             itr++;
-                        }*/
-
+                        }
+#else
                         // .Net FW 4.7
                         for (int i = 0; i < cbb.Items.Count; i++)
                         {
-                            cbb.Items[i] = ini.Read(control.Name + "__" + i, this.Text, cbb.Items[i].ToString());
+                            cbb.Items[i] = ini.Read($"{control.Name}__{i}", this.Text, cbb.Items[i].ToString());
                         }
+#endif
                     }
                 }
                 this.Text = ini.Read(this.Text, this.Text, this.Text);
