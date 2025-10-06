@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static EIStarter.RegIni;
 using static EIStarter.StarterForm;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
@@ -507,7 +508,7 @@ namespace EIStarter
         {
             //TODO: registry/ini switch support
 
-            RegIni.Mode DataSource = RegIni.Mode.Win;
+            APIMode DataSource = APIMode.Win;
 
             IniFile gameini = new IniFile("Engine/config/game.ini");
             IniFile addonini = new IniFile("Engine/addon.ini");
@@ -620,7 +621,7 @@ namespace EIStarter
         private void ApplyPaths()
         {
             //TODO: registry/ini switch support
-            RegIni.Mode DataSource = RegIni.Mode.Win;
+            APIMode DataSource = APIMode.Win;
             IniFile gameini = new("Engine/config/game.ini");
             IniFile addonini = new("Engine/addon.ini");
 
@@ -640,7 +641,7 @@ namespace EIStarter
         {
             //TODO: registry/ini switch support
 
-            RegIni.Mode DataSource = RegIni.Mode.Win;
+            APIMode DataSource = APIMode.Win;
 
             IniFile gameini = new("Engine/config/game.ini");
             IniFile addonini = new("Engine/addon.ini");

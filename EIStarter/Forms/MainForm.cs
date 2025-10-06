@@ -14,6 +14,8 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
+using static EIStarter.RegIni;
+using static EIStarter.StarterForm;
 
 namespace EIStarter
 {
@@ -607,7 +609,7 @@ namespace EIStarter
                 InitLang();
             }
 
-            RegIni.Mode DataSource = RegIni.Mode.Win;
+            APIMode DataSource = APIMode.Win; // use Windows Registry
 
             IniFile addonini = new IniFile("Engine/addon.ini");
             REGedit addon = new REGedit(@"Software\Gipat.ru\EI_Starter");

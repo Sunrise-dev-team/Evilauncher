@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EIStarter
 {
@@ -28,7 +27,7 @@ namespace EIStarter
         }
         public void SwitchSubKeyPath(string newKeyPath)
         {
-            if (KeyPath == newKeyPath || String.IsNullOrWhiteSpace(newKeyPath))
+            if (KeyPath == newKeyPath || string.IsNullOrWhiteSpace(newKeyPath))
                 return;
             KeyPath = defaultKeyPath + newKeyPath;
         }
