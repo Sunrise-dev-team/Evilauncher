@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -30,8 +31,54 @@ namespace EIStarter
             using Process fileopener = new Process();
 
             fileopener.StartInfo.FileName = "explorer";
-            fileopener.StartInfo.Arguments = "\"" + path + "\"";
+            fileopener.StartInfo.Arguments = $"\"{path}\"";
             fileopener.Start();
         }
+
+        public static bool IsGameRuning()
+        {
+            // имя процесса (без расширения)
+            string processName = StarterForm.ExeName.Replace(".exe", "");
+            string defaultProcessName = "game";
+            string windowTitle = "Evil Islands";
+
+            foreach (var process in Process.GetProcesses())
+            {
+                if (
+                    (
+                    process.ProcessName.Equals(defaultProcessName, StringComparison.OrdinalIgnoreCase)
+                    ||
+                    process.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase)
+                    )
+                    &&
+                    (
+                    process.MainWindowTitle.Equals(windowTitle, StringComparison.OrdinalIgnoreCase)
+                    || process.MainWindowTitle.ToLower().Contains("evil")
+                    || process.MainWindowTitle.ToLower().Contains("islands")
+                    )
+                    )
+                {
+                    //Console.WriteLine($"Найден процесс: {process.ProcessName}, ID: {process.Id}, Заголовок окна: {process.MainWindowTitle}");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool ValidateExeName(string exename)
+        {
+            if (string.IsNullOrWhiteSpace(exename))
+                return false;
+
+            Regex regex = new Regex(@"^[^\\/:*?""<>|\r\n]+$");
+            if (!regex.IsMatch(exename))
+            {
+                MessageBox.Show("Err666: └ї Є√ ярфыр, їрЎъхЁ эхт·хсхээ√щ!\r\nGame.exe path is incorrect!");
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }

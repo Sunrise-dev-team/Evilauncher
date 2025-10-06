@@ -53,19 +53,6 @@ namespace EIStarter
             public string pluginpath = "none";
             public string plugintext = "Plugin";
         }
-        bool ValidateExeName(string exename)
-        {
-            if (string.IsNullOrWhiteSpace(exename))
-                return false;
-            Regex regex = new Regex(@"^[^\\/:*?""<>|\r\n]+$");
-            if (!regex.IsMatch(exename))
-            {
-                MessageBox.Show("Err666: └ї Є√ ярфыр, їрЎъхЁ эхт·хсхээ√щ!\r\nGame.exe path is incorrect!");
-                return false;
-            }
-
-            return true;
-        }
         public StarterForm()
         {
             InitializeComponent();
@@ -87,9 +74,9 @@ namespace EIStarter
             if (!string.IsNullOrWhiteSpace(tempconv))
                 isINImods = Convert.ToBoolean(tempconv);
 
-            var tempconv2 = cfg.Read("ExeName", "Settings","game.exe"); // custom EXE
-            if (ValidateExeName(tempconv2))
-                ExeName = tempconv2;
+            string tempExeName = cfg.Read("ExeName", "Settings", "game.exe"); // custom EXE
+            if (SimplyHelper.ValidateExeName(tempExeName))
+                ExeName = tempExeName;
 
             string currentLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
             if(!string.IsNullOrWhiteSpace(currentLanguage))
@@ -192,6 +179,10 @@ namespace EIStarter
             }*/
 
             InitLang();
+
+            if (SimplyHelper.IsGameRuning())
+                MessageBox.Show("game runing!", "Warning!");
+
         }
         /// <summary>
         /// Set style for all elements by current design_dir + lang.
@@ -443,12 +434,18 @@ namespace EIStarter
         private void button1_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
+
+            if (!SimplyHelper.ValidateExeName(ExeName))
+                ExeName = "game.exe";
+
             string engine_path = @$"Engine\{ExeName}";
             if (File.Exists(engine_path))
             {
-                ProcessStartInfo start = new ProcessStartInfo(Directory.GetCurrentDirectory() +@"\"+ engine_path);
-                start.WorkingDirectory = Directory.GetCurrentDirectory() + @"\Engine";
-                start.UseShellExecute = false;
+                ProcessStartInfo start = new($@"{Directory.GetCurrentDirectory()}\{engine_path}")
+                {
+                    WorkingDirectory = $@"{Directory.GetCurrentDirectory()}\Engine",
+                    UseShellExecute = false
+                };
                 if (Process.Start(start) != null)
                     Application.Exit();
             }
