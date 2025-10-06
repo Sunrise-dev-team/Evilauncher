@@ -101,6 +101,19 @@ namespace EIStarter
             return defaultValue;
         }
 
+        public bool GetBool(string valueName, string sectionName, bool defaultValue)
+        {
+            if (_sections.TryGetValue(sectionName, out Section? section) &&
+                section.Values.TryGetValue(valueName, out Value? value))
+
+                switch (value.Type)
+                {
+                    case ValueType.VT_DWORD:
+                        return Convert.ToBoolean(value.Data);
+                }
+            return defaultValue;
+        }
+
         public string GetString(string valueName, string sectionName, string defaultValue)
         {
             if (_sections.TryGetValue(sectionName, out Section? section) &&
