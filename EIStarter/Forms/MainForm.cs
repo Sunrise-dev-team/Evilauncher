@@ -1,29 +1,23 @@
-﻿using EIStarter.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 //using WMPLib;
 using System.Drawing.Text;
-using static EIStarter.StarterForm;
-using System.Media;
 using System.Globalization;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Linq.Expressions;
+using System.IO;
+using System.Media;
+using System.Windows.Forms;
 using static EIStarter.RegIni;
-using static EIStarter.StarterForm;
 
 namespace EIStarter
 {
     public partial class StarterForm : Form
     {
-        private List<Buttons> buttons = new List<Buttons>();
         // TODO: lang button -> lang(planet) & theme(brush) buttons
 
         public string lang = "en";
+        public string theme = "";
 
         public string design_dir = @"design\";
         public static string ExeName = @"game.exe";
@@ -34,16 +28,15 @@ namespace EIStarter
         public bool isINImods = false;
 
         private List<string> languages = [];
+        private List<string> themes = [];
         public List<Mod> mods = [];
+
+        private Dictionary<Control, string> btn2maskMap = [];
 
         // folder "Mods" exists and contains one or more mods
         public bool isModsExists = false;
+
         //WindowsMediaPlayer WMP = new WindowsMediaPlayer();
-        public class Buttons
-        {
-            public Button button;
-            public string mask;
-        }
         private SoundPlayer simpleSound = new();
 
         private PrivateFontCollection privateFontCollection = new();
@@ -66,19 +59,27 @@ namespace EIStarter
         public StarterForm()
         {
             InitializeComponent();
-            buttons.Add(new Buttons() { button = button1, mask = "pl" });
-            buttons.Add(new Buttons() { button = button2, mask = "op" });
-            buttons.Add(new Buttons() { button = button3, mask = "re" });
-            buttons.Add(new Buttons() { button = button4, mask = "we" });
-            buttons.Add(new Buttons() { button = button5, mask = "un" });
-            buttons.Add(new Buttons() { button = button6, mask = "ex" });
-            buttons.Add(new Buttons() { button = langbtn, mask = "lang" });
-            buttons.Add(new Buttons() { button = infobtn, mask = "info" });
+#if DEBUG
+            NTRlbDebug1.Visible = true;
+#else
+            NTRlbDebug1.Visible = false;
+#endif
+            btn2maskMap.Add(btPlay, "pl");
+            btn2maskMap.Add(btOptions, "op");
+            btn2maskMap.Add(btReadme, "re");
+            btn2maskMap.Add(btWeb, "we");
+            btn2maskMap.Add(btUninstall, "un");
+            btn2maskMap.Add(btExit, "ex");
+            btn2maskMap.Add(btLang, "lang");
+            btn2maskMap.Add(btSkin, "theme");
+            btn2maskMap.Add(btModInfo, "info");
 
             EnumerateLangs();
 
 
             IniFile cfg = new("starter.config");
+
+            theme = cfg.Read("Theme", "Settings", "");
 
             string lastsel = cfg.Read("ModSel", "Settings");
             string tempconv = cfg.Read("UsingINIconfigs", "Settings"); //isINImods
@@ -99,74 +100,59 @@ namespace EIStarter
             {
                 foreach (string modpath in Directory.EnumerateDirectories(@"Mods\"))
                 {
-                    if (File.Exists($@"{modpath}\mod.config") && isINImods)
+                    if (!File.Exists($@"{modpath}\config.reg") && !File.Exists($@"{modpath}\mod.config"))
+                        continue;
+
+                    APIMode curMode = APIMode.EI;
+
+                    IniFile iniCfg = new($@"{modpath}\mod.config");
+
+                    EIRegFile regCfg = new();
+
+                    if (File.Exists($@"{modpath}\config.reg") && !regCfg.isLoaded)
+                        regCfg.Load($@"{modpath}\config.reg");
+
+
+                    if (isINImods && File.Exists($@"{modpath}\mod.config"))
+                        curMode = APIMode.INI;
+                    else if (!regCfg.isLoaded)
+                        continue;
+
+                    RegIni ri = new(regCfg, iniCfg, curMode);
+
+                    Mod mod;
+                    if (curMode == APIMode.INI)
+                        mod = new() { path = $@"{modpath}\mod.config" };
+                    else
+                        mod = new() { path = $@"{modpath}\config.reg" };
+                    mods.Add(mod);
+                    isModsExists = true;
+
+                    mod.name = ri.GetStr("Title", "MOD", "Unkn_Title");
+                    //mod.path = $@"{modpath}\mod.config";
+                    mod.ver = ri.GetStr("Version", "MOD", "");
+                    mod.author = ri.GetStr("Author", "MOD", "Unknown_Author");
+                    mod.email = ri.GetStr("AuthorEmail", "MOD", "");
+                    mod.site = ri.GetStr("URL", "MOD", "");
+                    mod.date = ri.GetStr("date_DMY", "MOD", "");
+                    mod.pluginpath = ri.GetStr("pluginpath", "Starter", "none");
+                    mod.plugintext = ri.GetStr("plugintext", "Starter", "Plugin");
+                    try
                     {
-                        var modcfg = new IniFile($@"{modpath}\mod.config");
-                        var mod = new Mod(){path = $@"{modpath}\mod.config"};
-                        mods.Add(mod);
-                        isModsExists = true;
-
-
-                        mod.name = modcfg.Read("Title", "MOD", "Unkn_Title");
-                        mod.path = $@"{modpath}\mod.config";
-                        mod.ver = modcfg.Read("Version", "MOD", "");
-                        mod.author = modcfg.Read("Author", "MOD", "Unknown_Author");
-                        mod.email = modcfg.Read("AuthorEmail", "MOD", "");
-                        mod.site = modcfg.Read("URL", "MOD", "");
-                        mod.date = modcfg.Read("date_DMY", "MOD", "");
-                        mod.pluginpath = modcfg.Read("pluginpath", "Starter", "none");
-                        mod.plugintext = modcfg.Read("plugintext", "Starter", "Plugin");
-                        try
-                        {
-                            if (modcfg.Read("Single", "MOD", "") != "")
-                                mod.issingle = Convert.ToBoolean(int.Parse(modcfg.Read("Single", "MOD", "1")));
-                        }
-                        catch { }
-                        try
-                        {
-                            if (modcfg.Read("Multi", "MOD", "") != "")
-                                mod.ismulti = Convert.ToBoolean(int.Parse(modcfg.Read("Multi", "MOD", "1")));
-                        }
-                        catch { }
-                        ModCombo.Items.Add(mod.name);
-                        if (mod.path == lastsel)
-                            ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
+                        mod.issingle = ri.GetBool("Single", "MOD", true);
                     }
-                    else if (File.Exists($@"{modpath}\config.reg"))
+                    catch { }
+                    try
                     {
-                        var modcfg = new EIRegFile();
-                        if (!modcfg.isLoaded)
-                            modcfg.Load($@"{modpath}\config.reg");
-                        var mod = new Mod() { path = $@"{modpath}\mod.config" };
-                        mods.Add(mod);
-                        isModsExists = true;
-
-
-                        mod.name = modcfg.GetString("Title", "MOD", "Unkn_Title");
-                        mod.path = $@"{modpath}\config.reg";
-                        mod.ver = modcfg.GetString("Version", "MOD", "");
-                        mod.author = modcfg.GetString("Author", "MOD", "Unknown_Author");
-                        mod.email = modcfg.GetString("AuthorEmail", "MOD", "");
-                        mod.site = modcfg.GetString("URL", "MOD", "");
-                        mod.date = modcfg.GetString("date_DMY", "MOD", "");
-                        mod.pluginpath = modcfg.GetString("pluginpath", "Starter", "none");
-                        mod.plugintext = modcfg.GetString("plugintext", "Starter", "Plugin");
-                        try
-                        {
-                            mod.issingle = Convert.ToBoolean(modcfg.GetDword("Single", "MOD", 1));
-                        }
-                        catch { }
-                        try
-                        {
-                            mod.ismulti = Convert.ToBoolean(modcfg.GetDword("Multi", "MOD", 1));
-                        }
-                        catch { }
-                        ModCombo.Items.Add(mod.name);
-                        if (mod.path == lastsel)
-                            ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
+                        mod.ismulti = ri.GetBool("Multi", "MOD", true);
                     }
-                    if (ModCombo.SelectedIndex < 0)
-                        ModCombo.SelectedIndex = 0;
+                    catch { }
+                    cbbMod.Items.Add(mod.name);
+                    if (mod.path == lastsel)
+                        cbbMod.SelectedIndex = cbbMod.Items.Count - 1;
+
+                    if (cbbMod.SelectedIndex < 0)
+                        cbbMod.SelectedIndex = 0;
                 }
             }
             else
@@ -175,10 +161,10 @@ namespace EIStarter
                 mods.Add(mod);
                 isModsExists = false;
 
-                ModCombo.Items.Clear();
-                ModCombo.Items.Add("No mods");
-                ModCombo.SelectedIndex = ModCombo.Items.Count - 1;
-                //ModCombo.Visible = false;
+                cbbMod.Items.Clear();
+                cbbMod.Items.Add("No mods");
+                cbbMod.SelectedIndex = cbbMod.Items.Count - 1;
+                //cbbMod.Visible = false;
             }
 
             /*if (File.Exists(@"design\" + lang + @"\autorun.mp3"))
@@ -189,11 +175,15 @@ namespace EIStarter
                 WMP.controls.play();
             }*/
 
+            EnumerateThemes();
+
             InitLang();
+
 
             if (SimplyHelper.IsGameRuning())
                 MessageBox.Show("game runing!", "Warning!");
 
+            NTRlbDebug1.Text = theme;
         }
 
         /// <summary>
@@ -201,9 +191,10 @@ namespace EIStarter
         /// </summary>
         public void InitLang()
         {
-            string[] directories = { design_dir + lang, design_dir, @"design\" + lang, @"design\" };
             string[] imgExt = { ".png",".gif", ".bmp" };
             string[] fontExt = { ".otf", ".ttf" };
+
+            string[] directories = GetPriorityDirs();
 
             string filename = "back";
             bool fullbreak = false;
@@ -216,7 +207,19 @@ namespace EIStarter
                         string imagePath = Path.Combine(directory, filename + extension);
                         if (File.Exists(imagePath))
                         {
-                            BackgroundImage = Image.FromFile(imagePath);
+                            // TODO: animated gif background?
+                            /*if (extension == ".gif")
+                            {
+                                //animatedImage = new Bitmap(Image.FromFile(imagePath));
+                                NTRimgBack.Image = Image.FromFile(imagePath);
+                                NTRimgBack.Visible = true;
+                            }
+                            else
+                            {*/
+                                BackgroundImage = Image.FromFile(imagePath);
+                            //    NTRimgBack.Visible = false;
+                            //    NTRimgBack.Image = null;
+                            //}
                             fullbreak = true;
                         }
                         if (fullbreak)
@@ -228,10 +231,34 @@ namespace EIStarter
             }
             catch { }
 
-            foreach (var button in buttons)
+            filename = "logo";
+            fullbreak = false;
+            try
             {
-                SetButtonStyle(button.button, button.mask);
+                foreach (string directory in directories)
+                {
+                    foreach (string extension in imgExt)
+                    {
+                        string imagePath = Path.Combine(directory, filename + extension);
+                        if (File.Exists(imagePath))
+                        {
+                            NTRimgLogo.Image = Image.FromFile(imagePath);
+                            fullbreak = true;
+                        }
+                        if (fullbreak)
+                            break;
+                    }
+                    if (fullbreak)
+                        break;
+                }
+                NTRimgLogo.Width = NTRimgLogo.Image.Width;
+                NTRimgLogo.Height = NTRimgLogo.Image.Height;
+                NTRimgLogo.Location = new Point(x: Width / 2 - NTRimgLogo.Width / 2, y: 0);
             }
+            catch { }
+
+            foreach (var button in btn2maskMap)
+                SetButtonStyle((Button)button.Key, button.Value);
 
             //TODO: Switch construction is faster?
             // FONT
@@ -264,39 +291,92 @@ namespace EIStarter
             if (privateFontCollection.Families.Length > 0)
             {
                 font = new Font(privateFontCollection.Families[0], font_size);
-                ModCombo.Font = font;
+                cbbMod.Font = font;
             }
 
             // Other
-            ModCombo.Location = new Point(x: button1.Location.X + button1.Width + 10,y: ModCombo.Location.Y);
-            infobtn.Location = new Point(x: ModCombo.Location.X + ModCombo.Width + 10,y: infobtn.Location.Y);
-            langbtn.Location = new Point(x: 1,y: this.Height - langbtn.Height);
+            cbbMod.Location = new Point(x: btPlay.Location.X + btPlay.Width + 10, y: cbbMod.Location.Y);
+            btModInfo.Location = new Point(x: cbbMod.Location.X + cbbMod.Width + 10, y: btModInfo.Location.Y);
+            btLang.Location = new Point(x: 1, y: this.Height - btLang.Height - 1);
+            btSkin.Location = new Point(x: btLang.Location.X + btLang.Width + 1, y: this.Height - btSkin.Height - 1);
         }
 
         /// <summary>
-        /// Get all langs names in design_dir
+        /// Get all language codes in 'lang' directory.
+        /// (old) Get all langs names in design_dir
         /// </summary>
         public void EnumerateLangs()
         {
-            if (Directory.Exists(design_dir))
+            if (Directory.Exists("lang"))
             {
                 languages.Clear();
-                foreach (var langpath in Directory.EnumerateDirectories(design_dir))
+                foreach (var langpath in Directory.EnumerateDirectories("lang"))
                 {
-                    foreach(var picpath in Directory.EnumerateFiles(langpath))
-                    {
-                        // TODO: know is true translate folder or not
-                        var ext = Path.GetExtension(picpath).ToLower();
-                        if (File.Exists(picpath) && (ext == ".png" || ext == ".bmp"))
-                        {
-                            languages.Add(Path.GetFileName(langpath));
-                            break;
-                        }
-                    }
+                    // TODO: know is true translate folder or not
+
+                    languages.Add(Path.GetFileName(langpath));
                 }
                 //InitLang();
             }
-            //languages.Add("en");
+            if (languages.Count < 1)
+                languages.Add("en");
+        }
+
+        /// <summary>
+        /// Get design folder and enumerate themes in directory.
+        /// </summary>
+        public void EnumerateThemes()
+        {
+            if (cbbMod.SelectedIndex >= 0)
+            {
+                var mod = mods[cbbMod.SelectedIndex];
+
+                if (File.Exists(mod.path)
+                    && Directory.Exists($@"{Path.GetDirectoryName(mod.path)}\design\")
+                    )
+                {
+                    design_dir = $@"{Path.GetDirectoryName(mod.path)}\design\";
+                }
+                else //if (design_dir != @"design\")
+                    design_dir = @"design\";
+            }
+            else
+                design_dir = @"design\";
+
+            themes.Clear();
+            foreach (var dir in new string[] { design_dir, @"design\" })
+            {
+                if (!Directory.Exists(dir))
+                    continue;
+                foreach (var langpath in Directory.EnumerateDirectories(dir))
+                {
+                    if (!langpath.ToLowerInvariant().EndsWith("locale")
+                        && !themes.Contains(Path.GetFileName(langpath))
+                        )
+                        themes.Add(Path.GetFileName(langpath));
+                }
+            }
+            //if (themes.Count < 1)
+            themes.Add("");
+        }
+
+        /// <summary>
+        /// Generate design directory priority list
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetPriorityDirs()
+        {
+            // TODO: HOT! sort by lang or by theme
+            return [
+                @$"{design_dir}{theme}\locale\{lang}\",
+                @$"{design_dir}{theme}\",
+                @$"{design_dir}locale\{lang}\",
+                design_dir,
+
+                @$"design\{theme}\locale\{lang}\",
+                @$"design\{theme}\",
+                @$"design\locale\{lang}\",
+                @"design\" ];
         }
 
         /// <summary>
@@ -306,8 +386,8 @@ namespace EIStarter
         /// <param name="mask">img name mask</param>
         private void SetButtonStyle(Button button, string mask)
         {
-            string[] directories = { design_dir + lang, design_dir, @"design\" + lang, @"design\" };
             string[] extensions = [".png", ".bmp"];
+            string[] directories = GetPriorityDirs();
 
             foreach (string directory in directories)
             {
@@ -331,25 +411,20 @@ namespace EIStarter
 
         private void _MouseEnter(object sender, EventArgs e)
         {
-            var hoveredButton = buttons.FirstOrDefault(b => sender.Equals(b.button));
-            if (hoveredButton != null)
-            {
-                SetButtonStyle(hoveredButton.button, hoveredButton.mask + "_h");
-            }
+            if (btn2maskMap.ContainsKey((Control)sender))
+                SetButtonStyle((Button)sender, btn2maskMap[(Control)sender] + "_h");
         }
 
         private void _MouseLeave(object sender, EventArgs e)
         {
-            var hoveredButton = buttons.FirstOrDefault(b => sender.Equals(b.button));
-            if (hoveredButton != null)
-            {
-                SetButtonStyle(hoveredButton.button, hoveredButton.mask + "");
-            }
+            if (btn2maskMap.ContainsKey((Control)sender))
+                SetButtonStyle((Button)sender, btn2maskMap[(Control)sender]);
         }
 
         private void StarterForm_MouseMove(object sender, MouseEventArgs e)
         {
-            base.Capture = false;
+            var s = (Control)sender;
+            s.Capture = false;
             //this.Opacity = 0.9; 
             Message m = Message.Create(base.Handle, 161, new IntPtr(2), IntPtr.Zero);
             this.WndProc(ref m);
@@ -357,11 +432,8 @@ namespace EIStarter
 
         private void BtnS0(object sender)
         {
-            foreach (var button in buttons)
-            {
-                if (sender.Equals(button.button))
-                    SetButtonStyle(button.button, button.mask + "");
-            }
+            if (btn2maskMap.ContainsKey((Control)sender))
+                SetButtonStyle((Button)sender, btn2maskMap[(Control)sender]);
         }
         private bool SoundCheck(string str)
         {
@@ -377,32 +449,37 @@ namespace EIStarter
         {
             if (!fast)
             {
-                var str = string.Format("{0}{1}{2}", design_dir, /*lang,*/ @"click.wav", "");
-                var str2 = string.Format("{0}{1}{2}", @"design\", /*lang,*/ @"click.wav", "");
-                if (SoundCheck(str))
+                foreach (var path in GetPriorityDirs())
                 {
-                    /*WMP.settings.volume = 1000;
-                    WMP.URL = design_dir + lang + @"\click.wav";
-                    WMP.controls.play();*/
-                    simpleSound.Play();
+                    if (SoundCheck(Path.Combine(path, "click.wav")))
+                    {
+                        /*
+                        WMP.settings.volume = 1000;
+                        WMP.URL = design_dir + lang + @"\click.wav";
+                        WMP.controls.play();
+                        */
+                        simpleSound.Play();
+                        break;
+                    }
                 }
-                else if(SoundCheck(str2))
-                    simpleSound.Play();
 
-                foreach (var button in buttons)
+                foreach (var button in btn2maskMap)
                 {
-                    if (sender.Equals(button.button))
-                        SetButtonStyle(button.button, button.mask + "_d");
+                    if (button.Key.Equals(sender))
+                        SetButtonStyle((Button)button.Key, button.Value + "_d");
                     else
-                        SetButtonStyle(button.button, button.mask + "");
+                        SetButtonStyle((Button)button.Key, button.Value);
                 }
             }
             else
             {
-                foreach (var button in buttons)
+                foreach (var button in btn2maskMap)
                 {
-                    if (sender.Equals(button.button))
-                        SetButtonStyle(button.button, button.mask + "_d");
+                    if (button.Key.Equals(sender))
+                    {
+                        SetButtonStyle((Button)button.Key, button.Value + "_d");
+                        return;
+                    }
                 }
             }
         }
@@ -519,6 +596,27 @@ namespace EIStarter
             }
             InitLang();
         }
+
+        /// <summary>
+        /// Set next theme from themes list.
+        /// </summary>
+        private void ThemeSwitch()
+        {
+
+            for (int i = 0; i < themes.Count; i++)
+            {
+                if (themes[i] == theme && i != themes.Count - 1)
+                {
+                    theme = themes[i + 1];
+                    break;
+                }
+                if (i == themes.Count - 1)
+                    theme = themes[0];
+            }
+            NTRlbDebug1.Text = theme;
+            InitLang();
+        }
+
         private void langbtn_Click(object sender, EventArgs e)
         {
             BtnS1(sender, true);
@@ -526,12 +624,21 @@ namespace EIStarter
             LangSwitch();
         }
 
+        private void skinbtn_Click(object sender, EventArgs e)
+        {
+            BtnS1(sender, true);
+
+            ThemeSwitch();
+        }
+
         private void StarterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             IniFile cfg = new("starter.config");
 
+            if (cbbMod.SelectedIndex >= 0)
                 cfg.Write("ModSel", mods[cbbMod.SelectedIndex].path, "Settings");
             cfg.Write("language", lang, "Settings");
+            cfg.Write("Theme", theme, "Settings");
             cfg.Write("ModSkins", isusecustomskins.ToString(), "Settings");
             cfg.Write("UsingINIconfigs", isINImods.ToString(), "Settings");
             cfg.Write("ExeName", ExeName, "Settings");
@@ -540,7 +647,7 @@ namespace EIStarter
         private void ModCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             BtnS1(sender);
-            var mod = mods[ModCombo.SelectedIndex];
+            Mod mod = mods[cbbMod.SelectedIndex];
             /*if (!Directory.Exists(mod.path))
             {
                 MessageBox.Show(@$"Mod: `{mod.name}` have wrong path: `{mod.path}`");
@@ -548,30 +655,10 @@ namespace EIStarter
                 return;
             }*/
 
+            EnumerateLangs();
+            EnumerateThemes();
 
-            if (Directory.Exists(mod.path) && Directory.Exists(Path.GetDirectoryName(mod.path) + @"\design\"))
-            {
-                for (int i = 0; i < languages.Count; i++)
-                {
-                    if (Directory.Exists(Path.GetDirectoryName(mod.path) + @"\design\" + lang) && isusecustomskins)
-                    {
-                        design_dir = Path.GetDirectoryName(mod.path) + @"\design\";
-                        EnumerateLangs();
-                        InitLang();
-                        break;
-                    }
-                    else
-                    {
-                        LangSwitch();
-                    }
-                }
-            }
-            else if (design_dir != @"design\")
-            {
-                design_dir = @"design\";
-                EnumerateLangs();
-                InitLang();
-            }
+            InitLang();
 
             APIMode DataSource = APIMode.Win; // use Windows Registry
 
@@ -602,8 +689,13 @@ namespace EIStarter
         private void infobtn_Click(object sender, EventArgs e)
         {
             BtnS1(sender);
-            ModInfo modInfo = new ModInfo();
-            modInfo.SetMod(mods[ModCombo.SelectedIndex]);
+            if (cbbMod.SelectedIndex < 0)
+            {
+                BtnS0(sender);
+                return;
+            }
+            ModInfo modInfo = new();
+            modInfo.SetMod(mods[cbbMod.SelectedIndex]);
             //modInfo.Localise("ru", true); // DEBUG: Export translate
             modInfo.Localise(lang);
             modInfo.ShowDialog();

@@ -67,9 +67,26 @@
             this.cbMPConsoleSupport = new System.Windows.Forms.CheckBox();
             this.cbMPDisableMQ = new System.Windows.Forms.CheckBox();
             this.cbMPSecondSpeed = new System.Windows.Forms.CheckBox();
-            this.tabPaths = new System.Windows.Forms.TabPage();
             this.tabCamera = new System.Windows.Forms.TabPage();
             this.propGridCamera = new System.Windows.Forms.PropertyGrid();
+            this.tabPaths = new System.Windows.Forms.TabPage();
+            this.NTRbtBrowse3 = new System.Windows.Forms.Button();
+            this.NTRbtBrowse2 = new System.Windows.Forms.Button();
+            this.NTRbtBrowse1 = new System.Windows.Forms.Button();
+            this.lbEXENameDesc = new System.Windows.Forms.Label();
+            this.lbPathGameWorkdirDesc = new System.Windows.Forms.Label();
+            this.lbPathResDesc = new System.Windows.Forms.Label();
+            this.lbPathCDDesc = new System.Windows.Forms.Label();
+            this.tbPathsHelpDesc = new System.Windows.Forms.TextBox();
+            this.lbPathGameWorkdir = new System.Windows.Forms.Label();
+            this.btApplyPaths = new System.Windows.Forms.Button();
+            this.lbPathRes = new System.Windows.Forms.Label();
+            this.lbPathCD = new System.Windows.Forms.Label();
+            this.NTRtbPathGameWork = new System.Windows.Forms.TextBox();
+            this.NTRtbPathRes = new System.Windows.Forms.TextBox();
+            this.NTRtbPathCD = new System.Windows.Forms.TextBox();
+            this.lbEXEName = new System.Windows.Forms.Label();
+            this.NTRtbExeName = new System.Windows.Forms.TextBox();
             this.tabUtils = new System.Windows.Forms.TabPage();
             this.cbCharFixWinXP = new System.Windows.Forms.CheckBox();
             this.cbbPreset = new System.Windows.Forms.ComboBox();
@@ -79,23 +96,6 @@
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.NTRtbExeName = new System.Windows.Forms.TextBox();
-            this.lbEXEName = new System.Windows.Forms.Label();
-            this.NTRtbPathCD = new System.Windows.Forms.TextBox();
-            this.NTRtbPathRes = new System.Windows.Forms.TextBox();
-            this.NTRtbPathGameWork = new System.Windows.Forms.TextBox();
-            this.lbPathCD = new System.Windows.Forms.Label();
-            this.lbPathRes = new System.Windows.Forms.Label();
-            this.btApplyPaths = new System.Windows.Forms.Button();
-            this.lbPathGameWorkdir = new System.Windows.Forms.Label();
-            this.tbPathsHelpDesc = new System.Windows.Forms.TextBox();
-            this.lbPathCDDesc = new System.Windows.Forms.Label();
-            this.lbPathResDesc = new System.Windows.Forms.Label();
-            this.lbPathGameWorkdirDesc = new System.Windows.Forms.Label();
-            this.lbEXENameDesc = new System.Windows.Forms.Label();
-            this.NTRbtBrowse1 = new System.Windows.Forms.Button();
-            this.NTRbtBrowse2 = new System.Windows.Forms.Button();
-            this.NTRbtBrowse3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -106,8 +106,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nbDrawRadiusObjects)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nbDrawRadiusTerrain)).BeginInit();
             this.tabMultiplayer.SuspendLayout();
-            this.tabPaths.SuspendLayout();
             this.tabCamera.SuspendLayout();
+            this.tabPaths.SuspendLayout();
             this.tabUtils.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -617,6 +617,26 @@
             this.cbMPSecondSpeed.Text = "Second speed support";
             this.cbMPSecondSpeed.UseVisualStyleBackColor = true;
             // 
+            // tabCamera
+            // 
+            this.tabCamera.Controls.Add(this.propGridCamera);
+            this.tabCamera.Location = new System.Drawing.Point(4, 22);
+            this.tabCamera.Name = "tabCamera";
+            this.tabCamera.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCamera.Size = new System.Drawing.Size(446, 279);
+            this.tabCamera.TabIndex = 4;
+            this.tabCamera.Text = "Camera";
+            this.tabCamera.UseVisualStyleBackColor = true;
+            // 
+            // propGridCamera
+            // 
+            this.propGridCamera.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propGridCamera.HelpVisible = false;
+            this.propGridCamera.Location = new System.Drawing.Point(3, 3);
+            this.propGridCamera.Name = "propGridCamera";
+            this.propGridCamera.Size = new System.Drawing.Size(440, 273);
+            this.propGridCamera.TabIndex = 0;
+            // 
             // tabPaths
             // 
             this.tabPaths.Controls.Add(this.NTRbtBrowse3);
@@ -643,25 +663,164 @@
             this.tabPaths.Text = "Paths";
             this.tabPaths.UseVisualStyleBackColor = true;
             // 
-            // tabCamera
+            // NTRbtBrowse3
             // 
-            this.tabCamera.Controls.Add(this.propGridCamera);
-            this.tabCamera.Location = new System.Drawing.Point(4, 22);
-            this.tabCamera.Name = "tabCamera";
-            this.tabCamera.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCamera.Size = new System.Drawing.Size(446, 279);
-            this.tabCamera.TabIndex = 4;
-            this.tabCamera.Text = "Camera";
-            this.tabCamera.UseVisualStyleBackColor = true;
+            this.NTRbtBrowse3.Location = new System.Drawing.Point(411, 105);
+            this.NTRbtBrowse3.Name = "NTRbtBrowse3";
+            this.NTRbtBrowse3.Size = new System.Drawing.Size(30, 20);
+            this.NTRbtBrowse3.TabIndex = 16;
+            this.NTRbtBrowse3.Text = "...";
+            this.NTRbtBrowse3.UseVisualStyleBackColor = true;
+            this.NTRbtBrowse3.Click += new System.EventHandler(this.NTRbtBrowse3_Click);
             // 
-            // propGridCamera
+            // NTRbtBrowse2
             // 
-            this.propGridCamera.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propGridCamera.HelpVisible = false;
-            this.propGridCamera.Location = new System.Drawing.Point(3, 3);
-            this.propGridCamera.Name = "propGridCamera";
-            this.propGridCamera.Size = new System.Drawing.Size(440, 273);
-            this.propGridCamera.TabIndex = 0;
+            this.NTRbtBrowse2.Location = new System.Drawing.Point(411, 63);
+            this.NTRbtBrowse2.Name = "NTRbtBrowse2";
+            this.NTRbtBrowse2.Size = new System.Drawing.Size(30, 20);
+            this.NTRbtBrowse2.TabIndex = 15;
+            this.NTRbtBrowse2.Text = "...";
+            this.NTRbtBrowse2.UseVisualStyleBackColor = true;
+            this.NTRbtBrowse2.Click += new System.EventHandler(this.NTRbtBrowse2_Click);
+            // 
+            // NTRbtBrowse1
+            // 
+            this.NTRbtBrowse1.Location = new System.Drawing.Point(411, 21);
+            this.NTRbtBrowse1.Name = "NTRbtBrowse1";
+            this.NTRbtBrowse1.Size = new System.Drawing.Size(30, 20);
+            this.NTRbtBrowse1.TabIndex = 14;
+            this.NTRbtBrowse1.Text = "...";
+            this.NTRbtBrowse1.UseVisualStyleBackColor = true;
+            this.NTRbtBrowse1.Click += new System.EventHandler(this.NTRbtBrowse1_Click);
+            // 
+            // lbEXENameDesc
+            // 
+            this.lbEXENameDesc.Location = new System.Drawing.Point(254, 131);
+            this.lbEXENameDesc.Name = "lbEXENameDesc";
+            this.lbEXENameDesc.Size = new System.Drawing.Size(187, 13);
+            this.lbEXENameDesc.TabIndex = 13;
+            this.lbEXENameDesc.Text = "\"Engine\\\"[{name}.{extension}]";
+            this.lbEXENameDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lbPathGameWorkdirDesc
+            // 
+            this.lbPathGameWorkdirDesc.Location = new System.Drawing.Point(220, 89);
+            this.lbPathGameWorkdirDesc.Name = "lbPathGameWorkdirDesc";
+            this.lbPathGameWorkdirDesc.Size = new System.Drawing.Size(187, 13);
+            this.lbPathGameWorkdirDesc.TabIndex = 12;
+            this.lbPathGameWorkdirDesc.Text = "[ {install path}\\ ]";
+            this.lbPathGameWorkdirDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lbPathResDesc
+            // 
+            this.lbPathResDesc.Location = new System.Drawing.Point(220, 47);
+            this.lbPathResDesc.Name = "lbPathResDesc";
+            this.lbPathResDesc.Size = new System.Drawing.Size(187, 13);
+            this.lbPathResDesc.TabIndex = 11;
+            this.lbPathResDesc.Text = "[ {install path}\\Res\\ ]";
+            this.lbPathResDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lbPathCDDesc
+            // 
+            this.lbPathCDDesc.Location = new System.Drawing.Point(217, 5);
+            this.lbPathCDDesc.Name = "lbPathCDDesc";
+            this.lbPathCDDesc.Size = new System.Drawing.Size(190, 13);
+            this.lbPathCDDesc.TabIndex = 10;
+            this.lbPathCDDesc.Text = "[ {install path}\\ ]";
+            this.lbPathCDDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // tbPathsHelpDesc
+            // 
+            this.tbPathsHelpDesc.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbPathsHelpDesc.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.tbPathsHelpDesc.Location = new System.Drawing.Point(6, 176);
+            this.tbPathsHelpDesc.Multiline = true;
+            this.tbPathsHelpDesc.Name = "tbPathsHelpDesc";
+            this.tbPathsHelpDesc.Size = new System.Drawing.Size(299, 100);
+            this.tbPathsHelpDesc.TabIndex = 9;
+            this.tbPathsHelpDesc.Text = "[] - part which edit in text box\r\n{} - \"variable\":\r\n    install path - where is o" +
+    "riginal Game.exe\r\n    name - name of file\r\n    extension - extension of file (e." +
+    "g. \"exe\")\r\n\r\n";
+            // 
+            // lbPathGameWorkdir
+            // 
+            this.lbPathGameWorkdir.AutoSize = true;
+            this.lbPathGameWorkdir.Location = new System.Drawing.Point(3, 89);
+            this.lbPathGameWorkdir.Name = "lbPathGameWorkdir";
+            this.lbPathGameWorkdir.Size = new System.Drawing.Size(100, 13);
+            this.lbPathGameWorkdir.TabIndex = 8;
+            this.lbPathGameWorkdir.Text = "Game Workdir Path";
+            // 
+            // btApplyPaths
+            // 
+            this.btApplyPaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btApplyPaths.Location = new System.Drawing.Point(311, 176);
+            this.btApplyPaths.Name = "btApplyPaths";
+            this.btApplyPaths.Size = new System.Drawing.Size(130, 32);
+            this.btApplyPaths.TabIndex = 7;
+            this.btApplyPaths.Text = "Apply Paths";
+            this.btApplyPaths.UseVisualStyleBackColor = true;
+            this.btApplyPaths.Click += new System.EventHandler(this.btApplyPaths_Click);
+            // 
+            // lbPathRes
+            // 
+            this.lbPathRes.AutoSize = true;
+            this.lbPathRes.Location = new System.Drawing.Point(3, 47);
+            this.lbPathRes.Name = "lbPathRes";
+            this.lbPathRes.Size = new System.Drawing.Size(114, 13);
+            this.lbPathRes.TabIndex = 6;
+            this.lbPathRes.Text = "Game Resources Path";
+            // 
+            // lbPathCD
+            // 
+            this.lbPathCD.AutoSize = true;
+            this.lbPathCD.Location = new System.Drawing.Point(3, 5);
+            this.lbPathCD.Name = "lbPathCD";
+            this.lbPathCD.Size = new System.Drawing.Size(47, 13);
+            this.lbPathCD.TabIndex = 5;
+            this.lbPathCD.Text = "CD Path";
+            // 
+            // NTRtbPathGameWork
+            // 
+            this.NTRtbPathGameWork.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.NTRtbPathGameWork.Location = new System.Drawing.Point(5, 105);
+            this.NTRtbPathGameWork.Name = "NTRtbPathGameWork";
+            this.NTRtbPathGameWork.Size = new System.Drawing.Size(401, 20);
+            this.NTRtbPathGameWork.TabIndex = 4;
+            // 
+            // NTRtbPathRes
+            // 
+            this.NTRtbPathRes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.NTRtbPathRes.Location = new System.Drawing.Point(5, 63);
+            this.NTRtbPathRes.Name = "NTRtbPathRes";
+            this.NTRtbPathRes.Size = new System.Drawing.Size(401, 20);
+            this.NTRtbPathRes.TabIndex = 3;
+            // 
+            // NTRtbPathCD
+            // 
+            this.NTRtbPathCD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.NTRtbPathCD.Location = new System.Drawing.Point(5, 21);
+            this.NTRtbPathCD.Name = "NTRtbPathCD";
+            this.NTRtbPathCD.Size = new System.Drawing.Size(401, 20);
+            this.NTRtbPathCD.TabIndex = 2;
+            // 
+            // lbEXEName
+            // 
+            this.lbEXEName.AutoSize = true;
+            this.lbEXEName.Location = new System.Drawing.Point(3, 131);
+            this.lbEXEName.Name = "lbEXEName";
+            this.lbEXEName.Size = new System.Drawing.Size(116, 13);
+            this.lbEXEName.TabIndex = 1;
+            this.lbEXEName.Text = "Game Engine Filename";
+            // 
+            // NTRtbExeName
+            // 
+            this.NTRtbExeName.BackColor = System.Drawing.SystemColors.Window;
+            this.NTRtbExeName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.NTRtbExeName.Location = new System.Drawing.Point(5, 147);
+            this.NTRtbExeName.Name = "NTRtbExeName";
+            this.NTRtbExeName.Size = new System.Drawing.Size(436, 20);
+            this.NTRtbExeName.TabIndex = 0;
             // 
             // tabUtils
             // 
@@ -760,164 +919,6 @@
             this.radioButton1.Text = "High";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // NTRtbExeName
-            // 
-            this.NTRtbExeName.BackColor = System.Drawing.SystemColors.Window;
-            this.NTRtbExeName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NTRtbExeName.Location = new System.Drawing.Point(5, 147);
-            this.NTRtbExeName.Name = "NTRtbExeName";
-            this.NTRtbExeName.Size = new System.Drawing.Size(436, 20);
-            this.NTRtbExeName.TabIndex = 0;
-            // 
-            // lbEXEName
-            // 
-            this.lbEXEName.AutoSize = true;
-            this.lbEXEName.Location = new System.Drawing.Point(3, 131);
-            this.lbEXEName.Name = "lbEXEName";
-            this.lbEXEName.Size = new System.Drawing.Size(116, 13);
-            this.lbEXEName.TabIndex = 1;
-            this.lbEXEName.Text = "Game Engine Filename";
-            // 
-            // NTRtbPathCD
-            // 
-            this.NTRtbPathCD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NTRtbPathCD.Location = new System.Drawing.Point(5, 21);
-            this.NTRtbPathCD.Name = "NTRtbPathCD";
-            this.NTRtbPathCD.Size = new System.Drawing.Size(401, 20);
-            this.NTRtbPathCD.TabIndex = 2;
-            // 
-            // NTRtbPathRes
-            // 
-            this.NTRtbPathRes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NTRtbPathRes.Location = new System.Drawing.Point(5, 63);
-            this.NTRtbPathRes.Name = "NTRtbPathRes";
-            this.NTRtbPathRes.Size = new System.Drawing.Size(401, 20);
-            this.NTRtbPathRes.TabIndex = 3;
-            // 
-            // NTRtbPathGameWork
-            // 
-            this.NTRtbPathGameWork.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NTRtbPathGameWork.Location = new System.Drawing.Point(5, 105);
-            this.NTRtbPathGameWork.Name = "NTRtbPathGameWork";
-            this.NTRtbPathGameWork.Size = new System.Drawing.Size(401, 20);
-            this.NTRtbPathGameWork.TabIndex = 4;
-            // 
-            // lbPathCD
-            // 
-            this.lbPathCD.AutoSize = true;
-            this.lbPathCD.Location = new System.Drawing.Point(3, 5);
-            this.lbPathCD.Name = "lbPathCD";
-            this.lbPathCD.Size = new System.Drawing.Size(47, 13);
-            this.lbPathCD.TabIndex = 5;
-            this.lbPathCD.Text = "CD Path";
-            // 
-            // lbPathRes
-            // 
-            this.lbPathRes.AutoSize = true;
-            this.lbPathRes.Location = new System.Drawing.Point(3, 47);
-            this.lbPathRes.Name = "lbPathRes";
-            this.lbPathRes.Size = new System.Drawing.Size(114, 13);
-            this.lbPathRes.TabIndex = 6;
-            this.lbPathRes.Text = "Game Resources Path";
-            // 
-            // btApplyPaths
-            // 
-            this.btApplyPaths.Location = new System.Drawing.Point(311, 176);
-            this.btApplyPaths.Name = "btApplyPaths";
-            this.btApplyPaths.Size = new System.Drawing.Size(130, 32);
-            this.btApplyPaths.TabIndex = 7;
-            this.btApplyPaths.Text = "Apply Paths";
-            this.btApplyPaths.UseVisualStyleBackColor = true;
-            this.btApplyPaths.Click += new System.EventHandler(this.btApplyPaths_Click);
-            // 
-            // lbPathGameWorkdir
-            // 
-            this.lbPathGameWorkdir.AutoSize = true;
-            this.lbPathGameWorkdir.Location = new System.Drawing.Point(3, 89);
-            this.lbPathGameWorkdir.Name = "lbPathGameWorkdir";
-            this.lbPathGameWorkdir.Size = new System.Drawing.Size(100, 13);
-            this.lbPathGameWorkdir.TabIndex = 8;
-            this.lbPathGameWorkdir.Text = "Game Workdir Path";
-            // 
-            // tbPathsHelpDesc
-            // 
-            this.tbPathsHelpDesc.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbPathsHelpDesc.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.tbPathsHelpDesc.Location = new System.Drawing.Point(6, 176);
-            this.tbPathsHelpDesc.Multiline = true;
-            this.tbPathsHelpDesc.Name = "tbPathsHelpDesc";
-            this.tbPathsHelpDesc.Size = new System.Drawing.Size(299, 100);
-            this.tbPathsHelpDesc.TabIndex = 9;
-            this.tbPathsHelpDesc.Text = "[] - part which edit in text box\r\n{} - \"variable\":\r\n    install path - where is o" +
-    "riginal Game.exe\r\n    name - name of file\r\n    extension - extension of file (e." +
-    "g. \"exe\")\r\n\r\n";
-            // 
-            // lbPathCDDesc
-            // 
-            this.lbPathCDDesc.Location = new System.Drawing.Point(217, 5);
-            this.lbPathCDDesc.Name = "lbPathCDDesc";
-            this.lbPathCDDesc.Size = new System.Drawing.Size(190, 13);
-            this.lbPathCDDesc.TabIndex = 10;
-            this.lbPathCDDesc.Text = "[ {install path}\\ ]";
-            this.lbPathCDDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lbPathResDesc
-            // 
-            this.lbPathResDesc.Location = new System.Drawing.Point(220, 47);
-            this.lbPathResDesc.Name = "lbPathResDesc";
-            this.lbPathResDesc.Size = new System.Drawing.Size(187, 13);
-            this.lbPathResDesc.TabIndex = 11;
-            this.lbPathResDesc.Text = "[ {install path}\\Res\\ ]";
-            this.lbPathResDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lbPathGameWorkdirDesc
-            // 
-            this.lbPathGameWorkdirDesc.Location = new System.Drawing.Point(220, 89);
-            this.lbPathGameWorkdirDesc.Name = "lbPathGameWorkdirDesc";
-            this.lbPathGameWorkdirDesc.Size = new System.Drawing.Size(187, 13);
-            this.lbPathGameWorkdirDesc.TabIndex = 12;
-            this.lbPathGameWorkdirDesc.Text = "[ {install path}\\ ]";
-            this.lbPathGameWorkdirDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // lbEXENameDesc
-            // 
-            this.lbEXENameDesc.Location = new System.Drawing.Point(254, 131);
-            this.lbEXENameDesc.Name = "lbEXENameDesc";
-            this.lbEXENameDesc.Size = new System.Drawing.Size(187, 13);
-            this.lbEXENameDesc.TabIndex = 13;
-            this.lbEXENameDesc.Text = "\"Engine\\\"[{name}.{extension}]";
-            this.lbEXENameDesc.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // NTRbtBrowse1
-            // 
-            this.NTRbtBrowse1.Location = new System.Drawing.Point(411, 21);
-            this.NTRbtBrowse1.Name = "NTRbtBrowse1";
-            this.NTRbtBrowse1.Size = new System.Drawing.Size(30, 20);
-            this.NTRbtBrowse1.TabIndex = 14;
-            this.NTRbtBrowse1.Text = "...";
-            this.NTRbtBrowse1.UseVisualStyleBackColor = true;
-            this.NTRbtBrowse1.Click += new System.EventHandler(this.NTRbtBrowse1_Click);
-            // 
-            // NTRbtBrowse2
-            // 
-            this.NTRbtBrowse2.Location = new System.Drawing.Point(411, 63);
-            this.NTRbtBrowse2.Name = "NTRbtBrowse2";
-            this.NTRbtBrowse2.Size = new System.Drawing.Size(30, 20);
-            this.NTRbtBrowse2.TabIndex = 15;
-            this.NTRbtBrowse2.Text = "...";
-            this.NTRbtBrowse2.UseVisualStyleBackColor = true;
-            this.NTRbtBrowse2.Click += new System.EventHandler(this.NTRbtBrowse2_Click);
-            // 
-            // NTRbtBrowse3
-            // 
-            this.NTRbtBrowse3.Location = new System.Drawing.Point(411, 105);
-            this.NTRbtBrowse3.Name = "NTRbtBrowse3";
-            this.NTRbtBrowse3.Size = new System.Drawing.Size(30, 20);
-            this.NTRbtBrowse3.TabIndex = 16;
-            this.NTRbtBrowse3.Text = "...";
-            this.NTRbtBrowse3.UseVisualStyleBackColor = true;
-            this.NTRbtBrowse3.Click += new System.EventHandler(this.NTRbtBrowse3_Click);
-            // 
             // Options
             // 
             this.AcceptButton = this.btOk;
@@ -946,9 +947,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nbDrawRadiusTerrain)).EndInit();
             this.tabMultiplayer.ResumeLayout(false);
             this.tabMultiplayer.PerformLayout();
+            this.tabCamera.ResumeLayout(false);
             this.tabPaths.ResumeLayout(false);
             this.tabPaths.PerformLayout();
-            this.tabCamera.ResumeLayout(false);
             this.tabUtils.ResumeLayout(false);
             this.tabUtils.PerformLayout();
             this.ResumeLayout(false);
