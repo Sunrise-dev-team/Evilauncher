@@ -130,7 +130,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.btOk);
             this.splitContainer1.Panel2.Controls.Add(this.btCancel);
             this.splitContainer1.Panel2.Controls.Add(this.btApplyPreset);
-            this.splitContainer1.Size = new System.Drawing.Size(462, 352);
+            this.splitContainer1.Size = new System.Drawing.Size(482, 352);
             this.splitContainer1.SplitterDistance = 309;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 0;
@@ -149,7 +149,7 @@
             this.tabControlOptions.Name = "tabControlOptions";
             this.tabControlOptions.Padding = new System.Drawing.Point(10, 3);
             this.tabControlOptions.SelectedIndex = 0;
-            this.tabControlOptions.Size = new System.Drawing.Size(454, 305);
+            this.tabControlOptions.Size = new System.Drawing.Size(478, 305);
             this.tabControlOptions.TabIndex = 0;
             // 
             // tabGraphics
@@ -183,7 +183,7 @@
             this.tabGraphics.Margin = new System.Windows.Forms.Padding(5);
             this.tabGraphics.Name = "tabGraphics";
             this.tabGraphics.Padding = new System.Windows.Forms.Padding(1);
-            this.tabGraphics.Size = new System.Drawing.Size(446, 279);
+            this.tabGraphics.Size = new System.Drawing.Size(470, 279);
             this.tabGraphics.TabIndex = 0;
             this.tabGraphics.Text = "Graphics";
             this.tabGraphics.UseVisualStyleBackColor = true;
@@ -205,9 +205,9 @@
             // lbTexturesQ
             // 
             this.lbTexturesQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbTexturesQ.Location = new System.Drawing.Point(215, 123);
+            this.lbTexturesQ.Location = new System.Drawing.Point(225, 123);
             this.lbTexturesQ.Name = "lbTexturesQ";
-            this.lbTexturesQ.Size = new System.Drawing.Size(136, 13);
+            this.lbTexturesQ.Size = new System.Drawing.Size(150, 13);
             this.lbTexturesQ.TabIndex = 24;
             this.lbTexturesQ.Text = "Textures quality";
             this.lbTexturesQ.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -221,7 +221,7 @@
             "high",
             "normal",
             "low"});
-            this.cbbTextures.Location = new System.Drawing.Point(354, 119);
+            this.cbbTextures.Location = new System.Drawing.Point(378, 119);
             this.cbbTextures.Name = "cbbTextures";
             this.cbbTextures.Size = new System.Drawing.Size(88, 21);
             this.cbbTextures.TabIndex = 23;
@@ -229,9 +229,9 @@
             // lbShadowingFreq
             // 
             this.lbShadowingFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbShadowingFreq.Location = new System.Drawing.Point(215, 259);
+            this.lbShadowingFreq.Location = new System.Drawing.Point(225, 259);
             this.lbShadowingFreq.Name = "lbShadowingFreq";
-            this.lbShadowingFreq.Size = new System.Drawing.Size(136, 13);
+            this.lbShadowingFreq.Size = new System.Drawing.Size(150, 13);
             this.lbShadowingFreq.TabIndex = 22;
             this.lbShadowingFreq.Text = "Shadowing freq.";
             this.lbShadowingFreq.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -245,7 +245,7 @@
             "Fast",
             "Normal",
             "Rare"});
-            this.cbbShadowing.Location = new System.Drawing.Point(354, 255);
+            this.cbbShadowing.Location = new System.Drawing.Point(378, 255);
             this.cbbShadowing.Name = "cbbShadowing";
             this.cbbShadowing.Size = new System.Drawing.Size(88, 21);
             this.cbbShadowing.TabIndex = 21;
@@ -253,9 +253,9 @@
             // lbTerrainQ
             // 
             this.lbTerrainQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbTerrainQ.Location = new System.Drawing.Point(215, 191);
+            this.lbTerrainQ.Location = new System.Drawing.Point(225, 191);
             this.lbTerrainQ.Name = "lbTerrainQ";
-            this.lbTerrainQ.Size = new System.Drawing.Size(136, 13);
+            this.lbTerrainQ.Size = new System.Drawing.Size(150, 13);
             this.lbTerrainQ.TabIndex = 20;
             this.lbTerrainQ.Text = "Terrain LOD";
             this.lbTerrainQ.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -263,9 +263,9 @@
             // lbShadowsQ
             // 
             this.lbShadowsQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbShadowsQ.Location = new System.Drawing.Point(215, 157);
+            this.lbShadowsQ.Location = new System.Drawing.Point(225, 157);
             this.lbShadowsQ.Name = "lbShadowsQ";
-            this.lbShadowsQ.Size = new System.Drawing.Size(136, 13);
+            this.lbShadowsQ.Size = new System.Drawing.Size(150, 13);
             this.lbShadowsQ.TabIndex = 19;
             this.lbShadowsQ.Text = "Shadows quality";
             this.lbShadowsQ.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -273,9 +273,9 @@
             // lbLightingFreq
             // 
             this.lbLightingFreq.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbLightingFreq.Location = new System.Drawing.Point(215, 225);
+            this.lbLightingFreq.Location = new System.Drawing.Point(225, 225);
             this.lbLightingFreq.Name = "lbLightingFreq";
-            this.lbLightingFreq.Size = new System.Drawing.Size(136, 13);
+            this.lbLightingFreq.Size = new System.Drawing.Size(150, 13);
             this.lbLightingFreq.TabIndex = 18;
             this.lbLightingFreq.Text = "Lighting freq.";
             this.lbLightingFreq.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -283,9 +283,9 @@
             // lbFiltering
             // 
             this.lbFiltering.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbFiltering.Location = new System.Drawing.Point(215, 89);
+            this.lbFiltering.Location = new System.Drawing.Point(225, 89);
             this.lbFiltering.Name = "lbFiltering";
-            this.lbFiltering.Size = new System.Drawing.Size(136, 13);
+            this.lbFiltering.Size = new System.Drawing.Size(150, 13);
             this.lbFiltering.TabIndex = 17;
             this.lbFiltering.Text = "Filtering";
             this.lbFiltering.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -321,7 +321,7 @@
             "Fast",
             "Normal",
             "Rare"});
-            this.cbbLighting.Location = new System.Drawing.Point(354, 221);
+            this.cbbLighting.Location = new System.Drawing.Point(378, 221);
             this.cbbLighting.Name = "cbbLighting";
             this.cbbLighting.Size = new System.Drawing.Size(88, 21);
             this.cbbLighting.TabIndex = 14;
@@ -335,7 +335,7 @@
             "High",
             "normal",
             "Low"});
-            this.cbbTerrain.Location = new System.Drawing.Point(355, 187);
+            this.cbbTerrain.Location = new System.Drawing.Point(379, 187);
             this.cbbTerrain.Name = "cbbTerrain";
             this.cbbTerrain.Size = new System.Drawing.Size(87, 21);
             this.cbbTerrain.TabIndex = 13;
@@ -349,7 +349,7 @@
             "None",
             "Low",
             "Smooth"});
-            this.cbbShadows.Location = new System.Drawing.Point(355, 153);
+            this.cbbShadows.Location = new System.Drawing.Point(379, 153);
             this.cbbShadows.Name = "cbbShadows";
             this.cbbShadows.Size = new System.Drawing.Size(87, 21);
             this.cbbShadows.TabIndex = 12;
@@ -363,7 +363,7 @@
             "point",
             "bilinear",
             "thrilinear"});
-            this.cbbFiltering.Location = new System.Drawing.Point(355, 85);
+            this.cbbFiltering.Location = new System.Drawing.Point(379, 85);
             this.cbbFiltering.Name = "cbbFiltering";
             this.cbbFiltering.Size = new System.Drawing.Size(87, 21);
             this.cbbFiltering.TabIndex = 11;
@@ -438,7 +438,7 @@
             this.cbbResolutions.Location = new System.Drawing.Point(3, 56);
             this.cbbResolutions.MaxDropDownItems = 10;
             this.cbbResolutions.Name = "cbbResolutions";
-            this.cbbResolutions.Size = new System.Drawing.Size(439, 21);
+            this.cbbResolutions.Size = new System.Drawing.Size(463, 21);
             this.cbbResolutions.TabIndex = 2;
             // 
             // lbAdapter
@@ -470,7 +470,7 @@
             this.cbbAdapter.Location = new System.Drawing.Point(3, 17);
             this.cbbAdapter.MaxDropDownItems = 10;
             this.cbbAdapter.Name = "cbbAdapter";
-            this.cbbAdapter.Size = new System.Drawing.Size(439, 21);
+            this.cbbAdapter.Size = new System.Drawing.Size(463, 21);
             this.cbbAdapter.TabIndex = 0;
             // 
             // tabAddon
@@ -483,7 +483,7 @@
             this.tabAddon.Location = new System.Drawing.Point(4, 22);
             this.tabAddon.Name = "tabAddon";
             this.tabAddon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAddon.Size = new System.Drawing.Size(446, 279);
+            this.tabAddon.Size = new System.Drawing.Size(470, 279);
             this.tabAddon.TabIndex = 1;
             this.tabAddon.Text = "Addon";
             this.tabAddon.UseVisualStyleBackColor = true;
@@ -582,7 +582,7 @@
             this.tabMultiplayer.Location = new System.Drawing.Point(4, 22);
             this.tabMultiplayer.Name = "tabMultiplayer";
             this.tabMultiplayer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMultiplayer.Size = new System.Drawing.Size(446, 279);
+            this.tabMultiplayer.Size = new System.Drawing.Size(470, 279);
             this.tabMultiplayer.TabIndex = 2;
             this.tabMultiplayer.Text = "Multiplayer";
             this.tabMultiplayer.UseVisualStyleBackColor = true;
@@ -623,7 +623,7 @@
             this.tabCamera.Location = new System.Drawing.Point(4, 22);
             this.tabCamera.Name = "tabCamera";
             this.tabCamera.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCamera.Size = new System.Drawing.Size(446, 279);
+            this.tabCamera.Size = new System.Drawing.Size(470, 279);
             this.tabCamera.TabIndex = 4;
             this.tabCamera.Text = "Camera";
             this.tabCamera.UseVisualStyleBackColor = true;
@@ -634,7 +634,7 @@
             this.propGridCamera.HelpVisible = false;
             this.propGridCamera.Location = new System.Drawing.Point(3, 3);
             this.propGridCamera.Name = "propGridCamera";
-            this.propGridCamera.Size = new System.Drawing.Size(440, 273);
+            this.propGridCamera.Size = new System.Drawing.Size(464, 273);
             this.propGridCamera.TabIndex = 0;
             // 
             // tabPaths
@@ -658,14 +658,14 @@
             this.tabPaths.Controls.Add(this.NTRtbExeName);
             this.tabPaths.Location = new System.Drawing.Point(4, 22);
             this.tabPaths.Name = "tabPaths";
-            this.tabPaths.Size = new System.Drawing.Size(446, 279);
+            this.tabPaths.Size = new System.Drawing.Size(470, 279);
             this.tabPaths.TabIndex = 3;
             this.tabPaths.Text = "Paths";
             this.tabPaths.UseVisualStyleBackColor = true;
             // 
             // NTRbtBrowse3
             // 
-            this.NTRbtBrowse3.Location = new System.Drawing.Point(411, 105);
+            this.NTRbtBrowse3.Location = new System.Drawing.Point(437, 105);
             this.NTRbtBrowse3.Name = "NTRbtBrowse3";
             this.NTRbtBrowse3.Size = new System.Drawing.Size(30, 20);
             this.NTRbtBrowse3.TabIndex = 16;
@@ -675,7 +675,7 @@
             // 
             // NTRbtBrowse2
             // 
-            this.NTRbtBrowse2.Location = new System.Drawing.Point(411, 63);
+            this.NTRbtBrowse2.Location = new System.Drawing.Point(437, 63);
             this.NTRbtBrowse2.Name = "NTRbtBrowse2";
             this.NTRbtBrowse2.Size = new System.Drawing.Size(30, 20);
             this.NTRbtBrowse2.TabIndex = 15;
@@ -685,7 +685,7 @@
             // 
             // NTRbtBrowse1
             // 
-            this.NTRbtBrowse1.Location = new System.Drawing.Point(411, 21);
+            this.NTRbtBrowse1.Location = new System.Drawing.Point(437, 21);
             this.NTRbtBrowse1.Name = "NTRbtBrowse1";
             this.NTRbtBrowse1.Size = new System.Drawing.Size(30, 20);
             this.NTRbtBrowse1.TabIndex = 14;
@@ -695,7 +695,7 @@
             // 
             // lbEXENameDesc
             // 
-            this.lbEXENameDesc.Location = new System.Drawing.Point(254, 131);
+            this.lbEXENameDesc.Location = new System.Drawing.Point(279, 131);
             this.lbEXENameDesc.Name = "lbEXENameDesc";
             this.lbEXENameDesc.Size = new System.Drawing.Size(187, 13);
             this.lbEXENameDesc.TabIndex = 13;
@@ -704,7 +704,7 @@
             // 
             // lbPathGameWorkdirDesc
             // 
-            this.lbPathGameWorkdirDesc.Location = new System.Drawing.Point(220, 89);
+            this.lbPathGameWorkdirDesc.Location = new System.Drawing.Point(245, 89);
             this.lbPathGameWorkdirDesc.Name = "lbPathGameWorkdirDesc";
             this.lbPathGameWorkdirDesc.Size = new System.Drawing.Size(187, 13);
             this.lbPathGameWorkdirDesc.TabIndex = 12;
@@ -713,7 +713,7 @@
             // 
             // lbPathResDesc
             // 
-            this.lbPathResDesc.Location = new System.Drawing.Point(220, 47);
+            this.lbPathResDesc.Location = new System.Drawing.Point(245, 47);
             this.lbPathResDesc.Name = "lbPathResDesc";
             this.lbPathResDesc.Size = new System.Drawing.Size(187, 13);
             this.lbPathResDesc.TabIndex = 11;
@@ -722,7 +722,7 @@
             // 
             // lbPathCDDesc
             // 
-            this.lbPathCDDesc.Location = new System.Drawing.Point(217, 5);
+            this.lbPathCDDesc.Location = new System.Drawing.Point(242, 5);
             this.lbPathCDDesc.Name = "lbPathCDDesc";
             this.lbPathCDDesc.Size = new System.Drawing.Size(190, 13);
             this.lbPathCDDesc.TabIndex = 10;
@@ -736,7 +736,7 @@
             this.tbPathsHelpDesc.Location = new System.Drawing.Point(6, 176);
             this.tbPathsHelpDesc.Multiline = true;
             this.tbPathsHelpDesc.Name = "tbPathsHelpDesc";
-            this.tbPathsHelpDesc.Size = new System.Drawing.Size(299, 100);
+            this.tbPathsHelpDesc.Size = new System.Drawing.Size(325, 100);
             this.tbPathsHelpDesc.TabIndex = 9;
             this.tbPathsHelpDesc.Text = "[] - part which edit in text box\r\n{} - \"variable\":\r\n    install path - where is o" +
     "riginal Game.exe\r\n    name - name of file\r\n    extension - extension of file (e." +
@@ -753,10 +753,10 @@
             // 
             // btApplyPaths
             // 
-            this.btApplyPaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btApplyPaths.Location = new System.Drawing.Point(311, 176);
+            this.btApplyPaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btApplyPaths.Location = new System.Drawing.Point(337, 176);
             this.btApplyPaths.Name = "btApplyPaths";
-            this.btApplyPaths.Size = new System.Drawing.Size(130, 32);
+            this.btApplyPaths.Size = new System.Drawing.Size(130, 66);
             this.btApplyPaths.TabIndex = 7;
             this.btApplyPaths.Text = "Apply Paths";
             this.btApplyPaths.UseVisualStyleBackColor = true;
@@ -785,7 +785,7 @@
             this.NTRtbPathGameWork.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NTRtbPathGameWork.Location = new System.Drawing.Point(5, 105);
             this.NTRtbPathGameWork.Name = "NTRtbPathGameWork";
-            this.NTRtbPathGameWork.Size = new System.Drawing.Size(401, 20);
+            this.NTRtbPathGameWork.Size = new System.Drawing.Size(426, 20);
             this.NTRtbPathGameWork.TabIndex = 4;
             // 
             // NTRtbPathRes
@@ -793,7 +793,7 @@
             this.NTRtbPathRes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NTRtbPathRes.Location = new System.Drawing.Point(5, 63);
             this.NTRtbPathRes.Name = "NTRtbPathRes";
-            this.NTRtbPathRes.Size = new System.Drawing.Size(401, 20);
+            this.NTRtbPathRes.Size = new System.Drawing.Size(426, 20);
             this.NTRtbPathRes.TabIndex = 3;
             // 
             // NTRtbPathCD
@@ -801,7 +801,7 @@
             this.NTRtbPathCD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NTRtbPathCD.Location = new System.Drawing.Point(5, 21);
             this.NTRtbPathCD.Name = "NTRtbPathCD";
-            this.NTRtbPathCD.Size = new System.Drawing.Size(401, 20);
+            this.NTRtbPathCD.Size = new System.Drawing.Size(426, 20);
             this.NTRtbPathCD.TabIndex = 2;
             // 
             // lbEXEName
@@ -819,7 +819,7 @@
             this.NTRtbExeName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NTRtbExeName.Location = new System.Drawing.Point(5, 147);
             this.NTRtbExeName.Name = "NTRtbExeName";
-            this.NTRtbExeName.Size = new System.Drawing.Size(436, 20);
+            this.NTRtbExeName.Size = new System.Drawing.Size(461, 20);
             this.NTRtbExeName.TabIndex = 0;
             // 
             // tabUtils
@@ -828,7 +828,7 @@
             this.tabUtils.Location = new System.Drawing.Point(4, 22);
             this.tabUtils.Name = "tabUtils";
             this.tabUtils.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUtils.Size = new System.Drawing.Size(446, 279);
+            this.tabUtils.Size = new System.Drawing.Size(470, 279);
             this.tabUtils.TabIndex = 5;
             this.tabUtils.Text = "Utils";
             this.tabUtils.UseVisualStyleBackColor = true;
@@ -857,9 +857,9 @@
             // btOk
             // 
             this.btOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btOk.Location = new System.Drawing.Point(274, 5);
+            this.btOk.Location = new System.Drawing.Point(287, 5);
             this.btOk.Name = "btOk";
-            this.btOk.Size = new System.Drawing.Size(88, 29);
+            this.btOk.Size = new System.Drawing.Size(93, 29);
             this.btOk.TabIndex = 1;
             this.btOk.Text = "OK";
             this.btOk.UseVisualStyleBackColor = true;
@@ -868,9 +868,9 @@
             // btCancel
             // 
             this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btCancel.Location = new System.Drawing.Point(369, 5);
+            this.btCancel.Location = new System.Drawing.Point(386, 5);
             this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(88, 29);
+            this.btCancel.Size = new System.Drawing.Size(93, 29);
             this.btCancel.TabIndex = 0;
             this.btCancel.Text = "Cancel";
             this.btCancel.UseVisualStyleBackColor = true;
@@ -925,7 +925,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btCancel;
-            this.ClientSize = new System.Drawing.Size(464, 354);
+            this.ClientSize = new System.Drawing.Size(484, 354);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

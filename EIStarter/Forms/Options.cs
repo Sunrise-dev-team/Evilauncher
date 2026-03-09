@@ -22,7 +22,7 @@ namespace EIStarter
     {
         [DllImport("user32.dll")]
         public static extern bool EnumDisplaySettings(
-              string deviceName, int modeNum, ref DEVMODE devMode);
+                string deviceName, int modeNum, ref DEVMODE devMode);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct DEVMODE
@@ -111,11 +111,57 @@ namespace EIStarter
             int i = 0;
             while (EnumDisplaySettings(null, i, ref vDevMode))
             {
-                if (!cbbResolutions.Items.Contains(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight))// + @" " + vDevMode.dmBitsPerPel))
-                    cbbResolutions.Items.Add(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight);// + @" " + vDevMode.dmBitsPerPel);
+                //if (!cbbResolutions.Items.Contains(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight))// + @" " + vDevMode.dmBitsPerPel))
+                //    cbbResolutions.Items.Add(vDevMode.dmPelsWidth + @"x" + vDevMode.dmPelsHeight);// + @" " + vDevMode.dmBitsPerPel);
+                var tmp = new Resolution(vDevMode.dmPelsWidth, vDevMode.dmPelsHeight);
+                if(!rezolutions.ContainsKey(tmp.ToString()))
+                    rezolutions.Add(tmp.ToString(), tmp);
                 i++;
             }
+            cbbResolutions.Items.Clear();
+            rezolutions_list = [.. rezolutions.Values];
+            rezolutions_list.Sort(new ResolutionComparer());
+            foreach (var el in rezolutions_list)
+            {
+                cbbResolutions.Items.Add(el);
+            }
             initSettings();
+        }
+        public Dictionary<string, Resolution> rezolutions = new();
+        public List<Resolution> rezolutions_list = new();
+        public class Resolution
+        {
+            public Resolution(int w, int h)
+            {
+                width = w;
+                height = h;
+            }
+            public int width, height;
+            public override string ToString()
+            {
+                return $"{width}x{height}";
+            }
+        }
+        public class ResolutionComparer : IComparer<Resolution>
+        {
+            public int Compare(Resolution x, Resolution y)
+            {
+                // Сравниваем ширину
+                if (x.width < y.width)
+                    return -1;
+                else if (x.width > y.width)
+                    return 1;
+                else
+                {
+                    // Если ширины равны, сравниваем высоту
+                    if (x.height < y.height)
+                        return -1;
+                    else if (x.height > y.height)
+                        return 1;
+                    else
+                        return 0; // Если размеры равны
+                }
+            }
         }
         #region CAMERA struct
         public class CamShortcut
@@ -132,7 +178,7 @@ namespace EIStarter
             public float Pitch { get; set; }
             public override string ToString()
             {
-                return string.Format("Dist: {0}, Axis({1},{2},{3}), Angle: {4}, Pitch: {5}", Math.Round((double)Distance) /*float.Round(Distance,2)*/,AxisX,AxisY,AxisZ,Angle, Math.Round((double)Pitch) /*float.Round(Pitch, 2)*/);
+                return $"Dist: {Math.Round((double)Distance)}, Axis({AxisX},{AxisY},{AxisZ}), Angle: {Angle}, Pitch: {Math.Round((double)Pitch)}";
             }
         }
         public class CamMoveParam
@@ -479,12 +525,12 @@ namespace EIStarter
         }
         private void writeshortcut(RegIni ri, CamShortcut cut, string regname)
         {
-             ri.SetFlt(regname + "Distance", cut.Distance, "camera settings");
-             ri.SetFlt(regname + "AxisX", cut.AxisX, "camera settings");
-             ri.SetFlt(regname + "AxisY", cut.AxisY, "camera settings");
-             ri.SetFlt(regname + "AxisZ", cut.AxisZ, "camera settings");
-             ri.SetFlt(regname + "Angle", cut.Angle, "camera settings");
-             ri.SetFlt(regname + "Pitch", cut.Pitch, "camera settings");
+            ri.SetFlt(regname + "Distance", cut.Distance, "camera settings");
+            ri.SetFlt(regname + "AxisX", cut.AxisX, "camera settings");
+            ri.SetFlt(regname + "AxisY", cut.AxisY, "camera settings");
+            ri.SetFlt(regname + "AxisZ", cut.AxisZ, "camera settings");
+            ri.SetFlt(regname + "Angle", cut.Angle, "camera settings");
+            ri.SetFlt(regname + "Pitch", cut.Pitch, "camera settings");
         }
         private void writeminmax(RegIni ri, CamMinMaxParam cut, string regname)
         {
@@ -566,7 +612,7 @@ namespace EIStarter
             cbFPSCursor.Checked = ri.GetBool("FPSIndependentCursor", "general settings");
             //checkBox7.Checked = GetBool(game, "safesound", "general settings");
 
-            var tmpnum = ri2.GetInt("LandscapeDrawRadius", "settings");
+            int tmpnum = ri2.GetInt("LandscapeDrawRadius", "settings");
             if (tmpnum > nbDrawRadiusTerrain.Minimum && tmpnum < nbDrawRadiusTerrain.Maximum)
                 nbDrawRadiusTerrain.Value = tmpnum;
 
@@ -586,7 +632,16 @@ namespace EIStarter
             cbbShadows.SelectedIndex = ri.GetInt("shadowquality", "shadow settings");
 
             cbbAdapter.SelectedIndex = ri.GetInt("drawingtarget", "general settings");
-            cbbResolutions.SelectedIndex = cbbResolutions.Items.IndexOf(ri.GetStr("videoresolution", "general settings"));
+
+            var targetrez = ri.GetStr("videoresolution", "general settings");
+            foreach (var rezfind in cbbResolutions.Items)
+            {
+                if (rezfind.ToString() == targetrez) 
+                { 
+                    cbbResolutions.SelectedIndex = cbbResolutions.Items.IndexOf(rezfind);
+                    break;
+                }
+            }
 
             int terrainQuality;
             if (ri.GetBool("EnableWaterWaves", "terrain settings"))
@@ -768,18 +823,12 @@ namespace EIStarter
 
         }
 
-        /*private void comboBox4_SelectedIndexChanged(object sender, EventArgs e){}
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e){}
-        private void comboBox6_SelectedIndexChanged(object sender, EventArgs e){}
-        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e){}*/
-
         private void numericUpDown1_Leave(object sender, EventArgs e)
         {
             if (!nbDrawRadiusTerrain.Validate())
             {
                 btOk.Enabled = false;
             }
-            //if()
         }
 
         private void _Validating(object sender, CancelEventArgs e)
@@ -826,7 +875,7 @@ namespace EIStarter
                     if (string.IsNullOrEmpty(control.Name))
                         continue;
 
-                    var low = control.Name.ToLower();
+                    string low = control.Name.ToLower();
 
                     if (!string.IsNullOrEmpty(control.Text) &&
                         !low.StartsWith("cbb") &&
@@ -870,7 +919,6 @@ namespace EIStarter
                 {
                     if (string.IsNullOrEmpty(control.Name))
                         continue;
-                    var low = control.Name.ToLower();
                     if (
                         !low.StartsWith("cbb") &&
                         !low.StartsWith("nb") &&
