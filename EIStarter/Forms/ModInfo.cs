@@ -15,11 +15,11 @@ namespace EIStarter
 {
     public partial class ModInfo : Form
     {
-        string readmepath = "";
-        string changelogpath = "";
-        string insertdataorig = "{0} \r\nVersion: {1} \r\nAuthor(s): {2} \r\nDate: {3} \r\n\r\nSite: {4} \r\nE-mail: {5} \r\n\r\nSingleplayer: {6} \r\nMultiplayer: {7} \r\n";
-        string insertdata = "{0} \r\nVersion: {1} \r\nAuthor(s): {2} \r\nDate: {3} \r\n\r\nSite: {4} \r\nE-mail: {5} \r\n\r\nSingleplayer: {6} \r\nMultiplayer: {7} \r\n";
-        StarterForm.Mod mod = new StarterForm.Mod();
+        private string readmepath = "";
+        private string changelogpath = "";
+        private readonly string insertdataorig = "{0} \r\nVersion: {1} \r\nAuthor(s): {2} \r\nDate: {3} \r\n\r\nSite: {4} \r\nE-mail: {5} \r\n\r\nSingleplayer: {6} \r\nMultiplayer: {7} \r\n";
+        private string insertdata = "{0} \r\nVersion: {1} \r\nAuthor(s): {2} \r\nDate: {3} \r\n\r\nSite: {4} \r\nE-mail: {5} \r\n\r\nSingleplayer: {6} \r\nMultiplayer: {7} \r\n";
+        private StarterForm.Mod mod = new();
         public ModInfo()
         {
             InitializeComponent();
@@ -44,17 +44,19 @@ namespace EIStarter
             btReadme.Visible = false;
             btChangelog.Visible = false;
 
-            foreach (var dirfile in Directory.EnumerateFiles(Path.GetDirectoryName(mod.path)))
+            foreach (string dirfile in Directory.EnumerateFiles(Path.GetDirectoryName(mod.path)))
             {
-                if (Path.GetFileName(dirfile).ToLower().Contains("read")//, StringComparison.CurrentCultureIgnoreCase)
-                    && Path.GetFileName(dirfile).ToLower().Contains("me")//, StringComparison.CurrentCultureIgnoreCase)
+                string low = Path.GetFileName(dirfile).ToLower();
+
+                if (low.Contains("read")//, StringComparison.CurrentCultureIgnoreCase)
+                    && low.Contains("me")//, StringComparison.CurrentCultureIgnoreCase)
                     )
                 {
                     readmepath = dirfile;
                     btReadme.Visible = true;
                 }
-                if (Path.GetFileName(dirfile).ToLower().Contains("change")//, StringComparison.CurrentCultureIgnoreCase)
-                    && Path.GetFileName(dirfile).ToLower().Contains("log")//, StringComparison.CurrentCultureIgnoreCase)
+                if (low.Contains("change")//, StringComparison.CurrentCultureIgnoreCase)
+                    && low.Contains("log")//, StringComparison.CurrentCultureIgnoreCase)
                     )
                 {
                     changelogpath = dirfile;
@@ -71,8 +73,8 @@ namespace EIStarter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var path = Directory.GetCurrentDirectory() + @"\" + Path.GetDirectoryName(mod.path) + @"\" + mod.pluginpath;
-            Process.Start(@"C:\Windows\System32\cmd.exe", "/C \"" + path+"\"");
+            string path = @$"{Directory.GetCurrentDirectory()}\{Path.GetDirectoryName(mod.path)}\{mod.pluginpath}";
+            Process.Start(@"C:\Windows\System32\cmd.exe", $"/C \"{path}\"");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -94,16 +96,16 @@ namespace EIStarter
         {
             NTRtbModInfo.Text = string.Format(insertdata, mod.name, mod.ver, mod.author, mod.date, mod.site, mod.email, mod.issingle, mod.ismulti);
 
-            if (!File.Exists(string.Format("lang/{0}/lang.ini", lang)))
+            if (!File.Exists($"lang/{lang}/lang.ini"))
                 return;
 
-            IniFile ini = new IniFile(string.Format("lang/{0}/lang.ini", lang));
+            IniFile ini = new($"lang/{lang}/lang.ini");
 
             List<Control> allControls = SimplyHelper.GetAllControls(this);
 
             if (bCreate)
             {
-                IniFile ini_save = new IniFile(string.Format("lang/{0}/lang_create.ini", lang));
+                IniFile ini_save = new($"lang/{lang}/lang_create.ini");
                 ini_save.Write(this.Text, this.Text, this.Text);
                 ini_save.Write("ModDesc", insertdata.Replace("\r\n","<rn>"), this.Text);
                 foreach (Control control in allControls)

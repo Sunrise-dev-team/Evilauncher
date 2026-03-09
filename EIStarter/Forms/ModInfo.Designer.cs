@@ -190,7 +190,7 @@
         private System.Windows.Forms.Button btChangelog;
         private System.Windows.Forms.Button btReadme;
         private System.Windows.Forms.Button NTRbtModAction;
-        private System.Windows.Forms.Button button4;
+        //private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btModFolder;
     }
 }
