@@ -73,12 +73,22 @@ namespace EIStarter
         {
             get
             {
-                if (_encoding != null)
-                    return _encoding;
+                try
+                {
+                    if (_encoding != null)
+                        return _encoding;
 
-                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                _encoding = Encoding.GetEncoding(1251);
-                return _encoding;
+                    // TODO: check this on different enduser systems
+                    if (Encoding.GetEncoding(1251) == null)
+                        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                    _encoding = Encoding.GetEncoding(1251);
+                    return _encoding;
+                }
+                catch (Exception ex)
+                {
+                    _encoding = Encoding.Default;
+                    return _encoding;
+                }
             }
         }
 
