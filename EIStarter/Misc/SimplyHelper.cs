@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -42,7 +44,7 @@ namespace EIStarter
             string defaultProcessName = "game";
             string windowTitle = "Evil Islands";
 
-            foreach (var process in Process.GetProcesses())
+            foreach (Process process in Process.GetProcesses())
             {
                 if (
                     (
@@ -78,6 +80,18 @@ namespace EIStarter
             }
 
             return true;
+        }
+
+        public static string ComputeFileHash(string filePath)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    byte[] hashBytes = sha256.ComputeHash(stream);
+                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                }
+            }
         }
 
     }
