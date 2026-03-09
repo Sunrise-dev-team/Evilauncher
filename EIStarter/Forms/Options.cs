@@ -188,7 +188,7 @@ namespace EIStarter
             public float PowerKeyboard { get; set; }
             public override string ToString()
             {
-                return string.Format("Speed: {0}, PwrMouse: {1}, PwrKey: {2}",Speed,PowerMouse,PowerKeyboard);
+                return $"Speed: {Speed}, PwrMouse: {PowerMouse}, PwrKey: {PowerKeyboard}";
             }
         }
         public class CamMinMaxDefParam
@@ -198,7 +198,7 @@ namespace EIStarter
             public float Default { get; set; }
             public override string ToString()
             {
-                return string.Format("Range: [{0} : {1} : {2}]",Min,Default, Math.Round((double)Max));
+                return $"Range: [{Min} : {Default} : {Math.Round((double)Max)}]";
             }
         }
         public class CamMinMaxParam
@@ -207,7 +207,7 @@ namespace EIStarter
             public float Max { get; set; }
             public override string ToString()
             {
-                return string.Format("Range: [{0} : {1}]", Min, Math.Round((double)Max));
+                return $"Range: [{Min} : {Math.Round((double)Max)}]";
             }
         }
         #endregion
@@ -919,6 +919,7 @@ namespace EIStarter
                 {
                     if (string.IsNullOrEmpty(control.Name))
                         continue;
+                    string low = control.Name.ToLower();
                     if (
                         !low.StartsWith("cbb") &&
                         !low.StartsWith("nb") &&
