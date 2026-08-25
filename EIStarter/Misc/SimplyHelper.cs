@@ -54,9 +54,9 @@ namespace EIStarter
                     )
                     &&
                     (
-                    process.MainWindowTitle.Equals(windowTitle, StringComparison.OrdinalIgnoreCase)
-                    || process.MainWindowTitle.ToLower().Contains("evil")
-                    || process.MainWindowTitle.ToLower().Contains("islands")
+                    //process.MainWindowTitle.Equals(windowTitle, StringComparison.OrdinalIgnoreCase) ||
+                    process.MainWindowTitle.ToLower().Contains("evil") && 
+                    process.MainWindowTitle.ToLower().Contains("islands")
                     )
                     )
                 {

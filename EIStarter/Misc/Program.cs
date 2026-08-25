@@ -27,12 +27,12 @@ namespace EIStarter
         [STAThread]
         static void Main()
         {
+            // показ ошибки пользователю вместо отладки
 #if CATCH
             try
             {
 #endif
-                bool createdNew;
-                mutex = new Mutex(true, uniqueMutexName, out createdNew);
+                mutex = new Mutex(true, uniqueMutexName, out bool createdNew);
 
                 if (!createdNew)
                 {
@@ -54,9 +54,15 @@ namespace EIStarter
             }
             catch (Exception ex)
             {
+                // TODO: 'help us by sending error to server'
                 MessageBox.Show($"General Error:\r\n{ex.Message}\r\nHRESULT: {ex.HResult}\r\nSource: {ex.Source}\r\nStack:\r\n{ex.StackTrace}");
+
+                if (!Debugger.IsAttached)
+                    Debugger.Launch(); // Предложит выбрать и подключить отладчик (например, Visual Studio)
+
             }
 #endif
+
         }
     }
 }

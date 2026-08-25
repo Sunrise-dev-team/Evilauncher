@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using static EIStarter.RegIni;
@@ -15,6 +16,8 @@ namespace EIStarter
     public partial class StarterForm : Form
     {
         // TODO: lang button -> lang(planet) & theme(brush) buttons
+        //public readonly Size default_size = new Size(640, 360);
+        Size size_lay = new Size(640, 360);
 
         public string lang = "en";
         public string theme = "";
@@ -37,9 +40,9 @@ namespace EIStarter
         public bool isModsExists = false;
 
         //WindowsMediaPlayer WMP = new WindowsMediaPlayer();
-        private SoundPlayer simpleSound = new();
+        private readonly SoundPlayer simpleSound = new();
 
-        private PrivateFontCollection privateFontCollection = new();
+        private readonly PrivateFontCollection privateFontCollection = new();
 
         public class Mod
         {
@@ -59,6 +62,7 @@ namespace EIStarter
         public StarterForm()
         {
             InitializeComponent();
+            //grfx = this.CreateGraphics();
 #if DEBUG
             NTRlbDebug1.Visible = true;
 #else
@@ -186,15 +190,35 @@ namespace EIStarter
             NTRlbDebug1.Text = theme;
         }
 
+        string BGimgPathCache = "";
         /// <summary>
         /// Set style for all elements by current design_dir + lang.
         /// </summary>
         public void InitLang()
         {
-            string[] imgExt = { ".png",".gif", ".bmp" };
-            string[] fontExt = { ".otf", ".ttf" };
+            string[] imgExt = [".png", ".gif", ".bmp"];
+            string[] fontExt = [".otf", ".ttf"];
 
             string[] directories = GetPriorityDirs();
+
+            /*foreach (var button in btn2maskMap)
+            {
+                //button.Key.Location = new Point(0, 0);
+                SetButtonStyle((Button)button.Key, button.Value);
+            }*/
+/*
+            // set window size
+            foreach (string directory in GetPriorityDirs().Reverse())
+            {
+                string laypath = Path.Combine(directory, "starter.lay");
+                if (File.Exists(laypath))
+                {
+                    ReadLayoutSize(laypath);
+                }
+            }
+            this.Width = size_lay.Width;
+            this.Height = size_lay.Height;
+*/
 
             string filename = "back";
             bool fullbreak = false;
@@ -207,6 +231,8 @@ namespace EIStarter
                         string imagePath = Path.Combine(directory, filename + extension);
                         if (File.Exists(imagePath))
                         {
+                            //MessageBox.Show(BGimgPathCache);
+
                             // TODO: animated gif background?
                             /*if (extension == ".gif")
                             {
@@ -216,7 +242,11 @@ namespace EIStarter
                             }
                             else
                             {*/
+                            if (SimplyHelper.ComputeFileHash(imagePath) != BGimgPathCache)
+                            {
+                                BGimgPathCache = SimplyHelper.ComputeFileHash(imagePath);
                                 BackgroundImage = Image.FromFile(imagePath);
+                            }
                             //    NTRimgBack.Visible = false;
                             //    NTRimgBack.Image = null;
                             //}
@@ -242,6 +272,7 @@ namespace EIStarter
                         string imagePath = Path.Combine(directory, filename + extension);
                         if (File.Exists(imagePath))
                         {
+                            this.BackColor = Color.Transparent;
                             NTRimgLogo.Image = Image.FromFile(imagePath);
                             fullbreak = true;
                         }
@@ -257,22 +288,22 @@ namespace EIStarter
             }
             catch { }
 
-            foreach (var button in btn2maskMap)
-                SetButtonStyle((Button)button.Key, button.Value);
+            //foreach (var button in btn2maskMap)
+            //    SetButtonStyle((Button)button.Key, button.Value);
 
-            //TODO: Switch construction is faster?
+
             // FONT
             float font_size = 10.7f;
-            Font font = new("Arial", font_size);
+
             if (privateFontCollection.Families.Length > 0)
                 privateFontCollection.Families[0].Dispose(); // TODO: check 
 
             fullbreak = false;
             try
             {
-                foreach (var dir in directories)
+                foreach (string dir in directories)
                 {
-                    foreach (var ext in fontExt)
+                    foreach (string ext in fontExt)
                     {
                         if (File.Exists(Path.Combine(dir, "font" + ext)))
                             privateFontCollection.AddFontFile(Path.Combine(dir, "font" + ext));
@@ -290,15 +321,342 @@ namespace EIStarter
 
             if (privateFontCollection.Families.Length > 0)
             {
-                font = new Font(privateFontCollection.Families[0], font_size);
-                cbbMod.Font = font;
+                cbbMod.Font = new Font(privateFontCollection.Families[0], font_size);
             }
+
+            // CRAP: before layout for width/2 
+            //foreach (var button in btn2maskMap)
+            //    SetButtonStyle((Button)button.Key, button.Value);
 
             // Other
             cbbMod.Location = new Point(x: btPlay.Location.X + btPlay.Width + 10, y: cbbMod.Location.Y);
             btModInfo.Location = new Point(x: cbbMod.Location.X + cbbMod.Width + 10, y: btModInfo.Location.Y);
             btLang.Location = new Point(x: 1, y: this.Height - btLang.Height - 1);
             btSkin.Location = new Point(x: btLang.Location.X + btLang.Width + 1, y: this.Height - btSkin.Height - 1);
+/*
+            btns_map.Clear();
+            foreach (string directory in GetPriorityDirs().Reverse())
+            {
+                string laypath = Path.Combine(directory, "starter.lay");
+                if (File.Exists(laypath))
+                {
+                    //MessageBox.Show(laypath);
+                    ReadLayout(laypath);
+                    //break;
+                }
+            }
+            ApplyLayout();
+            this.Invalidate();
+            this.ValidateChildren();*/
+
+            foreach (var button in btn2maskMap)
+                SetButtonStyle((Button)button.Key, button.Value);
+            
+            //this.Invalidate();
+            //this.OnPaint(new PaintEventArgs(this.CreateGraphics(), this.ClientRectangle));
+        }
+
+        public void ApplyLayout()
+        {
+            MessageBox.Show("ApplyLayout - not implemented yet!");
+            return; 
+            this.Size = size_lay;
+            List<LayButton> to_resolve = new();
+
+            List<Control> allControls = SimplyHelper.GetAllControls(this);
+
+            //foreach (Control control in allControls)
+            for(int i = 0; i< allControls.Count; i++) 
+            {
+                Control control = allControls[i];
+                if (string.IsNullOrEmpty(control.Name))
+                    continue;
+                if (!btns_map.ContainsKey(control.Name))
+                    continue;
+
+                //MessageBox.Show(control.Name);
+
+                //Control ed = control;
+                LayButton bt = btns_map[control.Name];
+
+                EditControl(control, bt);
+            }
+        }
+        public void EditControl(Control ed, LayButton bt)
+        {
+            MessageBox.Show("EditControl - not implemented yet!");
+            return;
+            switch (bt.xmode)
+            {
+                case LayMode.Abs:
+                    {
+                        ed.Location = new Point(bt.xoffset, ed.Location.Y);
+                        break;
+                    }
+                case LayMode.Center:
+                    {
+                        ed.Location = new Point((int)(this.Size.Width / 2) + bt.xoffset, ed.Location.Y);
+                        NTRlbDebug1.Text += "\r\n" + this.Size.Width / 2;
+                        break;
+                    }
+            }
+            switch (bt.ymode)
+            {
+                case LayMode.Abs:
+                    {
+                        ed.Location = new Point(ed.Location.X, bt.yoffset);
+                        break;
+                    }
+                case LayMode.Center:
+                    {
+                        ed.Location = new Point(ed.Location.X, (int)(this.Size.Height / 2) + bt.yoffset);
+                        break;
+                    }
+            }
+            //this.InvokePaint(ed, new PaintEventArgs(grfx, ed.DisplayRectangle));
+        }
+        //Graphics grfx = null;
+
+        Dictionary<string, LayButton> btns_map = new(); // Layout data
+        public Size ReadLayoutSize(string filename)
+        {
+            MessageBox.Show("ReadLayoutSize - not implemented yet!");
+            return size_lay;
+            string[] lines = File.ReadAllLines(filename);
+            for (int x = 0; x < lines.Count(); x++)
+            {
+                if (lines[x].StartsWith("//"))
+                    continue;
+                #region args parse
+                string[] strfield = lines[x].Split(' ');
+                int[] intfield = new int[strfield.Length];
+                //float[] floatfield = new float[strfield.Length];
+
+                for (int i = 0; i < strfield.Length; i++)
+                {
+                    if (int.TryParse(strfield[i], out int intValue))
+                        intfield[i] = intValue;
+                    else
+                        intfield[i] = 0;
+
+                    // not else for float variation
+                    //if (float.TryParse(strfield[i], out float floatValue))
+                    //    floatfield[i] = floatValue;
+                    //else
+                    //    floatfield[i] = 0f;
+                }
+                #endregion
+
+                switch (strfield[0])
+                {
+                    case "#window":
+                        {
+                            if (strfield.Length > 2)
+                            {
+                                if (intfield[1] > 200 && intfield[2] > 200)
+                                {
+                                    size_lay = new Size(intfield[1], intfield[2]);
+                                    return size_lay;
+                                }
+                            }
+                            break;
+                        }
+                }
+            }
+            return new Size(200, 200);
+        }
+        public void ReadLayout(string filename)
+        {
+            MessageBox.Show("ReadLayout - not implemented yet!");
+            return;
+            string[] lines = File.ReadAllLines(filename);
+
+            var bStart = true;
+            var laybtn = new LayButton();
+
+            for (int x = 0; x < lines.Count(); x++)
+            {
+                if (lines[x].StartsWith("//"))
+                    continue;
+                #region args parse
+                string[] strfield = lines[x].Split(' ');
+                int[] intfield = new int[strfield.Length];
+                float[] floatfield = new float[strfield.Length];
+
+                for (int i = 0; i < strfield.Length; i++)
+                {
+                    if (int.TryParse(strfield[i], out int intValue))
+                        intfield[i] = intValue;
+                    else
+                        intfield[i] = 0;
+
+                    // not else for float variation
+                    if (float.TryParse(strfield[i], out float floatValue))
+                        floatfield[i] = floatValue;
+                    else
+                        floatfield[i] = 0f;
+                }
+                #endregion
+
+                switch (strfield[0])
+                {/*
+                    case "#window":
+                        {
+                            if (strfield.Length > 2)
+                            {
+                                if (intfield[1] > 200 && intfield[2] > 200)
+                                {
+                                    size_lay = new Size(intfield[1], intfield[2]);
+                                }
+                            }
+                            break;
+                        }*/
+                    case "#button":
+                        {
+                            if (strfield.Length > 1)
+                            {
+                                if (bStart)
+                                    bStart = false;
+                                else
+                                {
+                                    if (btns_map.ContainsKey(laybtn.name))
+                                        btns_map[laybtn.name] = laybtn;
+                                    else
+                                        btns_map.Add(laybtn.name, laybtn);
+                                }
+                                if (!btns_map.ContainsKey(strfield[1]))
+                                {
+                                    laybtn = new LayButton();
+                                    laybtn.name = strfield[1];
+                                }
+                                else
+                                    laybtn = btns_map[strfield[1]];
+                            }
+                            break;
+                        }
+                    case "#posx":
+                        {
+                            laybtn.xneedresolve = false;
+                            switch (strfield[1])
+                            {
+                                case "abs":
+                                case "absolute":
+                                case "xy":
+                                    {
+                                        laybtn.xmode = LayMode.Abs;
+                                        break;
+                                    }
+                                case "inherit":
+                                case "parent":
+                                    {
+                                        laybtn.xmode = LayMode.Inherit;
+                                        laybtn.xneedresolve = true;
+                                        break;
+                                    }
+                                case "left":
+                                case "pos1":
+                                    {
+                                        laybtn.xmode = LayMode.Abs; // equal
+                                        break;
+                                    }
+                                case "center":
+                                case "middle":
+                                case "pos2":
+                                    {
+                                        laybtn.xmode = LayMode.Center;
+                                        break;
+                                    }
+                                case "right":
+                                case "pos3":
+                                    {
+                                        laybtn.xmode = LayMode.Pos3;
+                                        break;
+                                    }
+                            }
+                            if (strfield.Length > 2)
+                                laybtn.xoffset = intfield[2];
+                            break;
+                        }
+                    case "#posy":
+                        {
+                            laybtn.yneedresolve = false;
+                            switch (strfield[1])
+                            {
+                                case "abs":
+                                case "absolute":
+                                    {
+                                        laybtn.ymode = LayMode.Abs;
+                                        break;
+                                    }
+                                case "inherit":
+                                case "parent":
+                                    {
+                                        laybtn.ymode = LayMode.Inherit;
+                                        laybtn.yneedresolve = true;
+                                        break;
+                                    }
+                                case "up":
+                                case "top":
+                                case "pos1":
+                                    {
+                                        laybtn.ymode = LayMode.Abs; // equal
+                                        break;
+                                    }
+                                case "center":
+                                case "middle":
+                                case "pos2":
+                                    {
+                                        laybtn.ymode = LayMode.Center;
+                                        break;
+                                    }
+                                case "bottom":
+                                case "down":
+                                case "pos3":
+                                    {
+                                        laybtn.ymode = LayMode.Pos3;
+                                        break;
+                                    }
+                            }
+                            if (strfield.Length > 2)
+                                laybtn.yoffset = intfield[2];
+                            break;
+                        }
+                }
+            }
+            if (!bStart)
+            //    bStart = false;
+            //else
+            {
+                if (btns_map.ContainsKey(laybtn.name))
+                    btns_map[laybtn.name] = laybtn;
+                else
+                    btns_map.Add(laybtn.name, laybtn);
+            }
+        }
+        public enum LayMode
+        {
+            None,
+
+            //Pos1, // Left|Top
+            Center, // Center|Middle
+            Pos3, // Right|Bottom
+
+            Abs,
+            Inherit
+        }
+        public struct LayButton
+        {
+            public string name = "";
+            public LayMode xmode = LayMode.None;
+            public LayMode ymode = LayMode.None;
+            public bool xneedresolve = false;
+            public bool yneedresolve = false;
+            public int xoffset = 0;
+            public int yoffset = 0;
+
+            public LayButton()
+            {
+            }
         }
 
         /// <summary>
@@ -310,7 +668,7 @@ namespace EIStarter
             if (Directory.Exists("lang"))
             {
                 languages.Clear();
-                foreach (var langpath in Directory.EnumerateDirectories("lang"))
+                foreach (string langpath in Directory.EnumerateDirectories("lang"))
                 {
                     // TODO: know is true translate folder or not
 
@@ -329,7 +687,7 @@ namespace EIStarter
         {
             if (cbbMod.SelectedIndex >= 0)
             {
-                var mod = mods[cbbMod.SelectedIndex];
+                Mod mod = mods[cbbMod.SelectedIndex];
 
                 if (File.Exists(mod.path)
                     && Directory.Exists($@"{Path.GetDirectoryName(mod.path)}\design\")
@@ -344,11 +702,11 @@ namespace EIStarter
                 design_dir = @"design\";
 
             themes.Clear();
-            foreach (var dir in new string[] { design_dir, @"design\" })
+            foreach (string dir in new string[] { design_dir, @"design\" })
             {
                 if (!Directory.Exists(dir))
                     continue;
-                foreach (var langpath in Directory.EnumerateDirectories(dir))
+                foreach (string langpath in Directory.EnumerateDirectories(dir))
                 {
                     if (!langpath.ToLowerInvariant().EndsWith("locale")
                         && !themes.Contains(Path.GetFileName(langpath))
@@ -402,6 +760,7 @@ namespace EIStarter
                             button.Height = button.Image.Height - 1;
                             button.Width = button.Image.Width - 1;
                             button.Text = "";
+                            //button.Size = new Size(button.Width, button.Height);
                             return;
                         }
                     }
@@ -423,7 +782,7 @@ namespace EIStarter
 
         private void StarterForm_MouseMove(object sender, MouseEventArgs e)
         {
-            var s = (Control)sender;
+            Control s = (Control)sender;
             s.Capture = false;
             //this.Opacity = 0.9; 
             Message m = Message.Create(base.Handle, 161, new IntPtr(2), IntPtr.Zero);
@@ -449,7 +808,7 @@ namespace EIStarter
         {
             if (!fast)
             {
-                foreach (var path in GetPriorityDirs())
+                foreach (string path in GetPriorityDirs())
                 {
                     if (SoundCheck(Path.Combine(path, "click.wav")))
                     {
@@ -665,7 +1024,7 @@ namespace EIStarter
             IniFile addonini = new("Engine/addon.ini");
             REGedit addon = new(@"Software\Gipat.ru\EI_Starter");
             RegIni ri2 = new(addon, addonini, DataSource);
-            var modFullPath = "";
+            string modFullPath = "";
             if (isModsExists)
                 modFullPath = $@"{Directory.GetCurrentDirectory()}\{Path.GetDirectoryName(mod.path)}";
             ri2.SetStr("AddonPath", modFullPath, "settings");
@@ -705,6 +1064,10 @@ namespace EIStarter
         private void NTRlbAddonVer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // TODO: Addon.dll version click!
+            Process.Start(
+                new ProcessStartInfo("https://addon.gipath.org")
+                { UseShellExecute = true }
+                );
         }
 
     }

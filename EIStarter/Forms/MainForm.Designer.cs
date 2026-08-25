@@ -59,6 +59,7 @@
             this.btPlay.ForeColor = System.Drawing.Color.SteelBlue;
             this.btPlay.Location = new System.Drawing.Point(272, 91);
             this.btPlay.Margin = new System.Windows.Forms.Padding(0);
+            this.btPlay.MinimumSize = new System.Drawing.Size(64, 32);
             this.btPlay.Name = "btPlay";
             this.btPlay.Size = new System.Drawing.Size(147, 35);
             this.btPlay.TabIndex = 0;
@@ -85,6 +86,7 @@
             this.btOptions.ForeColor = System.Drawing.Color.SteelBlue;
             this.btOptions.Location = new System.Drawing.Point(272, 126);
             this.btOptions.Margin = new System.Windows.Forms.Padding(0);
+            this.btOptions.MinimumSize = new System.Drawing.Size(64, 32);
             this.btOptions.Name = "btOptions";
             this.btOptions.Size = new System.Drawing.Size(147, 35);
             this.btOptions.TabIndex = 2;
@@ -111,6 +113,7 @@
             this.btReadme.ForeColor = System.Drawing.Color.SteelBlue;
             this.btReadme.Location = new System.Drawing.Point(272, 161);
             this.btReadme.Margin = new System.Windows.Forms.Padding(0);
+            this.btReadme.MinimumSize = new System.Drawing.Size(64, 32);
             this.btReadme.Name = "btReadme";
             this.btReadme.Size = new System.Drawing.Size(147, 35);
             this.btReadme.TabIndex = 3;
@@ -137,6 +140,7 @@
             this.btWeb.ForeColor = System.Drawing.Color.SteelBlue;
             this.btWeb.Location = new System.Drawing.Point(272, 196);
             this.btWeb.Margin = new System.Windows.Forms.Padding(0);
+            this.btWeb.MinimumSize = new System.Drawing.Size(64, 32);
             this.btWeb.Name = "btWeb";
             this.btWeb.Size = new System.Drawing.Size(147, 35);
             this.btWeb.TabIndex = 4;
@@ -163,6 +167,7 @@
             this.btUninstall.ForeColor = System.Drawing.Color.SteelBlue;
             this.btUninstall.Location = new System.Drawing.Point(272, 231);
             this.btUninstall.Margin = new System.Windows.Forms.Padding(0);
+            this.btUninstall.MinimumSize = new System.Drawing.Size(64, 32);
             this.btUninstall.Name = "btUninstall";
             this.btUninstall.Size = new System.Drawing.Size(147, 35);
             this.btUninstall.TabIndex = 5;
@@ -189,6 +194,7 @@
             this.btExit.ForeColor = System.Drawing.Color.SteelBlue;
             this.btExit.Location = new System.Drawing.Point(272, 266);
             this.btExit.Margin = new System.Windows.Forms.Padding(0);
+            this.btExit.MinimumSize = new System.Drawing.Size(64, 32);
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(147, 35);
             this.btExit.TabIndex = 6;
@@ -316,6 +322,7 @@
             this.AcceptButton = this.btPlay;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.btExit;
@@ -335,6 +342,7 @@
             this.Controls.Add(this.NTRimgLogo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(10, 10);
             this.Name = "StarterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StarterForm";
